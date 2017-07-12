@@ -1,0 +1,66 @@
+$header_height: 100px;
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, h1, h2, h3, h4, h5, h6, p{
+  padding: 0;
+  margin:0;
+  outline: none;
+  font-size: 24px;
+  font-family: sans-serif;
+}
+
+html, body{
+  overflow-y: hidden;
+  overflow-x: hidden;
+  height: 100vh;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+a:hover{
+  font-style: normal;
+}
+
+header{
+  display: flex;
+  justify-content: space-between;
+  padding: 36px 60px 26px 60px;
+  width: 100vw;
+
+  position: fixed;
+  z-index: 0;
+  top:0;
+  left:0;
+}
+
+nav{
+  display: flex;
+  align-items: center;
+  font-style: italic;
+}
+
+.navLongDash{
+  width: 80px;
+  height: 1px;
+  margin: 0px 20px 0px 20px;
+  background-color: black;
+}
+
+main{
+  margin-top: $header_height;
+  width: 100%;
+  padding-right: 60px;
+  padding-left: 60px;
+}
+
+li {
+  list-style: none;
+  padding: none;
+  margin: none;
+}
