@@ -1,6 +1,5 @@
 .about {
   display: flex;
-  overflow-y: hidden;
   overflow-x: hidden;
 }
 
@@ -14,5 +13,4 @@
   flex-grow: .33;
   margin-left: 60px;
   overflow-y: scroll;
-
 }
