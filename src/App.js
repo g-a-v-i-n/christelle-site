@@ -6,7 +6,7 @@ import About from './About'
 import Home from './Home'
 import IndexView from './IndexView'
 
-import './styles/global.css'
+import './styles/application.css'
 
 export default function App() {
   return (

@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 
-import './styles/about.css'
-
 const ContactItem = (props) => {
   <li>
     {props.title}

@@ -1,0 +1,38 @@
+// @font-face {
+//   font-family: 'Nimbus Sans';
+//   src: url('./assets/fonts/NimbusSansDOT-Bold.otf') format('opentype');
+//   font-weight: 700;
+//   font-style: bold;
+// }
+//
+// @font-face {
+//   font-family: 'Nimbus Sans';
+//   src: url('./assets/fonts/NimbusSansDOT-BoldExte.otf') format('opentype');
+//   font-weight: 800;
+//   font-style: bold;
+// }
+//
+// @font-face {
+//   font-family: 'Nimbus Sans';
+//   src: url('./assets/fonts/NimbusSansDOT-Regu.otf') format('opentype');
+//   font-weight: 500;
+//   font-style: normal;
+// }
+//
+// @font-face {
+//   font-family: 'Nimbus Sans';
+//   src: url('./assets/fonts/NimbusSansDOT-ReguItal.otf') format('opentype');
+//   font-weight: 500;
+//   font-style: italic;
+// }
+
+@import '_variables';
+@import '_mixins';
+@import '_main';
+@import '_header';
+
+//Views
+@import '_about';
+@import '_home';
+
+//Components
