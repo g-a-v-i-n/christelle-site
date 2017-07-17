@@ -21,10 +21,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount () {
-    this.client.getEntry('4uxFAx26CQWogu2gUoMswU')
-    .then(function (entry) {
-      console.log(entry.fields.fullBio)
-    })
+
   }
 
   render() {
