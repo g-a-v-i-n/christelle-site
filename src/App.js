@@ -6,13 +6,16 @@ import Header from './Header'
 import About from './About'
 import Home from './Home'
 import IndexView from './IndexView'
-
 import './styles/application.css'
 
 export default class App extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
+      biography: '',
+      contact: '',
+      clientList: [],
+      galleryProjects: [],
     }
     this.client = createClient({
       space: spaceId,
@@ -20,23 +23,55 @@ export default class App extends React.Component {
     })
   }
 
-  componentDidMount () {
+  getAboutContent = () => {
+    if (this.state.biography === '') {
+      this.client.getEntry('2bqR4gkUxKqMSwC6q8GQKu')
+      .then((entry) => {
+        this.setState({
+          biography: entry.fields.biography,
+          contact: {
+            email: entry.fields.email,
+            phoneNumber: entry.fields.phoneNumber,
+            instagram: entry.fields.instagram,
+          },
+          clientList: entry.fields.clientList,
 
+        })
+      })
+      .catch((err) => { console.log('error:', err) })
+    }
   }
 
-  render() {
+  getHomeGallery = () => {
+    console.log('getting Gallery Projetcs')
+      this.client.getContentType('galleryTest')
+      .then((contentType) => console.log(contentType))
+      .catch((err) => { console.log('error:', err) })
+  }
 
-    const globalProps = {
-      client: this.client,
+
+  render() {
+    const homeProps = {
+      getHomeGallery: this.getHomeGallery,
+      projects: this.state.projects,
+    }
+    const aboutProps = {
+      getAboutContent:this.getAboutContent,
+      biography: this.state.biography,
+      contact: this.state.contact,
+      clientList: this.state.clientList,
     }
 
     return (
       <Router>
         <div>
-          <Header {...globalProps} />
-          <Route path={'/index'} {...globalProps}  component={IndexView} />
-          <Route path={'/about'} {...globalProps}  component={About} />
-          <Route path="/" exact {...globalProps}  component={Home} />
+          <Header {...this.props} />
+          <Route exact path='/about' render={(props) => (
+            <About {...props} {...aboutProps} />
+          )}/>
+          <Route exact path='/' render={(props) => (
+            <Home {...props} {...homeProps} />
+          )}/>
         </div>
       </Router>
     )

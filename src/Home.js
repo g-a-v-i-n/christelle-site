@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 
-class Header extends Component {
+class Home extends Component {
+  componentWillMount = () => {
+    this.props.getHomeGallery()
+  }
   render() {
     return (
       <main className={'home'}>
@@ -12,4 +15,4 @@ class Header extends Component {
   }
 }
 
-export default Header
+export default Home

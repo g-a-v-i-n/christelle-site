@@ -1,16 +1,46 @@
 .about {
   display: flex;
-  overflow-x: hidden;
+  overflow: hidden;
+  background-color: $christelle_blue;
+  padding-left: 60px;
+  padding-right: 60px;
 }
 
 .bio {
-  flex-grow: .66;
-  overflow-y: scroll;
+  width: 50%;
   min-height: 200vh;
 }
 
 .contact {
-  flex-grow: .33;
-  margin-left: 60px;
+  width: 50%;
+  margin-left: 100px;
   overflow-y: scroll;
+}
+
+.contact li, .contact span {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.aboutItemBody {
+  display: flex;
+  min-width: 50px;
+}
+
+.smallDash{
+  max-width: 40px;
+  height: 1px;
+  background-color: black;
+  margin-top: 14px;
+  flex: 1;
+  margin-right: 10px;
+}
+
+.content{
+  flex: 1;
+}
+
+.clientListItem{
+  display: inline-block;
+  margin-right: .4em;
 }

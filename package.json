@@ -13,9 +13,11 @@
   },
   "dependencies": {
     "contentful": "^4.5.0",
+    "eslint-plugin-flowtype": "^2.35.0",
     "npm-run-all": "^4.0.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-markdown": "^2.5.0",
     "react-router-dom": "^4.1.1"
   },
   "scripts": {

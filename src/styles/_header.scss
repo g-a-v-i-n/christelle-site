@@ -1,18 +1,26 @@
 header{
   display: flex;
-  justify-content: space-between;
-  padding: 36px 60px 26px 60px;
   width: 100vw;
   position: fixed;
   z-index: 0;
   top:0;
   left:0;
+  justify-content: space-between;
+  padding: 36px 60px 26px 60px;
+  @include for-phone-only {
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 30px;
+  }
 }
 
 nav{
   display: flex;
   align-items: center;
   font-style: italic;
+  @include for-phone-only {
+    margin-top: 15px;
+  }
 }
 
 .navLongDash{
@@ -20,4 +28,7 @@ nav{
   height: 1px;
   margin: 0px 20px 0px 20px;
   background-color: black;
+  @include for-phone-only {
+    width: 100%;
+  }
 }

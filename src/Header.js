@@ -1,13 +1,23 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router'
 
 class Header extends Component {
+  handleHeaderHeading = () => {
+    switch (this.props.location.pathname) {
+      default:
+        return 'Christelle de Castro'
+      case '/about':
+        return 'About'
+    }
+  }
+
   render() {
     return (
       <header>
-        <Link to={'/'}>{'Christelle De Castro'}</Link>
+        <Link to={'/'}>{this.handleHeaderHeading()}</Link>
         <nav>
-          <Link to={'index'}>{'Index'}</Link>
+          <Link to={'index'}>{'Writing'}</Link>
           <div className={'navLongDash'} />
           <Link to={'about'}>{'About'}</Link>
         </nav>
@@ -16,4 +26,5 @@ class Header extends Component {
   }
 }
 
-export default Header
+const HeaderWithRouter = withRouter(Header)
+export default HeaderWithRouter

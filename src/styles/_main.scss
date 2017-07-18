@@ -1,26 +1,30 @@
-$header_height: 100px;
-
 * {
   box-sizing: border-box;
 }
 
 html, body, h1, h2, h3, h4, h5, h6, p{
-  padding: 0;
-  margin:0;
+  // padding: 0;
+  // margin:0;
   outline: none;
   font-size: 24px;
   font-family: sans-serif;
+  @include for-phone-only {
+    font-size: 16px;
+  }
 }
 
 html, body{
   overflow-y: hidden;
   overflow-x: hidden;
   height: 100vh;
+  margin:0;
+  padding:0;
 }
 
 a {
   color: black;
   text-decoration: none;
+  font-style: italic;
 }
 
 a:hover{
@@ -28,14 +32,14 @@ a:hover{
 }
 
 main{
-  margin-top: $header_height;
+  padding-top: $header_height;
   width: 100%;
-  padding-right: 60px;
-  padding-left: 60px;
+  // padding-right: 60px;
+  // padding-left: 60px;
 }
 
-li {
+ul, ol, li {
   list-style: none;
-  padding: none;
-  margin: none;
+  padding: 0;
+  margin: 0;
 }

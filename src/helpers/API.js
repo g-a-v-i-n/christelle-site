@@ -1,6 +1,5 @@
-export function get (client, entry, key) {
-  this.client.getEntry(entry)
-  .then(function (entry) {
-    return entry.key
-  })
+export function get (client, entryID) {
+  this.client.getEntry(entryID)
+  .then((entry) => { return entry })
+  .catch((err) => { console.log('error:', err) })
 }
