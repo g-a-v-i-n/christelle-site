@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Markdown from 'react-markdown'
+import _ from 'lodash'
 
 const ContactItem = (props) => {
   return (
@@ -32,7 +33,9 @@ export default class About extends Component {
     super(props)
     this.state = {
       loaded: false,
-      bioText: ''
+      metaOpen: false,
+      hover: false,
+      metaSectionClassArray: ['about-meta', 'about-closed'],
     }
     document.title = 'Christelle de Castro – About'
   }
@@ -74,14 +77,84 @@ export default class About extends Component {
     )
   }
 
+  handleMetaSectionEvents = (e, eventKey) => {
+    e.preventDefault()
+    e.stopPropagation()
+    let classArray = this.state.metaSectionClassArray
+    if (classArray.indexOf('about-open') === -1) {
+      switch (eventKey) {
+        case 'mouseEnter':
+          _.pull(classArray, 'about-hover-off')
+          classArray.push('about-hover-on')
+          break
+        case 'mouseLeave':
+          _.pull(classArray, 'about-hover-on')
+          classArray.push('about-hover-off')
+          break
+        case 'onClick':
+          _.pull(classArray, 'about-closed')
+          classArray.push('about-open')
+          break
+        }
+    } else {
+      switch (eventKey) {
+        case 'mouseEnter':
+          _.pull(classArray, 'about-hover-off')
+          classArray.push('about-hover-on')
+          break
+        case 'mouseLeave':
+          _.pull(classArray, 'about-hover-on')
+          classArray.push('about-hover-off')
+          break
+        case 'onClick':
+          _.pull(classArray, 'about-open')
+          classArray.push('about-closed')
+          break
+        }
+    }
+    classArray = _.uniq(classArray)
+    console.log(classArray)
+    this.setState({
+      metaSectionClassArray: classArray,
+    })
+  }
+
+
+  applyMetaSectionClass = () => {
+    return this.state.metaSectionClassArray.join(' ')
+  }
+
+
+
+  handleMetaHover = (trigger) => {
+    if (trigger === 'enter') {
+      this.setState({
+        hover: true,
+      })
+    } else {
+      this.setState({
+        hover: false,
+      })
+    }
+  }
+
 
   render() {
     const contact = this.props.contact
+    const portraitURL = this.props.portrait.url
+    const portraiStyle = {
+      backgroundImage: `url(${portraitURL})`
+    }
     return (
       <main className={'about'}>
-
+        <button
+          className={'arrowToggle'}
+          onMouseEnter={(e) => this.handleMetaSectionEvents(e, 'mouseEnter')}
+          onMouseLeave={(e) => this.handleMetaSectionEvents(e, 'mouseLeave')}
+          onClick={(e) => this.handleMetaSectionEvents(e, 'onClick')} />
         <section className={'bio'}><Markdown source={this.props.biography} /></section>
-        <section className={'contact'}>
+        <section className={'bio-portrait'} style={portraiStyle}/>
+        <section className={this.applyMetaSectionClass()}>
           <ul>
             <ContactItem title={'Email'} content={this.returnEmail(contact.email)} />
             <ContactItem title={'Instagram'} content={this.parseInstagram(contact.instagram)} />

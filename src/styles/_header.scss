@@ -7,6 +7,8 @@ header{
   left:0;
   justify-content: space-between;
   padding: 36px 60px 26px 60px;
+  max-height: 100px;
+  overflow-y: visible;
   @include for-phone-only {
     justify-content: flex-start;
     flex-direction: column;
@@ -16,19 +18,73 @@ header{
 
 nav{
   display: flex;
-  align-items: center;
   font-style: italic;
+  height: $nav-height;
   @include for-phone-only {
     margin-top: 15px;
   }
 }
 
+.linkShim {
+  height: $nav-height;
+  @include flex-center-all;
+}
+
 .navLongDash{
   width: 80px;
   height: 1px;
-  margin: 0px 20px 0px 20px;
+  margin: calc(#{$nav-height} / 2) 20px 0px 20px;
   background-color: black;
   @include for-phone-only {
     width: 100%;
   }
+}
+
+.dropdownContainer{
+  position: relative;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+nav button {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: inherit;
+  height: $nav-height;
+}
+
+nav a{
+  vertical-align: middle;
+}
+
+.dropdownContainer button {
+  position: absolute;
+}
+
+.dropdownContainer button:first-child{
+  z-index: 90;
+  opacity: 1;
+}
+
+.dropdownContainer .menuItem_visible:nth-child(2){
+  z-index: 80;
+  opacity: 1;
+  transform: translateY($menu-translate-height);
+}
+
+.dropdownContainer .menuItem_visible:nth-child(3){
+  z-index: 80;
+  opacity: 1;
+  transform: translateY(calc(#{$menu-translate-height} * 2));
+}
+
+.dropdownContainer .menuItem_hidden:nth-child(2){
+  opacity: 0;
+}
+
+.dropdownContainer .menuItem_hidden:nth-child(3){
+  opacity: 0;
 }

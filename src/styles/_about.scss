@@ -2,19 +2,52 @@
   display: flex;
   overflow: hidden;
   background-color: $christelle_blue;
-  padding-left: 60px;
-  padding-right: 60px;
+  margin-top: -$header_height;
 }
 
 .bio {
-  width: 50%;
-  min-height: 200vh;
+  width: 50vw;
+  min-height: 100vh;
+  padding-top: $header_height;
+  padding-right: 60px;
+  padding-left: 60px;
+  color: $christelle_white;
 }
 
-.contact {
-  width: 50%;
-  margin-left: 100px;
-  overflow-y: scroll;
+.bio-portrait {
+  width: 50vw;
+  min-height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.about-meta {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: $christelle_black;
+  color: $christelle_white;
+  position: absolute;
+  padding: 60px;
+  will-change: transform;
+  transition: transform 400ms;
+}
+
+.about-closed {
+  transform: translate3D(50vw, 80vh, 0);
+}
+
+.about-hover-on{
+  transform: translate3D(10vw, 80vh, 0);
+}
+
+.about-hover-off{
+
+}
+
+.about-open {
+  transform: translate3D(10vw, 10vh, 0);
 }
 
 .contact li, .contact span {
@@ -30,7 +63,7 @@
 .smallDash{
   max-width: 40px;
   height: 1px;
-  background-color: black;
+  background-color: $christelle_white;
   margin-top: 14px;
   flex: 1;
   margin-right: 10px;
@@ -43,4 +76,20 @@
 .clientListItem{
   display: inline-block;
   margin-right: .4em;
+  color: $christelle_white;
+}
+
+.arrowToggle{
+  border: none;
+  outline: none;
+  background-color: transparent;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-image: url('../assets/arrow.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 32px;
+  height: 124px;
+  z-index: 500;
 }
