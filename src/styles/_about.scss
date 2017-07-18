@@ -3,39 +3,55 @@
   overflow: hidden;
   background-color: $christelle_blue;
   margin-top: -$header_height;
+  font-size: 18px;
 }
 
 .bio {
-  width: 50vw;
+  width: 60vw;
   min-height: 100vh;
   padding-top: $header_height;
   padding-right: 60px;
   padding-left: 60px;
   color: $christelle_white;
+
 }
 
 .bio-portrait {
-  width: 50vw;
+  width: 40vw;
   min-height: 100vh;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  background-color: $christelle_blue;
+  transition: opacity 300ms;
+}
+
+.imgLoaded{
+  opacity: 1;
+
+}
+
+.imgNotLoaded{
+  opacity: 0;
 }
 
 .about-meta {
   position: relative;
+  display: flex;
+  flex-direction: row;
   width: 100vw;
-  height: 100vh;
+  height: 90vh;
   background-color: $christelle_black;
   color: $christelle_white;
   position: absolute;
-  padding: 60px;
   will-change: transform;
   transition: transform 400ms;
+  overflow-y: scroll;
+  padding-bottom: 10px;
 }
 
 .about-closed {
-  transform: translate3D(50vw, 80vh, 0);
+  transform: translate3D(60vw, 80vh, 0);
 }
 
 .about-hover-on{
@@ -50,9 +66,14 @@
   transform: translate3D(10vw, 10vh, 0);
 }
 
-.contact li, .contact span {
+.about-meta li, .about-meta span, .about-meta a{
   margin-bottom: 20px;
   margin-top: 20px;
+  color: $christelle_white;
+}
+
+.about-meta ul {
+  margin-bottom: 50px;
 }
 
 .aboutItemBody {
@@ -64,7 +85,7 @@
   max-width: 40px;
   height: 1px;
   background-color: $christelle_white;
-  margin-top: 14px;
+  margin-top: 10px;
   flex: 1;
   margin-right: 10px;
 }
@@ -86,10 +107,26 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
+  padding: 20px 50px 20px 50px;
   background-image: url('../assets/arrow.svg');
+  background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
   width: 32px;
   height: 124px;
   z-index: 500;
+  transition: transform 300ms;
+}
+
+.arrowToggle:hover {
+  transform: translate3d(0, -25px, 0);
+}
+
+.about-left, .about-right{
+  width: 45vw;
+  padding: 60px;
+}
+
+.about-right{
+  padding-left: 0;
 }

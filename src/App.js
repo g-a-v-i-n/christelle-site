@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { RouteTransition } from 'react-router-transition'
 import { deliveryAccessToken, spaceId } from './config'
 import { createClient }  from 'contentful'
 import Header from './Header'
@@ -14,9 +15,9 @@ export default class App extends Component {
       heading: '',
       biography: '',
       contact: '',
-      clientList: [],
-      pressList: [],
-      exhibitionsList: [],
+      clientList: '',
+      pressList: '',
+      exhibitionList: '',
       portrait: '',
       projectList: null,
       error: false,
@@ -40,6 +41,7 @@ export default class App extends Component {
               portrait: response.fields.file,
             })
           })
+          console.log(entry)
         this.setState({
           biography: entry.fields.biography,
           contact: {
@@ -47,9 +49,9 @@ export default class App extends Component {
             phoneNumber: entry.fields.phoneNumber,
             instagram: entry.fields.instagram,
           },
-          clientList: entry.fields.clientList,
-          pressList: entry.fields.pressList,
-          exhibitionsList: entry.fields.exhibitionsList,
+          clientList: entry.fields.clients,
+          pressList: entry.fields.press,
+          exhibitionList: entry.fields.exhibitions,
         })
       })
       .catch(this.setState({
@@ -100,7 +102,7 @@ export default class App extends Component {
       contact: this.state.contact,
       clientList: this.state.clientList,
       pressList: this.state.pressList,
-      exhibitionsList: this.state.exhibitionsList,
+      exhibitionList: this.state.exhibitionList,
       portrait: this.state.portrait,
     }
 

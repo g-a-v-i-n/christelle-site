@@ -7,7 +7,7 @@ import { withRouter } from 'react-router'
 const MainHeader = (props) => {
   return(
     <header>
-      <Link to={'/'}>{'Christelle de Castro'}</Link>
+      {'Christelle de Castro'}
       <nav>
         <div className={'dropdownContainer'}>
           {props.mapDropdown()}
@@ -26,7 +26,10 @@ const AboutHeader = (props) => {
     <header className={'white-text'}>
       {'About'}
       <nav>
-        <Link className={'white-text'} to={'/'}>{'Back'}</Link>
+        <Link className={`white-text backLink`} to={'/'}>
+          <div className={'backArrow'} />
+          {'Back'}
+        </Link>
       </nav>
     </header>
   )

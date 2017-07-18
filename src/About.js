@@ -35,7 +35,9 @@ export default class About extends Component {
       loaded: false,
       metaOpen: false,
       hover: false,
+      imgLoaded: false,
       metaSectionClassArray: ['about-meta', 'about-closed'],
+      portraitStyle: {},
     }
     document.title = 'Christelle de Castro – About'
   }
@@ -44,14 +46,8 @@ export default class About extends Component {
     this.props.getAboutContent()
   }
 
-  makeClientList = () => {
-    return (
-      this.props.clientList.map((clientName, index) => {
-        return (
-          <ClientListItem key={`clientListItem__${clientName}`} clientName={clientName} index={index} length={this.props.clientList.length}/>
-        )
-      })
-    )
+  makeList = (clientList) => {
+    return <Markdown source={clientList} />
   }
 
   parseInstagram = (inputString) => {
@@ -113,7 +109,6 @@ export default class About extends Component {
         }
     }
     classArray = _.uniq(classArray)
-    console.log(classArray)
     this.setState({
       metaSectionClassArray: classArray,
     })
@@ -123,8 +118,6 @@ export default class About extends Component {
   applyMetaSectionClass = () => {
     return this.state.metaSectionClassArray.join(' ')
   }
-
-
 
   handleMetaHover = (trigger) => {
     if (trigger === 'enter') {
@@ -140,11 +133,8 @@ export default class About extends Component {
 
 
   render() {
+    const portraitStyle = { backgroundImage: `url(${this.props.portrait.url})` }
     const contact = this.props.contact
-    const portraitURL = this.props.portrait.url
-    const portraiStyle = {
-      backgroundImage: `url(${portraitURL})`
-    }
     return (
       <main className={'about'}>
         <button
@@ -153,14 +143,24 @@ export default class About extends Component {
           onMouseLeave={(e) => this.handleMetaSectionEvents(e, 'mouseLeave')}
           onClick={(e) => this.handleMetaSectionEvents(e, 'onClick')} />
         <section className={'bio'}><Markdown source={this.props.biography} /></section>
-        <section className={'bio-portrait'} style={portraiStyle}/>
+        <section className={'bio-portrait'} style={portraitStyle}/>
         <section className={this.applyMetaSectionClass()}>
+          <div className={'about-left'}>
           <ul>
             <ContactItem title={'Email'} content={this.returnEmail(contact.email)} />
             <ContactItem title={'Instagram'} content={this.parseInstagram(contact.instagram)} />
           </ul>
           <div className={'clientList'}>
-            <ContactItem title={'Clients'} content={this.makeClientList()} />
+            <ContactItem title={'Clients'} content={this.makeList(this.props.clientList)} />
+          </div>
+          </div>
+          <div className={'about-right'}>
+            <div className={'clientList'}>
+              <ContactItem title={'Exhibitions'} content={this.makeList(this.props.exhibitionList)} />
+            </div>
+            <div className={'clientList'}>
+              <ContactItem title={'Press'} content={this.makeList(this.props.pressList)} />
+            </div>
           </div>
         </section>
       </main>

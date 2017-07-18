@@ -2,7 +2,7 @@ header{
   display: flex;
   width: 100vw;
   position: fixed;
-  z-index: 0;
+  z-index: 25;
   top:0;
   left:0;
   justify-content: space-between;
@@ -23,6 +23,16 @@ nav{
   @include for-phone-only {
     margin-top: 15px;
   }
+}
+
+.backLink{
+  display: flex;
+  align-items: center;
+}
+
+.backLink:hover .backArrow {
+  opacity: 1;
+  transform: translate3d(-15px, 0, 0);
 }
 
 .linkShim {
@@ -87,4 +97,18 @@ nav a{
 
 .dropdownContainer .menuItem_hidden:nth-child(3){
   opacity: 0;
+}
+
+
+.backArrow{
+  border: none;
+  outline: none;
+  background-color: transparent;
+  background-image: url('../assets/smallArrow.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 62px;
+  height: 16px;
+  opacity: 0;
+  transition: 300ms;
 }

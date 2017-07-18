@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="62px" height="18px" viewBox="0 0 62 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45 (43475) - http://www.bohemiancoding.com/sketch -->
+    <title>smallArrow</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-25.000000, -43.000000)" stroke="#FFFFFF">
+            <g id="smallArrow" transform="translate(55.500000, 52.000000) rotate(-90.000000) translate(-55.500000, -52.000000) translate(46.500000, 20.500000)">
+                <g id="arrow/extended" transform="translate(9.434959, 31.750000) rotate(-90.000000) translate(-9.434959, -31.750000) translate(-21.565041, 23.250000)">
+                    <path d="M0.237077477,8 L60.699997,8" id="Line"></path>
+                    <polyline id="Path-2" points="51.8703705 0 61.387153 8.15597046 51.8703705 16.1300813"></polyline>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
