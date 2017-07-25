@@ -41,7 +41,6 @@ export default class App extends Component {
               portrait: response.fields.file,
             })
           })
-          console.log(entry)
         this.setState({
           biography: entry.fields.biography,
           contact: {

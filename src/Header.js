@@ -14,7 +14,7 @@ const MainHeader = (props) => {
         </div>
         <div className={'navLongDash'} />
         <div className={'linkShim'}>
-          <Link to={'/about'}>{'About'}</Link>
+          <Link className={'aboutLinkSetWidth'} to={'/about'}>{'About'}</Link>
         </div>
       </nav>
     </header>

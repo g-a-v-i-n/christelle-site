@@ -1,30 +1,16 @@
-// @font-face {
-//   font-family: 'Nimbus Sans';
-//   src: url('./assets/fonts/NimbusSansDOT-Bold.otf') format('opentype');
-//   font-weight: 700;
-//   font-style: bold;
-// }
-//
-// @font-face {
-//   font-family: 'Nimbus Sans';
-//   src: url('./assets/fonts/NimbusSansDOT-BoldExte.otf') format('opentype');
-//   font-weight: 800;
-//   font-style: bold;
-// }
-//
-// @font-face {
-//   font-family: 'Nimbus Sans';
-//   src: url('./assets/fonts/NimbusSansDOT-Regu.otf') format('opentype');
-//   font-weight: 500;
-//   font-style: normal;
-// }
-//
-// @font-face {
-//   font-family: 'Nimbus Sans';
-//   src: url('./assets/fonts/NimbusSansDOT-ReguItal.otf') format('opentype');
-//   font-weight: 500;
-//   font-style: italic;
-// }
+@font-face {
+  font-family: 'Nurom';
+  src: url('../assets/NuromReg.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nurom';
+  src: url('../assets/NuromItal.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+}
 
 @import '_variables';
 @import '_mixins';

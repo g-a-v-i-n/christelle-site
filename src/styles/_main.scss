@@ -2,12 +2,19 @@
   box-sizing: border-box;
 }
 
+html, body{
+  overflow-y: hidden;
+  overflow-x: hidden;
+  height: 100vh;
+  margin:0;
+  padding:0;
+}
+
 html, body, h1, h2, h3, h4, h5, h6{
-  // padding: 0;
-  // margin:0;
   outline: none;
   font-size: 24px;
-  font-family: sans-serif;
+  font-family: 'Nurom', sans-serif;
+  font-weight: 400;
   @include for-phone-only {
     font-size: 16px;
   }
@@ -31,27 +38,25 @@ p {
 
 header a {
   color: $christelle_black;
+
 }
 
 .about-meta p{
   margin-bottom: 12px;
 }
 
-html, body{
-  overflow-y: hidden;
-  overflow-x: hidden;
-  height: 100vh;
-  margin:0;
-  padding:0;
-}
 
 a, button {
+  transition: 100ms;
+  transform-origin: bottom;
   text-decoration: none;
   font-style: italic;
+  // @include skew;
 }
 
 a:hover, button:hover{
   font-style: normal;
+  // @include noSkew;
   cursor: pointer;
 }
 

@@ -43,7 +43,7 @@ class Home extends Component {
     return (
       <main className={'home'}>
         <content>
-          {'Home'}
+
         </content>
       </main>
     )

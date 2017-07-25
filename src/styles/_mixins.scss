@@ -11,3 +11,19 @@
   align-items: center;
   justify-content: center;
 }
+
+@mixin noSkew {
+  -moz-transform: scale(1) rotate(0deg) translate(0px, 0px) skew(0deg, 0deg);
+  -webkit-transform: scale(1) rotate(0deg) translate(0px, 0px) skew(0deg, 0deg);
+  -o-transform: scale(1) rotate(0deg) translate(0px, 0px) skew(0deg, 0deg);
+  -ms-transform: scale(1) rotate(0deg) translate(0px, 0px) skew(0deg, 0deg);
+  transform: scale(1) rotate(0deg) translate(0px, 0px) skew(0deg, 0deg);
+}
+
+@mixin skew{
+  -moz-transform: scale(1) rotate(0deg) translate(0px, 0px) skew(-9deg, 0deg);
+  -webkit-transform: scale(1) rotate(0deg) translate(0px, 0px) skew(-9deg, 0deg);
+  -o-transform: scale(1) rotate(0deg) translate(0px, 0px) skew(-9deg, 0deg);
+  -ms-transform: scale(1) rotate(0deg) translate(0px, 0px) skew(-9deg, 0deg);
+  transform: scale(1) rotate(0deg) translate(0px, 0px) skew(-9deg, 0deg);
+}

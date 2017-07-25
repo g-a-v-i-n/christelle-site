@@ -1,0 +1,21 @@
+{
+    "root": true,
+    "parser": "babel-eslint",
+    "plugins": [
+        "react",
+        "jsx-a11y",
+        "import"
+    ],
+    "rules": {
+      "comma-dangle" : [2, "always-multiline"],
+      "semi": [2, "never"],
+      "no-extra-semi": 2,
+      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+      "react/prop-types": [0]
+    },
+    "globals": {
+      "fetch": false,
+      "window": false,
+      "document": false
+    }
+}
