@@ -1,7 +1,12 @@
 .home {
   display: flex;
+  position: relative;
   overflow-y: scroll;
   overflow-x: hidden;
-  min-height: 110vh;
-  height: 300px;
+  min-height: 100vh;
+  height: 100%;
+}
+
+#pile {
+  position: absolute;
 }

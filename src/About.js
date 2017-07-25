@@ -16,18 +16,6 @@ const ContactItem = (props) => {
   )
 }
 
-const ClientListItem = (props) => {
-  if (props.index !== props.length - 1) {
-    return(
-      <div className={'clientListItem'}>{`${props.clientName},`}</div>
-    )
-  } else {
-    return(
-      <div className={'clientListItem'}>{`${props.clientName}`}</div>
-    )
-  }
-}
-
 export default class About extends Component {
   constructor (props) {
     super(props)
@@ -55,7 +43,7 @@ export default class About extends Component {
       let username
       let handle
       if (inputString.charAt(0) === '@') {
-        username = inputString.substr(1);
+        username = inputString.substr(1)
         handle = inputString
       } else {
         username = inputString
@@ -91,6 +79,7 @@ export default class About extends Component {
           _.pull(classArray, 'about-closed')
           classArray.push('about-open')
           break
+        default: console.error('About.js handleMetaSectionEvents() switch error top section')
         }
     } else {
       switch (eventKey) {
@@ -106,6 +95,7 @@ export default class About extends Component {
           _.pull(classArray, 'about-open')
           classArray.push('about-closed')
           break
+        default: console.error('About.js handleMetaSectionEvents() switch error bottom section')
         }
     }
     classArray = _.uniq(classArray)

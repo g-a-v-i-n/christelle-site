@@ -59,7 +59,7 @@ class Header extends Component {
       handleMenuItemClasses: this.handleMenuItemClasses,
       mapDropdown: this.mapDropdown,
     }
-    if (this.props.location.pathname == '/') {
+    if (this.props.location.pathname === '/') {
       return <MainHeader {...this.props} {...localHeaderProps} />
     } else {
       return <AboutHeader {...this.props} {...localHeaderProps}/>

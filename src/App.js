@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { RouteTransition } from 'react-router-transition'
 import { deliveryAccessToken, spaceId } from './config'
 import { createClient }  from 'contentful'
 import Header from './Header'
@@ -19,15 +18,15 @@ export default class App extends Component {
       pressList: '',
       exhibitionList: '',
       portrait: '',
-      projectList: null,
+      projects: [],
       error: false,
       filterQuery: false,
       menuOpen: false,
-      menuTitles: ['Index', 'Photo', 'Video']
+      menuTitles: ['Index', 'Photo', 'Video'],
     }
     this.client = createClient({
       space: spaceId,
-      accessToken: deliveryAccessToken
+      accessToken: deliveryAccessToken,
     })
   }
 
@@ -53,25 +52,20 @@ export default class App extends Component {
           exhibitionList: entry.fields.exhibitions,
         })
       })
-      .catch(this.setState({
-        error: true,
-      }))
+      .catch((reason) => console.error(reason, 'Error getting bio content from contentful'))
     }
   }
 
   getGalleryContent = () => {
-    if (this.state.projectList === null) {
+    if (this.state.projects.length === 0) {
       this.client.getEntries({ content_type: 'galleryTest' })
       .then((response) => {
         this.setState({
-          projectList: response,
+          projects: response.items,
         })
       })
-      .catch(
-        this.setState({
-        error: true,
-      })
-    )}
+      .catch((reason) => console.error(reason, 'Error getting gallery content from contentful'))
+    }
   }
 
   setFilterQuery = (e, filterQuery) => {
@@ -80,7 +74,7 @@ export default class App extends Component {
     let menuTitles = this.state.menuTitles
     const from = menuTitles.indexOf(filterQuery)
     const to = 0
-    menuTitles.splice(to, 0, menuTitles.splice(from, 1)[0]);
+    menuTitles.splice(to, 0, menuTitles.splice(from, 1)[0])
     this.setState({
       filterQuery,
       menuOpen: !this.state.menuOpen,
@@ -91,7 +85,7 @@ export default class App extends Component {
   render() {
     const homeProps = {
       getGalleryContent: this.getGalleryContent,
-      projectList: this.state.projectList,
+      projects: this.state.projects,
       filterQuery: this.state.filterQuery,
     }
 
@@ -114,13 +108,16 @@ export default class App extends Component {
     return (
       <Router>
         <div>
-          <Header {...this.props} {...headerProps} />
-          <Route exact path='/about' render={(props) => (
-            <About {...props} {...aboutProps} />
-          )}/>
-          <Route exact path='/' render={(props) => (
-            <Home {...props} {...homeProps} />
-          )}/>
+        <Header {...this.props} {...headerProps} />
+
+          <Switch>
+            <Route exact path='/about' render={(props) => (
+              <About {...this.props} {...aboutProps} />
+            )}/>
+            <Route exact path='/' render={(props) => (
+              <Home {...this.props} {...homeProps} />
+            )}/>
+            </Switch>
         </div>
       </Router>
     )
