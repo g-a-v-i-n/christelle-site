@@ -1,12 +1,29 @@
 .home {
-  display: flex;
-  position: relative;
   overflow-y: scroll;
   overflow-x: hidden;
   min-height: 100vh;
   height: 100%;
+  padding-top: 100px;
+}
+
+
+content {
+  min-width: 100vw;
+  padding: 40px;
+  padding-top: 0;
+  position: relative;
 }
 
 #pile {
   position: absolute;
+
+}
+
+img {
+  // transform: scale(1.03);
+  max-width: 40vw;
+  max-height: 40vw;
+  height: auto;
+  width: auto;
+  // transform: scale(1.02);
 }
