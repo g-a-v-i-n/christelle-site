@@ -4,14 +4,16 @@
   min-height: 100vh;
   height: 100%;
   padding-top: 100px;
+  padding-bottom: 100px;
+
 }
 
 
 content {
   min-width: 100vw;
-  padding: 40px;
-  padding-top: 0;
   position: relative;
+  display: block;
+  margin-bottom: 100px;
 }
 
 #pile {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Gallery } from './Gallery'
+import _ from 'lodash'
 
 class Home extends Component {
   constructor(props) {
@@ -44,28 +45,42 @@ class Home extends Component {
       )
     })
   }
+
   // REMINDER make offsets in viewWidth /viewHeight
   arrangePiles = () => {
-    let lastPosX = 0
-    let lastPosY = 0
-    let lastHeight = this.galleryList[0].dimensions.height
+    const maxOverlap = 0.4
+    const minOverlap = 0.1
+    // let lastPosX = 0
+    let offsetFromTop = 0
+    let thisY = 0
+    let lastHeight = 0
     // REMINDER: resort the dimensionArr by index
     return this.props.projects.map((project, index) => {
+      // maxOverlap = (lastHeight / )
+      let overlap = lastHeight * ( Math.random() * (maxOverlap - minOverlap) + minOverlap)
+      let thisY = lastHeight - overlap + offsetFromTop
+      offsetFromTop = thisY
       lastHeight = this.galleryList[index].dimensions.height
-      const newY = lastPosY + (lastHeight / ((Math.random() * 2) + 1.1)) // randomize gos here
-      lastPosY = newY
-
-
-      return ({x:40, y:newY})
+      return ({x:40, y:thisY, overlap: overlap, bottom: thisY + lastHeight})
     })
   }
 
   render() {
+    let height = {}
+    if (this.state.homeCoordinates.length === this.props.projects.length && this.state.homeCoordinates.length !== 0) {
+      let lastItem = _.takeRight(this.state.homeCoordinates)
+      const containerHeight = lastItem[0].bottom
+      height = {
+        height: `${Math.ceil(containerHeight)}px`,
+      }
+    }
+
     return (
       <main className={'home'}>
-        <content>
+        <content style={height}>
           {this.generatePiles()}
         </content>
+        <footer>{'Christelle De Castro'}</footer>
       </main>
     )
   }
