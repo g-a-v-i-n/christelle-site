@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 
-class Asset extends Component {
+class Thumb extends Component {
   render() {
     return (
       <div className={'image_outerContainer'}>
-        <img alt={''} src={this.props.src} />
+        <img onLoad={(e) => this.props.onImgLoad(e, this.props.thumbIndex)} alt={''} src={this.props.src} />
       </div>
     )
   }
@@ -13,9 +13,15 @@ class Asset extends Component {
 class Gallery extends Component {
 
   render() {
+    let translate = {}
+    if (this.props.homeCoordinates !== null) {
+      translate = {
+        transform: `translate(${this.props.homeCoordinates.x}px, ${this.props.homeCoordinates.y}px)`,
+      }
+    }
     return (
-      <div id={'pile'}>
-        <Asset src={this.props.thumbURL} />
+      <div id={'pile'} style={translate}>
+        <Thumb thumbIndex={this.props.thumbIndex} onImgLoad={this.props.onImgLoad} src={this.props.thumbURL} style={translate}/>
       </div>
     )
   }
@@ -23,5 +29,5 @@ class Gallery extends Component {
 
 export {
   Gallery,
-  Asset,
+  Thumb,
 }

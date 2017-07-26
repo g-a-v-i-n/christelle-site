@@ -5,8 +5,18 @@
   overflow-x: hidden;
   min-height: 100vh;
   height: 100%;
+  padding: 40px;
+  padding-top: 100px;
 }
 
 #pile {
   position: absolute;
+}
+
+img{
+  max-width: 50vw;
+  max-height: 50vw;
+  transform: scale(1.03);
+  height: auto;
+  width: auto;
 }

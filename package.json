@@ -13,6 +13,8 @@
     "node-sass": "^4.5.3"
   },
   "dependencies": {
+    "boxpack": "^0.1.0",
+    "circlepacker": "^1.0.2",
     "contentful": "^4.5.0",
     "eslint-plugin-flowtype": "^2.35.0",
     "lodash": "^4.17.4",
