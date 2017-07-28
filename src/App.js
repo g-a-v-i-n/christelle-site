@@ -33,6 +33,7 @@ export default class App extends Component {
   // load bio info immediatly so that there is minimal load time after page transition
   componentWillMount = () => {
     this.getAboutContent()
+    this.getGalleryContent()
   }
 
   // GET for getting all bio page content

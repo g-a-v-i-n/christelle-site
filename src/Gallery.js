@@ -7,39 +7,31 @@ class Asset extends Component {
       homeCoordinates: {x:0, y:0},
       dimensions: {width:0, height:0},
       loaded: false,
-      positionLatch: false,
     }
   }
 
-  onImgLoad = (e) => {
-    this.setState({
-      loaded: true,
-      dimensions: {
-        width: e.target.offsetWidth,
-        height: e.target.offsetHeight,
-      },
-    })
+  handleImageLoaded() {
+    this.setState({ loaded: true})
+
+
+  }
+
+  handleImageErrored() {
+    this.setState({ imageStatus: 'failed to load' })
   }
 
   render() {
-    const index = this.props.index
-    if (this.state.loaded && !this.state.positionLatch) {
-      this.props.addToGalleryList({index, dimensions: this.state.dimensions})
-    }
     return (
-      <img onLoad={(e) => this.onImgLoad(e)} alt={''} src={this.props.thumbURL} />
+      <img ref={`imageGallery_${this.props.index}`} src={this.props.thumbURL} onLoad={(e) => this.props.addToGalleryList(e, this.props.index)} />
     )
   }
 }
 
 class Gallery extends Component {
   render() {
-    let translateStyle = {}
-    if (this.props.homeCoordinates !== null) {
-      translateStyle = { transform: `translate(${this.props.homeCoordinates.x}px, ${this.props.homeCoordinates.y}px)`}
-    }
+
     return (
-      <div id={'pile'} style={translateStyle}>
+      <div id={'pile'}>
         <Asset
           addToGalleryList={this.props.addToGalleryList}
           index={this.props.index}

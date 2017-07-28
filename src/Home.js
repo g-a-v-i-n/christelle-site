@@ -7,35 +7,35 @@ class Home extends Component {
     super(props)
     this.state = {
       dimensionArr: [],
-      allLoaded: false,
-      homeCoordinates: [],
+      galleryListWithCoords: [],
+      loadedGalleries: [],
     }
-    this.galleryList = []
   }
 
-  componentWillMount = () => {
-    this.props.getGalleryContent()
-  }
-
-  addToGalleryList = (gallery) => {
-    this.galleryList = this.galleryList.concat(gallery)
-    if (this.galleryList.length === this.props.projects.length) {
-      const homeCoordinates = this.arrangePiles()
+  addToGalleryList = (gallery, index) => {
+      let imgObject = {
+        width:gallery.target.clientWidth,
+        height: gallery.target.clientHeight,
+        index,
+        x: 0,
+        y: 0,
+      }
       this.setState({
-        homeCoordinates,
-      })
+        loadedGalleries: this.state.loadedGalleries.concat(gallery.target),
+      }, () => {this.arrangePiles()})
     }
-  }
+
 
   generatePiles = () => {
     return this.props.projects.map((project, index) => {
-      let homeCoordinates = null
-      if (this.state.homeCoordinates.length === this.props.projects.length) {
-        homeCoordinates = this.state.homeCoordinates[index]
+      let thisGalleryCoords = {}
+      // only set this gallery coords when there is something to set
+      if (this.state.galleryListWithCoords.length !== 0) {
+        let thisGalleryCoords = this.state.galleryListWithCoords[index]
       }
       return (
         <Gallery
-          homeCoordinates={homeCoordinates}
+          thisGalleryCoords={thisGalleryCoords}
           addToGalleryList={this.addToGalleryList}
           thumbURL={project.fields.assets[0].fields.file.url}
           fields={project.fields}
@@ -48,36 +48,34 @@ class Home extends Component {
 
   // REMINDER make offsets in viewWidth /viewHeight
   arrangePiles = () => {
-    const maxOverlap = 0.4
-    const minOverlap = 0.1
-    // let lastPosX = 0
-    let offsetFromTop = 0
-    let thisY = 0
-    let lastHeight = 0
-    // REMINDER: resort the dimensionArr by index
-    return this.props.projects.map((project, index) => {
-      // maxOverlap = (lastHeight / )
-      let overlap = lastHeight * ( Math.random() * (maxOverlap - minOverlap) + minOverlap)
-      let thisY = lastHeight - overlap + offsetFromTop
-      offsetFromTop = thisY
-      lastHeight = this.galleryList[index].dimensions.height
-      return ({x:40, y:thisY, overlap: overlap, bottom: thisY + lastHeight})
-    })
+    if (this.props.projects.length === this.state.loadedGalleries.length) {
+      const globalOrigin = 0
+
+      const initalMaxOverlap = 0.4
+      let thisMaxOverlap = initalMaxOverlap
+      const minOverlap = 0.1
+
+      let offsetFromTop = 0
+      let thisY = 0
+      let lastHeight = 0
+      // REMINDER: resort the dimensionArr by index
+      return this.props.projects.map((project, index) => {
+        // maxOverlap = (lastHeight / )
+        let overlap = lastHeight * ( Math.random() * (maxOverlap - minOverlap) + minOverlap)
+        let thisY = lastHeight - overlap + offsetFromTop
+        offsetFromTop = thisY
+        lastHeight = this.state.galleryList[index].dimensions.height
+        return ({x:40, y:thisY, overlap: overlap, bottom: thisY + lastHeight})
+      })
+    }
+
   }
 
   render() {
-    let height = {}
-    if (this.state.homeCoordinates.length === this.props.projects.length && this.state.homeCoordinates.length !== 0) {
-      let lastItem = _.takeRight(this.state.homeCoordinates)
-      const containerHeight = lastItem[0].bottom
-      height = {
-        height: `${Math.ceil(containerHeight)}px`,
-      }
-    }
 
     return (
       <main className={'home'}>
-        <content style={height}>
+        <content>
           {this.generatePiles()}
         </content>
         <footer>{'Christelle De Castro'}</footer>
