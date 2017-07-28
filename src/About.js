@@ -31,7 +31,6 @@ export default class About extends Component {
   }
 
   componentWillMount = () => {
-    this.props.getAboutContent()
   }
 
   makeList = (clientList) => {

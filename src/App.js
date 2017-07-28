@@ -30,6 +30,12 @@ export default class App extends Component {
     })
   }
 
+  // load bio info immediatly so that there is minimal load time after page transition
+  componentWillMount = () => {
+    this.getAboutContent()
+  }
+
+  // GET for getting all bio page content
   getAboutContent = () => {
     if (this.state.biography === '') {
       this.client.getEntry('2bqR4gkUxKqMSwC6q8GQKu')
@@ -56,6 +62,7 @@ export default class App extends Component {
     }
   }
 
+  // GET for getting all gallery content
   getGalleryContent = () => {
     if (this.state.projects.length === 0) {
       this.client.getEntries({ content_type: 'galleryTest' })
@@ -109,7 +116,6 @@ export default class App extends Component {
       <Router>
         <div>
         <Header {...this.props} {...headerProps} />
-
           <Switch>
             <Route exact path='/about' render={(props) => (
               <About {...this.props} {...aboutProps} />

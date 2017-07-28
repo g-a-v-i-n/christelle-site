@@ -13,6 +13,7 @@
     "node-sass": "^4.5.3"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "contentful": "^4.5.0",
     "eslint-plugin-flowtype": "^2.35.0",
     "lodash": "^4.17.4",
