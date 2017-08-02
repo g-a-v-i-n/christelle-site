@@ -156,7 +156,7 @@ class Home extends Component {
     }
   }
 
-  closeGallery = () => {
+  handleCloseGallery = () => {
     let displayStates = this.state.displayStates
     displayStates = displayStates.map((state) => { return 'default' })
     this.setState({ displayStates: displayStates})
@@ -177,10 +177,10 @@ class Home extends Component {
     })
     return (
       <main className={'home'}>
-      <Header {...this.props} />
+      <Header {...this.props} handleCloseGallery={this.handleCloseGallery}/>
       <div id={'loadingScreen'} className={loadingState} />
         <content style={minHeight}>
-        <div id={'overlay'} className={overlayState} onClick={() => this.closeGallery()}/>
+        <div id={'overlay'} className={overlayState} onClick={() => this.handleCloseGallery()}/>
 
         <div className={'centerline'} />
         <div className={'centerline2'} />
