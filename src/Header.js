@@ -9,6 +9,7 @@ const MainHeader = (props) => {
     <header>
       {'Christelle de Castro'}
       <nav>
+        <button onClick={() => props.closeGallery()}>{'Close Gallery'}</button>
         <div className={'dropdownContainer'}>
           {props.mapDropdown()}
         </div>

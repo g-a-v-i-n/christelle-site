@@ -13,17 +13,20 @@ class Home extends Component {
       arrangeDone: false,
       minHeight: 0,
       loaded: false,
+      galleryToDisplay: -1,
     }
   }
 
   addToGalleryList = (gallery, index) => {
+    // this could be done with Element.getBoundingClientRect()
     let imgObject = {
+      index,
       width:gallery.target.clientWidth,
       height: gallery.target.clientHeight,
-      index,
       x: 0,
       y: 0,
     }
+    // when an image is loaded with all its information, copy the array in state and add the new image
     this.setState({
       loadedGalleries: this.state.loadedGalleries.concat(imgObject),
       hoverStates: this.state.hoverStates.concat(true),
@@ -32,6 +35,12 @@ class Home extends Component {
 
   generatePiles = () => {
     return this.props.projects.map((project, index) => {
+      // get the absolute origin of the center of the screen regardless of scrollY
+      let absScreenOrigin = {
+        y: window.scrollY + (window.innerHeight * 0.5),
+        x: window.innerWidth * 0.5,
+      }
+      // set defaults
       let galleryCoordinates = {}
       let hover = true
       // only set this gallery coords when there is something to set
@@ -47,8 +56,12 @@ class Home extends Component {
           thumbURL={project.fields.assets[0].fields.file.url}
           fields={project.fields}
           index={index}
+          open={this.props.galleryToDisplay === index ? true : false}
+          openGallery={this.props.openGallery}
           setScreenState={this.setScreenState}
           key={project.sys.id}
+          allLoaded={this.state.arrangeDone}
+          absScreenOrigin={absScreenOrigin}
         />
       )
     })
@@ -57,18 +70,13 @@ class Home extends Component {
   // REMINDER make offsets in viewWidth /viewHeight
   arrangePiles = () => {
     if (this.props.projects.length === this.state.loadedGalleries.length) {
-      let lastTop = 0
       let lastBottom = 0
-      let lastLeft = 0
       let lastRight = 0
-
       let viewWidth = window.innerWidth
       let windowCenter = viewWidth / 2
-
       let deltaY = 0
       let deltaX = 0
-
-      // resort to correct any load race condition re-ordering
+      // re-sort to correct project indexes because images are added to loadedGalleries first come first serve
       let galleryList = lodash.orderBy(this.state.loadedGalleries, ['index'], ['asc'])
       let arrangedGalleries = this.props.projects.map((project, index) => {
         //define vars
@@ -145,11 +153,17 @@ class Home extends Component {
       'loadingOn': !this.state.arrangeDone,
       'loadingOff': this.state.arrangeDone,
     })
+    let overlayState = classnames({
+      'overlayOn': this.props.galleryToDisplay !== -1,
+      'overlayOff': this.props.galleryToDisplay === -1,
+    })
     return (
       <main className={'home'}>
       <div id={'loadingScreen'} className={loadingState} />
+      <div id={'overlay'} className={overlayState} />
         <content style={minHeight}>
         <div className={'centerline'} />
+        <div className={'centerline2'} />
           {this.generatePiles()}
         </content>
         <footer>{'Christelle De Castro'}</footer>

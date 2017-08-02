@@ -23,6 +23,7 @@ export default class App extends Component {
       filterQuery: false,
       menuOpen: false,
       menuTitles: ['Index', 'Photo', 'Video'],
+      galleryToDisplay: -1,
     }
     this.client = createClient({
       space: spaceId,
@@ -90,11 +91,23 @@ export default class App extends Component {
     })
   }
 
+  openGallery = (index) => {
+    this.setState({ galleryToDisplay: index})
+    document.body.classList.add('stopScroll')
+  }
+
+  closeGallery = (index) => {
+    this.setState({ galleryToDisplay: -1})
+    document.body.classList.remove('stopScroll')
+  }
+
   render() {
     const homeProps = {
       getGalleryContent: this.getGalleryContent,
       projects: this.state.projects,
       filterQuery: this.state.filterQuery,
+      openGallery: this.openGallery,
+      galleryToDisplay: this.state.galleryToDisplay,
     }
 
     const aboutProps = {
@@ -111,6 +124,7 @@ export default class App extends Component {
       setFilterQuery:this.setFilterQuery,
       menuOpen:this.state.menuOpen,
       menuTitles:this.state.menuTitles,
+      closeGallery: this.closeGallery,
     }
 
     return (

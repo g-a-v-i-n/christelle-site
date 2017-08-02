@@ -1,31 +1,60 @@
+
+.centerline{
+  width: 1px;
+  height: 200vh;
+  // background-color: blue;
+  transform: translateX(50vw);
+  position: fixed;
+  z-index: 999;
+}
+
+.centerline2{
+  height: 1px;
+  width: 200vh;
+  // background-color: blue;
+  transform: translateY(calc(50vh - 50px));
+  position: fixed;
+  z-index: 999;
+}
+
+///////
+///////
+
 .home {
-  overflow-y: scroll;
+  // overflow-y: scroll;
   overflow-x: hidden;
   min-height: 100vh;
   height: 100%;
   padding-top: 100px;
   padding-bottom: 100px;
-
 }
 
 content {
-  width: calc(100vw - 80px);
+  // width: calc(100vw - 80px);
   position: relative;
   display: block;
   margin-bottom: 100px;
-  margin-left: 40px;
-  // border: 1px solid green;
+  // margin-left: 40px;
+  // border: 1px solid red;
 }
 
-#pile{
+#gallery{
   position: absolute;
-  z-index: auto;
-  transition: z-index 2s;
+  // z-index: auto;
 }
 
-#pile:hover{
+.galleryNotDisplayed:hover{
   z-index: 100;
 }
+
+.galleryDisplayed{
+  z-index: 110;
+}
+
+.translateTransition{
+  transition: transform 500ms;
+}
+
 
 img {
   max-width: 45vw;
@@ -42,15 +71,6 @@ img:hover {
   cursor: pointer;
 }
 
-.centerline{
-  width: 1px;
-  height: 200vh;
-  // background-color: blue;
-  transform: translateX(50vw);
-  position: absolute;
-  z-index: 999;
-}
-
 .imgOn {
   opacity: 1;
 }
@@ -59,11 +79,13 @@ img:hover {
   opacity: 0.65;
 }
 
+
+
 #loadingScreen{
   width: 100vw;
   height: 100vh;
   position: fixed;
-  z-index: 999;
+  z-index: 104;
   background-color: white;
   will-change: opacity;
   pointer-events: auto;
@@ -73,12 +95,30 @@ img:hover {
   opacity: 1;
   visibility: visible;
   transition: visibility 0.5s step-start, opacity 0.5s linear;
-
 }
 
 .loadingOff{
   opacity: 0;
   visibility: hidden;
   transition: visibility 0.5s step-end, opacity 0.5s linear;
+}
 
+#overlay{
+  width: 100vw;
+  height: 100vh;
+  margin-top: -100px;
+  position: fixed;
+  background-color: $christelle_white;
+  transition: opacity 300ms;
+  z-index: 105;
+}
+
+.overlayOn{
+  opacity: 1;
+  visibility: visible;
+}
+
+.overlayOff{
+  opacity: 0;
+  visibility: hidden;
 }

@@ -54,12 +54,22 @@ class Gallery extends Component {
   render() {
     let translations = {}
     if (!lodash.isEmpty(this.props.galleryCoordinates)) {
-      translations = {
-        transform: `translate(${this.props.galleryCoordinates.x}px,${this.props.galleryCoordinates.y}px)`,
+      let x = this.props.galleryCoordinates.x
+      let y = this.props.galleryCoordinates.y
+      let dX = this.props.absScreenOrigin.x - (this.props.galleryCoordinates.width * 0.5)
+      let dY = this.props.absScreenOrigin.y - 50 - (this.props.galleryCoordinates.height * 0.5)
+      translations = { transform: `translate(${x}px,${y}px)` }
+      if (this.props.open) {
+        translations = { transform: `translate(${dX}px,${dY}px)` }
       }
     }
+    let conditionalClasses = classnames({
+      'translateTransition': this.props.allLoaded,
+      'galleryDisplayed': this.props.open,
+      'galleryNotDisplayed': !this.props.open,
+    })
     return (
-      <div id={'pile'} style={translations}>
+      <div id={'gallery'} className={conditionalClasses} style={translations} onClick={() => this.props.openGallery(this.props.index)}>
         <Asset
           hover={this.props.hover}
           addToGalleryList={this.props.addToGalleryList}
