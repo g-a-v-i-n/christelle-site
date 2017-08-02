@@ -6,23 +6,17 @@ class Asset extends Component {
 
   onMouseEnter = (e, index) => {
     e.stopPropagation()
-    this.props.setScreenState(true, index)
+    this.props.handleSetHoverState('hover', index)
   }
 
   onMouseLeave = (e, index) => {
     e.stopPropagation()
-    this.props.setScreenState(false, index)
+    this.props.handleSetHoverState('default', index)
   }
 
   render() {
-    let imgClasses = classnames({
-      'imgOn': this.props.hover,
-      'imgFade': !this.props.hover,
-    })
-
     return (
       <img
-        className={imgClasses}
         alt={`imageGallery_${this.props.index}`}
         src={this.props.thumbURL}
         onLoad={(e) => this.props.addToGalleryList(e, this.props.index)}
@@ -33,24 +27,16 @@ class Asset extends Component {
 }
 
 class Gallery extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      open: false,
-    }
+
+  handleGalleryClose = (index) => {
+    this.props.handleGalleryDisplay('default', index)
   }
 
-  handleGalleryClose = () => {
-    this.setState({
-      open: true,
-    })
+  handleGalleryOpen = (index) => {
+    this.props.handleGalleryDisplay('on', index)
+
   }
 
-  handleGalleryClose = () => {
-    this.setState({
-      open: false,
-    })
-  }
   render() {
     let translations = {}
     if (!lodash.isEmpty(this.props.galleryCoordinates)) {
@@ -59,24 +45,29 @@ class Gallery extends Component {
       let dX = this.props.absScreenOrigin.x - (this.props.galleryCoordinates.width * 0.5)
       let dY = this.props.absScreenOrigin.y - 50 - (this.props.galleryCoordinates.height * 0.5)
       translations = { transform: `translate(${x}px,${y}px)` }
-      if (this.props.open) {
+      if (this.props.display === 'on') {
         translations = { transform: `translate(${dX}px,${dY}px)` }
       }
     }
     let conditionalClasses = classnames({
-      'translateTransition': this.props.allLoaded,
-      'galleryDisplayed': this.props.open,
-      'galleryNotDisplayed': !this.props.open,
+      'transitions': this.props.allLoaded,
+      'galleryDefault': this.props.display === 'default',
+      'galleryOn': this.props.display === 'on',
+      'galleryOff': this.props.display === 'off',
+
+      'galleryForward': this.props.hover === 'forward',
+      'galleryFade': this.props.hover === 'fade',
+      'galleryDefault': this.props.hover === 'default',
+      'ignoreHover': this.props.hover === 'ignoreHover',
     })
     return (
-      <div id={'gallery'} className={conditionalClasses} style={translations} onClick={() => this.props.openGallery(this.props.index)}>
+      <div id={'gallery'} className={conditionalClasses} style={translations} onClick={() => this.handleGalleryOpen(this.props.index)}>
         <Asset
-          hover={this.props.hover}
           addToGalleryList={this.props.addToGalleryList}
           index={this.props.index}
           onImgLoad={this.props.onImgLoad}
           thumbURL={this.props.thumbURL}
-          setScreenState={this.props.setScreenState}
+          handleSetHoverState={this.props.handleSetHoverState}
         />
       </div>
     )

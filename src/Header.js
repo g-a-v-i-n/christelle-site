@@ -2,14 +2,12 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
 
-
-
 const MainHeader = (props) => {
   return(
     <header>
       {'Christelle de Castro'}
       <nav>
-        <button onClick={() => props.closeGallery()}>{'Close Gallery'}</button>
+        <button onClick={() => props.handleCloseGallery()}>{'Close Gallery'}</button>
         <div className={'dropdownContainer'}>
           {props.mapDropdown()}
         </div>

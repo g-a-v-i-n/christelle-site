@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Markdown from 'react-markdown'
+import Header from './Header'
 import _ from 'lodash'
 
 const ContactItem = (props) => {
@@ -126,6 +127,7 @@ export default class About extends Component {
     const contact = this.props.contact
     return (
       <main className={'about'}>
+      <Header {...this.props} />
         <button
           className={'arrowToggle'}
           onMouseEnter={(e) => this.handleMetaSectionEvents(e, 'mouseEnter')}

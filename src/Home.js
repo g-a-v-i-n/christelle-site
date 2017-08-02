@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Gallery } from './Gallery'
+import Header from './Header'
 import lodash from 'lodash'
 import classnames from 'classnames'
 
@@ -10,10 +11,10 @@ class Home extends Component {
       dimensionArr: [],
       loadedGalleries: [],
       hoverStates: [],
+      displayStates: [],
       arrangeDone: false,
       minHeight: 0,
       loaded: false,
-      galleryToDisplay: -1,
     }
   }
 
@@ -29,39 +30,47 @@ class Home extends Component {
     // when an image is loaded with all its information, copy the array in state and add the new image
     this.setState({
       loadedGalleries: this.state.loadedGalleries.concat(imgObject),
-      hoverStates: this.state.hoverStates.concat(true),
+      hoverStates: this.state.hoverStates.concat(''),
+      displayStates: this.state.displayStates.concat(''),
     }, () => {this.arrangePiles()})
   }
 
   generatePiles = () => {
     return this.props.projects.map((project, index) => {
       // get the absolute origin of the center of the screen regardless of scrollY
-      let absScreenOrigin = {
+      const absoluteScreenOrigin = {
         y: window.scrollY + (window.innerHeight * 0.5),
         x: window.innerWidth * 0.5,
       }
-      // set defaults
+      // set defaults so react doesn't absolutely freak out
       let galleryCoordinates = {}
-      let hover = true
+      let hover = 'ignore'
+      let display = 'default'
       // only set this gallery coords when there is something to set
       if (this.state.arrangeDone) {
         galleryCoordinates = this.state.loadedGalleries[index]
         hover = this.state.hoverStates[index]
+        display = this.state.displayStates[index]
       }
       return (
         <Gallery
+          //gallery display state and methods
           hover={hover}
-          galleryCoordinates={galleryCoordinates}
-          addToGalleryList={this.addToGalleryList}
+          display={display}
+          openGallery={this.props.handleOpenGallery}
+          handleGalleryDisplay={this.handleGalleryDisplay}
+          handleSetHoverState={this.handleSetHoverState}
+          allLoaded={this.state.arrangeDone}
+          //gallery info
           thumbURL={project.fields.assets[0].fields.file.url}
           fields={project.fields}
+          // gallery positionioning
+          addToGalleryList={this.addToGalleryList}
+          galleryCoordinates={galleryCoordinates}
+          absScreenOrigin={absoluteScreenOrigin}
+          // misc
           index={index}
-          open={this.props.galleryToDisplay === index ? true : false}
-          openGallery={this.props.openGallery}
-          setScreenState={this.setScreenState}
           key={project.sys.id}
-          allLoaded={this.state.arrangeDone}
-          absScreenOrigin={absScreenOrigin}
         />
       )
     })
@@ -71,7 +80,6 @@ class Home extends Component {
   arrangePiles = () => {
     if (this.props.projects.length === this.state.loadedGalleries.length) {
       let lastBottom = 0
-      let lastRight = 0
       let viewWidth = window.innerWidth
       let windowCenter = viewWidth / 2
       let deltaY = 0
@@ -83,15 +91,13 @@ class Home extends Component {
         const img = galleryList[index]
         const thisHeight = img.height
         const thisWidth = img.width
-        // do the algo for X, Y
+        // do the algo
         if (index === 0) {
-          // first one
-          lastRight = img.width
-          lastBottom = img.height
-          deltaX = windowCenter - (img.width - (viewWidth * 0.04))
+          lastBottom = thisHeight
+          deltaX = windowCenter - (thisWidth - (viewWidth * 0.04))
         } else if (index <= this.props.projects.length - 1 && index !== 0) {
           deltaY = lastBottom - (thisHeight * 0.08)
-          lastBottom = img.height + deltaY
+          lastBottom = thisHeight + deltaY
           if (index % 2 === 1) {
             // right
             deltaX = windowCenter - (thisWidth * 0.08)
@@ -99,16 +105,7 @@ class Home extends Component {
             // left
             deltaX = windowCenter - (thisWidth - (viewWidth * 0.04))
           }
-          // REMINDER: not needed unless there is forward / backward awareness
-        } else {
-          // last one
-          deltaY = lastBottom - (thisHeight * 0.08)
-          lastBottom = img.height + deltaY
-
-          deltaX = lastRight - (thisWidth * 0.08)
-          lastRight = img.width + deltaX
         }
-
         // set the results
         img.y = deltaY
         img.x = deltaX
@@ -122,26 +119,47 @@ class Home extends Component {
     }
   }
 
-  setScreenState = (isHovering, index) => {
-    // false equals fade, true equals show
-    if (isHovering) {
-      let states = this.state.hoverStates
-      states = states.map((state) => {
-        return false
-      })
-      states[index] = true
-      this.setState({
-        hoverStates: states,
-      })
+  handleSetHoverState = (isHovering, index) => {
+    let hoverStates = this.state.hoverStates
+    let displayStates = this.state.displayStates
+    if (lodash.indexOf(displayStates, 'on') !== -1) {
+      hoverStates = hoverStates.map((state) => { return 'ignoreHover' })
+      this.setState({ hoverStates: hoverStates })
     } else {
-      let states = this.state.hoverStates
-      states = states.map((state) => {
-        return true
-      })
-      this.setState({
-        hoverStates: states,
-      })
+      switch (isHovering) {
+        case 'hover':
+          hoverStates = hoverStates.map((state) => { return 'fade' })
+          hoverStates[index] = 'forward'
+          this.setState({ hoverStates: hoverStates })
+          break
+        default:
+          hoverStates = hoverStates.map((state) => { return 'default' })
+          this.setState({ hoverStates: hoverStates })
+          break
+      }
     }
+  }
+
+  handleGalleryDisplay = (displayState, index) => {
+    let hoverStates = this.state.hoverStates
+    let displayStates = this.state.displayStates
+    switch (displayState) {
+      case 'on':
+        displayStates = displayStates.map((state) => { return 'off' })
+        displayStates[index] = 'on'
+        hoverStates = hoverStates.map((state) => { return 'ignoreHover' })
+        this.setState({ displayStates: displayStates, hoverStates: hoverStates })
+        break
+      default:
+
+        break
+    }
+  }
+
+  closeGallery = () => {
+    let displayStates = this.state.displayStates
+    displayStates = displayStates.map((state) => { return 'default' })
+    this.setState({ displayStates: displayStates})
   }
 
   render() {
@@ -159,9 +177,11 @@ class Home extends Component {
     })
     return (
       <main className={'home'}>
+      <Header {...this.props} />
       <div id={'loadingScreen'} className={loadingState} />
-      <div id={'overlay'} className={overlayState} />
         <content style={minHeight}>
+        <div id={'overlay'} className={overlayState} onClick={() => this.closeGallery()}/>
+
         <div className={'centerline'} />
         <div className={'centerline2'} />
           {this.generatePiles()}

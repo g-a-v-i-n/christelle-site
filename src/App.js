@@ -91,12 +91,12 @@ export default class App extends Component {
     })
   }
 
-  openGallery = (index) => {
+  handleOpenGallery = (index) => {
     this.setState({ galleryToDisplay: index})
     document.body.classList.add('stopScroll')
   }
 
-  closeGallery = (index) => {
+  handleCloseGallery = (index) => {
     this.setState({ galleryToDisplay: -1})
     document.body.classList.remove('stopScroll')
   }
@@ -106,8 +106,9 @@ export default class App extends Component {
       getGalleryContent: this.getGalleryContent,
       projects: this.state.projects,
       filterQuery: this.state.filterQuery,
-      openGallery: this.openGallery,
+      handleOpenGallery: this.handleOpenGallery,
       galleryToDisplay: this.state.galleryToDisplay,
+      handleCloseGallery: this.handleCloseGallery,
     }
 
     const aboutProps = {
@@ -124,19 +125,18 @@ export default class App extends Component {
       setFilterQuery:this.setFilterQuery,
       menuOpen:this.state.menuOpen,
       menuTitles:this.state.menuTitles,
-      closeGallery: this.closeGallery,
+      handleCloseGallery: this.handleCloseGallery,
     }
 
     return (
       <Router>
         <div>
-        <Header {...this.props} {...headerProps} />
           <Switch>
             <Route exact path='/about' render={(props) => (
-              <About {...this.props} {...aboutProps} />
+              <About {...this.props} {...aboutProps} {...headerProps}/>
             )}/>
             <Route exact path='/' render={(props) => (
-              <Home {...this.props} {...homeProps} />
+              <Home {...this.props} {...homeProps} {...headerProps}/>
             )}/>
             </Switch>
         </div>
