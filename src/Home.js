@@ -41,7 +41,7 @@ class Home extends Component {
       loadedGalleries: this.state.loadedGalleries.concat(galleryObject),
       loaded: index === this.props.projects.length - 1 ? true : false,
     }, () => {
-        this.updateDimensions()
+        this.onAllLoad()
     })
   }
 
@@ -124,17 +124,23 @@ class Home extends Component {
   //   }
   // }
 
+  onAllLoad = () => {
+    const galleries = lodash.orderBy(this.state.loadedGalleries, ['index'], ['asc'])
+    this.setState({
+      loadedGalleries: galleries,
+    }, () => this.updateDimensions())
+  }
+
   updateDimensions = () => {
     if (this.state.loaded) {
       const viewWidth = window.innerWidth
       const viewHeight = window.innerHeight
       const windowCenter = window.innerWidth * 0.5
       const nudgeFactorY = 0.008
-      const galleries = lodash.orderBy(this.state.loadedGalleries, ['index'], ['asc'])
       let lastBottom = 0
       let deltaY = 0
       let deltaX = 0
-      const updatedGalleries = galleries.map((originalGallery, index) => {
+      const updatedGalleries = this.state.loadedGalleries.map((originalGallery, index) => {
         const bounding = originalGallery.node.getBoundingClientRect()
         const thisHeight = bounding.height
         const thisWidth = bounding.width
@@ -144,7 +150,7 @@ class Home extends Component {
         if (index === 0) {
           lastBottom = thisHeight
           deltaX = windowCenter - (thisWidth - (viewWidth * .08))
-        } else if (index <= galleries.length - 1 && index !== 0) {
+        } else if (index <= this.state.loadedGalleries.length - 1 && index !== 0) {
           deltaY = lastBottom - (thisHeight * 0.08)
           lastBottom = thisHeight + deltaY
 
@@ -187,17 +193,17 @@ class Home extends Component {
     let minHeight = {
       minHeight: `${this.state.minHeight}px`,
     }
-    
+
     let loadingState = classnames({
       'loadingOn': !this.state.loaded,
       'loadingOff': this.state.loaded,
     })
-    
+
     let overlayState = classnames({
       'overlayOn': this.props.galleryToDisplay !== -1,
       'overlayOff': this.props.galleryToDisplay === -1,
     })
-    
+
     return (
       <main className={'home'}>
       <Header {...this.props} handleCloseGallery={this.handleCloseGallery}/>
