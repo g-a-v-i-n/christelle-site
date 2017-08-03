@@ -70,7 +70,7 @@ class Home extends Component {
           addToGalleryList={this.addToGalleryList}
           galleryCoordinates={galleryCoordinates}
           absScreenOrigin={absoluteScreenOrigin}
-          galleryFrame={this.state.galleryFrame}
+          currentGalleryCurrentFrame={this.state.currentGalleryCurrentFrame}
           // misc
           index={index}
           key={project.sys.id}
@@ -163,15 +163,13 @@ class Home extends Component {
     this.setState({ displayStates: displayStates})
   }
 
-  changeGalleryFrame = (buttonDirection) => {
+  changeGalleryFrame = (buttonDirection, maxFrame) => {
     if (buttonDirection === 'left' && this.state.currentGalleryCurrentFrame > 0) {
       this.setState = ({currentGalleryCurrentFrame: this.state.currentGalleryCurrentFrame - 1 })
-    } else if ((buttonDirection === 'right' && this.state.currentGalleryCurrentFrame < this.state.currentGalleryMaxFrame)){
+    } else if ((buttonDirection === 'right' && this.state.currentGalleryCurrentFrame < maxFrame)){
       this.setState = ({currentGalleryCurrentFrame: this.state.currentGalleryCurrentFrame + 1 })
     }
   }
-
-
 
   render() {
     let minHeight = {
@@ -190,9 +188,13 @@ class Home extends Component {
       <main className={'home'}>
       <Header {...this.props} handleCloseGallery={this.handleCloseGallery}/>
       <div id={'loadingScreen'} className={loadingState} />
+      <div id={'galleryControls'}>
+        <div className={'arrowContainer leftArrowContainer'}><div className={'arrow'} /></div>
+        <div className={'arrowContainer rightArrowContainer'}><div className={'arrow'} /></div>
+        <div id={'galleryInfo'}>{'info'}</div>
+      </div>
         <content style={minHeight}>
         <div id={'overlay'} className={overlayState} onClick={() => this.handleCloseGallery()}/>
-
         <div className={'centerline'} />
         <div className={'centerline2'} />
           {this.generatePiles()}

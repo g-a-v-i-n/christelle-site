@@ -6,7 +6,7 @@ header{
   top:0;
   left:0;
   justify-content: space-between;
-  padding: 36px 60px 26px 60px;
+  padding: $headerPadding;
   max-height: 100px;
   overflow-y: visible;
   @include for-phone-only {
@@ -16,7 +16,7 @@ header{
   }
 }
 
-nav{
+nav {
   display: flex;
   height: $nav-height;
   @include for-phone-only {

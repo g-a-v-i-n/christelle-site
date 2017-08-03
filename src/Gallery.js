@@ -74,8 +74,7 @@ class Gallery extends Component {
           imageSRC={imageObject.fields.file.url}
           title={imageObject.fields.file.title}
           tallyAssetsOnLoad={this.tallyAssetsOnLoad}
-          assetCoordinates={this.assetCoordinates}
-          />
+          assetCoordinates={assetCoordinates}/>
       )
     })
   }
