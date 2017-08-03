@@ -15,6 +15,8 @@ class Home extends Component {
       arrangeDone: false,
       minHeight: 0,
       loaded: false,
+      currentGalleryCurrentFrame: 0,
+      currentGalleryMaxFrame: 0,
     }
   }
 
@@ -68,6 +70,7 @@ class Home extends Component {
           addToGalleryList={this.addToGalleryList}
           galleryCoordinates={galleryCoordinates}
           absScreenOrigin={absoluteScreenOrigin}
+          galleryFrame={this.state.galleryFrame}
           // misc
           index={index}
           key={project.sys.id}
@@ -141,26 +144,34 @@ class Home extends Component {
   }
 
   handleGalleryDisplay = (displayState, index) => {
+    document.body.classList.add('stopScroll')
     let hoverStates = this.state.hoverStates
     let displayStates = this.state.displayStates
-    switch (displayState) {
-      case 'on':
-        displayStates = displayStates.map((state) => { return 'off' })
-        displayStates[index] = 'on'
-        hoverStates = hoverStates.map((state) => { return 'ignoreHover' })
-        this.setState({ displayStates: displayStates, hoverStates: hoverStates })
-        break
-      default:
-
-        break
-    }
+    displayStates = displayStates.map((state) => { return 'off' })
+    displayStates[index] = 'on'
+    hoverStates = hoverStates.map((state) => { return 'ignoreHover' })
+    this.setState({
+      displayStates: displayStates,
+      hoverStates: hoverStates,
+    })
   }
 
   handleCloseGallery = () => {
+    document.body.classList.remove('stopScroll')
     let displayStates = this.state.displayStates
     displayStates = displayStates.map((state) => { return 'default' })
     this.setState({ displayStates: displayStates})
   }
+
+  changeGalleryFrame = (buttonDirection) => {
+    if (buttonDirection === 'left' && this.state.currentGalleryCurrentFrame > 0) {
+      this.setState = ({currentGalleryCurrentFrame: this.state.currentGalleryCurrentFrame - 1 })
+    } else if ((buttonDirection === 'right' && this.state.currentGalleryCurrentFrame < this.state.currentGalleryMaxFrame)){
+      this.setState = ({currentGalleryCurrentFrame: this.state.currentGalleryCurrentFrame + 1 })
+    }
+  }
+
+
 
   render() {
     let minHeight = {

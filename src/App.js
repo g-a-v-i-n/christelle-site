@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { deliveryAccessToken, spaceId } from './config'
 import { createClient }  from 'contentful'
 import Header from './Header'
 import About from './About'
@@ -23,11 +22,10 @@ export default class App extends Component {
       filterQuery: false,
       menuOpen: false,
       menuTitles: ['Index', 'Photo', 'Video'],
-      galleryToDisplay: -1,
     }
     this.client = createClient({
-      space: spaceId,
-      accessToken: deliveryAccessToken,
+      space: process.env.REACT_APP_SPACE_ID,
+      accessToken: process.env.REACT_APP_DELIVERY_ACCESS_TOKEN,
     })
   }
 
@@ -91,24 +89,12 @@ export default class App extends Component {
     })
   }
 
-  handleOpenGallery = (index) => {
-    this.setState({ galleryToDisplay: index})
-    document.body.classList.add('stopScroll')
-  }
-
-  handleCloseGallery = (index) => {
-    this.setState({ galleryToDisplay: -1})
-    document.body.classList.remove('stopScroll')
-  }
-
   render() {
     const homeProps = {
       getGalleryContent: this.getGalleryContent,
       projects: this.state.projects,
       filterQuery: this.state.filterQuery,
       handleOpenGallery: this.handleOpenGallery,
-      galleryToDisplay: this.state.galleryToDisplay,
-      handleCloseGallery: this.handleCloseGallery,
     }
 
     const aboutProps = {
@@ -125,7 +111,6 @@ export default class App extends Component {
       setFilterQuery:this.setFilterQuery,
       menuOpen:this.state.menuOpen,
       menuTitles:this.state.menuTitles,
-      handleCloseGallery: this.handleCloseGallery,
     }
 
     return (
