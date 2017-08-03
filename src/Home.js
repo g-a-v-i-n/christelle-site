@@ -83,32 +83,40 @@ class Home extends Component {
   arrangePiles = () => {
     if (this.props.projects.length === this.state.loadedGalleries.length) {
       let lastBottom = 0
-      let viewWidth = window.innerWidth
-      let windowCenter = viewWidth / 2
+      const viewWidth = window.innerWidth
+      const viewHeight = window.innerHeight
+      const windowCenter = viewWidth / 2
+      const nudgeFactorY = viewHeight * 0.00004
       let deltaY = 0
       let deltaX = 0
       // re-sort to correct project indexes because images are added to loadedGalleries first come first serve
-      let galleryList = lodash.orderBy(this.state.loadedGalleries, ['index'], ['asc'])
-      let arrangedGalleries = this.props.projects.map((project, index) => {
+      const galleryList = lodash.orderBy(this.state.loadedGalleries, ['index'], ['asc'])
+      const arrangedGalleries = this.props.projects.map((project, index) => {
         //define vars
         const img = galleryList[index]
         const thisHeight = img.height
         const thisWidth = img.width
+        const nudgeFactorX = 0.08
         // do the algo
         if (index === 0) {
           lastBottom = thisHeight
-          deltaX = windowCenter - (thisWidth - (viewWidth * 0.04))
+          deltaX = windowCenter - (thisWidth - (viewWidth * .08))
         } else if (index <= this.props.projects.length - 1 && index !== 0) {
-          deltaY = lastBottom - (thisHeight * 0.08)
+          deltaY = lastBottom - (thisHeight * nudgeFactorY)
           lastBottom = thisHeight + deltaY
           if (index % 2 === 1) {
             // right
-            deltaX = windowCenter - (thisWidth * 0.08)
+            deltaX = windowCenter - (thisWidth * nudgeFactorX)
           } else {
             // left
-            deltaX = windowCenter - (thisWidth - (viewWidth * 0.04))
+            deltaX = windowCenter - (thisWidth - (viewWidth * nudgeFactorX))
           }
         }
+        // convert to %
+        // console.log(deltaY, viewHeight)
+        deltaY = (deltaY / viewHeight) * 100
+        deltaX = (deltaX / viewWidth) * 100
+
         // set the results
         img.y = deltaY
         img.x = deltaX
@@ -175,7 +183,6 @@ class Home extends Component {
     let minHeight = {
       minHeight: `${this.state.minHeight}px`,
     }
-
     let loadingState = classnames({
       'loadingOn': !this.state.arrangeDone,
       'loadingOff': this.state.arrangeDone,

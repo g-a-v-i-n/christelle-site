@@ -86,11 +86,11 @@ class Gallery extends Component {
       const headerOffset = 60
       const x = this.props.galleryCoordinates.x
       const y = this.props.galleryCoordinates.y
-      const dX = this.props.absScreenOrigin.x - (this.props.galleryCoordinates.width * 0.5)
-      const dY = this.props.absScreenOrigin.y - headerOffset - (this.props.galleryCoordinates.height * 0.5)
-      translations = { transform: `translate3d(${x}px,${y}px,0px)` }
+      const dX = 50
+      const dY = 50
+      translations = { transform: `translate3d(${x}vw,${y}vh,0px)` }
       if (this.props.display === 'on') {
-        translations = { transform: `translate3d(${dX}px,${dY}px,0px)` }
+        translations = { transform: `translate3d(${dX}vw,${dY}vh,0px)` }
       }
     }
 
