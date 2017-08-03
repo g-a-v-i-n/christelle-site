@@ -87,10 +87,10 @@ img {
   width: auto;
   transform-origin: center center;
   transition: 500ms;
-  // @include for-phone-only{
-  //   max-width: $imgWidth-mobile;
-  //   max-height: $imgHeight-mobile;
-  // }
+  @include for-phone-only{
+    max-width: $imgWidth-mobile;
+    max-height: $imgHeight-mobile;
+  }
 }
 
 

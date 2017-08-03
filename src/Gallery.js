@@ -46,17 +46,8 @@ class Gallery extends Component {
       galleryFrame: 0,
     }
   }
-
-  handleGalleryClose = (index) => {
-    this.props.handleGalleryDisplay('default', index)
-  }
-
-  handleGalleryOpen = (index) => {
-    this.props.handleGalleryDisplay('on', index)
-  }
-
   tallyAssetsOnLoad = (assetIndex) => {
-    console.log(assetIndex)
+    // console.log(assetIndex)
   }
 
   loadAllGalleryAssets = () => {
@@ -80,17 +71,24 @@ class Gallery extends Component {
   }
 
   render() {
+    const hover = this.props.galleryInfo.hover
+    const display = this.props.galleryInfo.display
+    const width = this.props.galleryInfo.width
+    const height = this.props.galleryInfo.height
+    const top = this.props.galleryInfo.top
+    const left =this.props.galleryInfo.left
+    const node = this.props.galleryInfo.node
+
+    const dX = 0
+    const dY = 0
+
     // calculate element x/y transform
     let translations = {}
-    if (!lodash.isEmpty(this.props.galleryCoordinates)) {
-      const headerOffset = 60
-      const x = this.props.galleryCoordinates.x
-      const y = this.props.galleryCoordinates.y
-      const dX = 50
-      const dY = 50
-      translations = { transform: `translate3d(${x}vw,${y}vh,0px)` }
+    if (this.props.allLoaded) {
+      // console.log(top)
+      translations = { transform: `translate3d(${left}px,${top}px,0px)` }
       if (this.props.display === 'on') {
-        translations = { transform: `translate3d(${dX}vw,${dY}vh,0px)` }
+        translations = { transform: `translate3d(${dX}px,${dY}px,0px)` }
       }
     }
 
@@ -107,16 +105,20 @@ class Gallery extends Component {
     })
 
     return (
-      <div id={'gallery'} className={conditionalClasses} style={translations} onClick={() => this.handleGalleryOpen(this.props.index)}>
-        <MainAsset
-          addToGalleryList={this.props.addToGalleryList}
-          galleryIndex={this.props.index}
-          assetIndex={0}
-          onImgLoad={this.props.onImgLoad}
-          thumbURL={this.props.thumbURL}
-          handleSetHoverState={this.props.handleSetHoverState}
-        />
-        {this.props.display === 'on' ? this.loadAllGalleryAssets() : null}
+      <div
+        id={'gallery'}
+        className={conditionalClasses}
+        style={translations}
+        onClick={() => this.props.handleOpenGallery('on', this.props.index)}>
+          <MainAsset
+            addToGalleryList={this.props.addToGalleryList}
+            galleryIndex={this.props.galleryIndex}
+            assetIndex={0}
+            onImgLoad={this.props.onImgLoad}
+            thumbURL={this.props.thumbURL}
+            handleSetHoverState={this.props.handleSetHoverState}
+          />
+          {this.props.display === 'on' ? this.loadAllGalleryAssets() : null}
       </div>
     )
   }
