@@ -3,7 +3,7 @@
 }
 
 @mixin for-desktop-up {
-  @media (min-width: 1000px) { @content; }
+  @media (min-width: 760px) { @content; }
 }
 
 @mixin flex-center-all {

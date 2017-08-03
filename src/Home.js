@@ -8,182 +8,196 @@ class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      dimensionArr: [],
       loadedGalleries: [],
-      hoverStates: [],
-      displayStates: [],
       arrangeDone: false,
       minHeight: 0,
       loaded: false,
-      currentGalleryCurrentFrame: 0,
-      currentGalleryMaxFrame: 0,
+      absoluteScreenOrigin: 0,
     }
   }
 
-  addToGalleryList = (gallery, index) => {
-    // this could be done with Element.getBoundingClientRect()
-    let imgObject = {
-      index,
-      width:gallery.target.clientWidth,
-      height: gallery.target.clientHeight,
-      x: 0,
-      y: 0,
-    }
+  componentDidMount = () => {
+    window.addEventListener("resize", lodash.throttle(this.updateDimensions, 500))
+  }
+
+  componentWillUnmount = () => {
+    window.removeEventListener("resize", this.updateDimensions)
+  }
+
+  addToGalleryList = (e, index) => {
     // when an image is loaded with all its information, copy the array in state and add the new image
+    const galleryObject = {
+      hover:'display',
+      display:'off',
+      width: 0,
+      height: 0,
+      top: 0,
+      left: 0,
+      node: e.target,
+      index: index,
+    }
+
     this.setState({
-      loadedGalleries: this.state.loadedGalleries.concat(imgObject),
-      hoverStates: this.state.hoverStates.concat(''),
-      displayStates: this.state.displayStates.concat(''),
-    }, () => {this.arrangePiles()})
+      loadedGalleries: this.state.loadedGalleries.concat(galleryObject),
+      loaded: index === this.props.projects.length - 1 ? true : false,
+    }, () => {
+        this.updateDimensions()
+    })
   }
 
   generatePiles = () => {
     return this.props.projects.map((project, index) => {
-      // get the absolute origin of the center of the screen regardless of scrollY
-      const absoluteScreenOrigin = {
-        y: window.scrollY + (window.innerHeight * 0.5),
-        x: window.innerWidth * 0.5,
-      }
       // set defaults so react doesn't absolutely freak out
-      let galleryCoordinates = {}
-      let hover = 'ignore'
-      let display = 'default'
+      let galleryInfo = {}
       // only set this gallery coords when there is something to set
-      if (this.state.arrangeDone) {
-        galleryCoordinates = this.state.loadedGalleries[index]
-        hover = this.state.hoverStates[index]
-        display = this.state.displayStates[index]
+      if (this.state.loaded) {
+        galleryInfo = this.state.loadedGalleries[index]
       }
       return (
         <Gallery
           //gallery display state and methods
-          hover={hover}
-          display={display}
-          openGallery={this.props.handleOpenGallery}
-          handleGalleryDisplay={this.handleGalleryDisplay}
+          galleryInfo={galleryInfo}
+          addToGalleryList={this.addToGalleryList}
+          handleOpenGallery={this.handleOpenGallery}
           handleSetHoverState={this.handleSetHoverState}
-          allLoaded={this.state.arrangeDone}
+          allLoaded={this.state.loaded}
           //gallery info
           thumbURL={project.fields.assets[0].fields.file.url}
           fields={project.fields}
-          // gallery positionioning
-          addToGalleryList={this.addToGalleryList}
-          galleryCoordinates={galleryCoordinates}
-          absScreenOrigin={absoluteScreenOrigin}
-          currentGalleryCurrentFrame={this.state.currentGalleryCurrentFrame}
           // misc
-          index={index}
+          galleryIndex={index}
           key={project.sys.id}
+          absoluteScreenOrigin={this.state.absoluteScreenOrigin}
         />
       )
     })
   }
 
-  // REMINDER make offsets in viewWidth /viewHeight
-  arrangePiles = () => {
-    if (this.props.projects.length === this.state.loadedGalleries.length) {
+
+  handleSetHoverState = (isHovering, index) => {
+  //   let hoverStates = this.state.hoverStates
+  //   let displayStates = this.state.displayStates
+  //   if (lodash.indexOf(displayStates, 'on') !== -1) {
+  //     hoverStates = hoverStates.map((state) => { return 'ignoreHover' })
+  //     this.setState({ hoverStates: hoverStates })
+  //   } else {
+  //     switch (isHovering) {
+  //       case 'hover':
+  //         hoverStates = hoverStates.map((state) => { return 'fade' })
+  //         hoverStates[index] = 'forward'
+  //         this.setState({ hoverStates: hoverStates })
+  //         break
+  //       default:
+  //         hoverStates = hoverStates.map((state) => { return 'default' })
+  //         this.setState({ hoverStates: hoverStates })
+  //         break
+  //     }
+  //   }
+  }
+
+  handleOpenGallery = (displayState, index) => {
+    console.log(displayState, index)
+  //   document.body.classList.add('stopScroll')
+  //   let hoverStates = this.state.hoverStates
+  //   let displayStates = this.state.displayStates
+  //   displayStates = displayStates.map((state) => { return 'off' })
+  //   displayStates[index] = 'on'
+  //   hoverStates = hoverStates.map((state) => { return 'ignoreHover' })
+  //   this.setState({
+  //     displayStates: displayStates,
+  //     hoverStates: hoverStates,
+  //   })
+  }
+  //
+  handleCloseGallery = () => {
+  //   document.body.classList.remove('stopScroll')
+  //   let displayStates = this.state.displayStates
+  //   displayStates = displayStates.map((state) => { return 'default' })
+  //   this.setState({ displayStates: displayStates})
+  }
+
+  // changeGalleryFrame = (buttonDirection, maxFrame) => {
+  //   if (buttonDirection === 'left' && this.state.currentGalleryCurrentFrame > 0) {
+  //     this.setState = ({currentGalleryCurrentFrame: this.state.currentGalleryCurrentFrame - 1 })
+  //   } else if ((buttonDirection === 'right' && this.state.currentGalleryCurrentFrame < maxFrame)){
+  //     this.setState = ({currentGalleryCurrentFrame: this.state.currentGalleryCurrentFrame + 1 })
+  //   }
+  // }
+
+  updateDimensions = () => {
+    if (this.state.loaded) {
+      const viewWidth = window.innerWidth
+      const viewHeight = window.innerHeight
+      const windowCenter = window.innerWidth * 0.5
+      const nudgeFactorY = 0.008
+      const galleries = lodash.orderBy(this.state.loadedGalleries, ['index'], ['asc'])
       let lastBottom = 0
-      let viewWidth = window.innerWidth
-      let windowCenter = viewWidth / 2
       let deltaY = 0
       let deltaX = 0
-      // re-sort to correct project indexes because images are added to loadedGalleries first come first serve
-      let galleryList = lodash.orderBy(this.state.loadedGalleries, ['index'], ['asc'])
-      let arrangedGalleries = this.props.projects.map((project, index) => {
-        //define vars
-        const img = galleryList[index]
-        const thisHeight = img.height
-        const thisWidth = img.width
+      const updatedGalleries = galleries.map((originalGallery, index) => {
+        const bounding = originalGallery.node.getBoundingClientRect()
+        const thisHeight = bounding.height
+        const thisWidth = bounding.width
+        const nudgeFactorX = 0.08
+
         // do the algo
         if (index === 0) {
           lastBottom = thisHeight
-          deltaX = windowCenter - (thisWidth - (viewWidth * 0.04))
-        } else if (index <= this.props.projects.length - 1 && index !== 0) {
+          deltaX = windowCenter - (thisWidth - (viewWidth * .08))
+        } else if (index <= galleries.length - 1 && index !== 0) {
           deltaY = lastBottom - (thisHeight * 0.08)
           lastBottom = thisHeight + deltaY
+
           if (index % 2 === 1) {
             // right
-            deltaX = windowCenter - (thisWidth * 0.08)
+            deltaX = windowCenter - (thisWidth * nudgeFactorX)
           } else {
             // left
-            deltaX = windowCenter - (thisWidth - (viewWidth * 0.04))
+            deltaX = windowCenter - (thisWidth - (viewWidth * nudgeFactorX))
           }
         }
-        // set the results
-        img.y = deltaY
-        img.x = deltaX
-        return img
-      })
-      this.setState({
-        minHeight: lastBottom,
-        arrangeDone: true,
-        loadedGalleries: arrangedGalleries,
-      })
-    }
-  }
 
-  handleSetHoverState = (isHovering, index) => {
-    let hoverStates = this.state.hoverStates
-    let displayStates = this.state.displayStates
-    if (lodash.indexOf(displayStates, 'on') !== -1) {
-      hoverStates = hoverStates.map((state) => { return 'ignoreHover' })
-      this.setState({ hoverStates: hoverStates })
-    } else {
-      switch (isHovering) {
-        case 'hover':
-          hoverStates = hoverStates.map((state) => { return 'fade' })
-          hoverStates[index] = 'forward'
-          this.setState({ hoverStates: hoverStates })
-          break
-        default:
-          hoverStates = hoverStates.map((state) => { return 'default' })
-          this.setState({ hoverStates: hoverStates })
-          break
+        const galleryObject = {
+          hover:    originalGallery.hover,
+          display:  originalGallery.display,
+          width:    bounding.width,
+          height:   bounding.height,
+          top:      deltaY,
+          left:     deltaX,
+          node:     originalGallery.node,
+        }
+        return galleryObject
+      })
+      // get the absolute origin of the center of the screen regardless of scrollY
+      const absoluteScreenOrigin = {
+        y: window.scrollY + (window.innerHeight * 0.5),
+        x: window.innerWidth * 0.5,
       }
+      this.setState({
+        absoluteScreenOrigin,
+        loadedGalleries: updatedGalleries,
+        minHeight: lastBottom,
+      })
     }
   }
 
-  handleGalleryDisplay = (displayState, index) => {
-    document.body.classList.add('stopScroll')
-    let hoverStates = this.state.hoverStates
-    let displayStates = this.state.displayStates
-    displayStates = displayStates.map((state) => { return 'off' })
-    displayStates[index] = 'on'
-    hoverStates = hoverStates.map((state) => { return 'ignoreHover' })
-    this.setState({
-      displayStates: displayStates,
-      hoverStates: hoverStates,
-    })
-  }
 
-  handleCloseGallery = () => {
-    document.body.classList.remove('stopScroll')
-    let displayStates = this.state.displayStates
-    displayStates = displayStates.map((state) => { return 'default' })
-    this.setState({ displayStates: displayStates})
-  }
-
-  changeGalleryFrame = (buttonDirection, maxFrame) => {
-    if (buttonDirection === 'left' && this.state.currentGalleryCurrentFrame > 0) {
-      this.setState = ({currentGalleryCurrentFrame: this.state.currentGalleryCurrentFrame - 1 })
-    } else if ((buttonDirection === 'right' && this.state.currentGalleryCurrentFrame < maxFrame)){
-      this.setState = ({currentGalleryCurrentFrame: this.state.currentGalleryCurrentFrame + 1 })
-    }
-  }
 
   render() {
     let minHeight = {
       minHeight: `${this.state.minHeight}px`,
     }
-
+    
     let loadingState = classnames({
-      'loadingOn': !this.state.arrangeDone,
-      'loadingOff': this.state.arrangeDone,
+      'loadingOn': !this.state.loaded,
+      'loadingOff': this.state.loaded,
     })
+    
     let overlayState = classnames({
       'overlayOn': this.props.galleryToDisplay !== -1,
       'overlayOff': this.props.galleryToDisplay === -1,
     })
+    
     return (
       <main className={'home'}>
       <Header {...this.props} handleCloseGallery={this.handleCloseGallery}/>
