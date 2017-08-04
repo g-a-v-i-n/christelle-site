@@ -3,6 +3,7 @@ import { Gallery } from './Gallery'
 import Header from './Header'
 import lodash from 'lodash'
 import classnames from 'classnames'
+import update from 'immutability-helper'
 
 class Home extends Component {
   constructor(props) {
@@ -27,14 +28,16 @@ class Home extends Component {
   addToGalleryList = (e, index) => {
     // when an image is loaded with all its information, copy the array in state and add the new image
     const galleryObject = {
-      hover:'display',
-      display:'off',
+      //hover: normal, fade, ignore
+      hover:'normal',
+      // display: feed, off, gallery
+      display: 'feed',
       width: 0,
       height: 0,
       top: 0,
       left: 0,
       node: e.target,
-      index: index,
+      galleryIndex: index,
     }
 
     this.setState({
@@ -74,55 +77,56 @@ class Home extends Component {
   }
 
 
-  handleSetHoverState = (isHovering, index) => {
-  //   let hoverStates = this.state.hoverStates
-  //   let displayStates = this.state.displayStates
-  //   if (lodash.indexOf(displayStates, 'on') !== -1) {
-  //     hoverStates = hoverStates.map((state) => { return 'ignoreHover' })
-  //     this.setState({ hoverStates: hoverStates })
-  //   } else {
-  //     switch (isHovering) {
-  //       case 'hover':
-  //         hoverStates = hoverStates.map((state) => { return 'fade' })
-  //         hoverStates[index] = 'forward'
-  //         this.setState({ hoverStates: hoverStates })
-  //         break
-  //       default:
-  //         hoverStates = hoverStates.map((state) => { return 'default' })
-  //         this.setState({ hoverStates: hoverStates })
-  //         break
-  //     }
-  //   }
+  handleSetHoverState = (isHovering, galleryIndex) => {
+    let galleries = this.state.loadedGalleries
+    let updatedGalleries = []
+    // if a gallery is displayed, ignore hover
+    if (lodash.find(galleries, ['display', 'gallery'])) {
+      updatedGalleries = galleries.map((originalGallery) => {
+        return update(originalGallery, {$merge: {hover: 'noHover'}})
+      })
+    // if no gallery is displayed
+    } else {
+      // if a gallery is being hovered over, it should be 'normal', others should fade out
+      if (isHovering) {
+        updatedGalleries = galleries.map((originalGallery, index) => {
+          if (index === galleryIndex) {
+            return update(originalGallery, {$merge: {hover: 'forward'}})
+          } else {
+            return update(originalGallery, {$merge: {hover: 'fade'}})
+          }
+        })
+      // if no galleries are being hovered over, all should display 'normal'
+      } else {
+        updatedGalleries = galleries.map((originalGallery, index) => {
+          return update(originalGallery, {$merge: {hover: 'normal'}})
+        })
+      }
+      this.setState({loadedGalleries: updatedGalleries})
+    }
   }
 
-  handleOpenGallery = (displayState, index) => {
-    console.log(displayState, index)
-  //   document.body.classList.add('stopScroll')
-  //   let hoverStates = this.state.hoverStates
-  //   let displayStates = this.state.displayStates
-  //   displayStates = displayStates.map((state) => { return 'off' })
-  //   displayStates[index] = 'on'
-  //   hoverStates = hoverStates.map((state) => { return 'ignoreHover' })
-  //   this.setState({
-  //     displayStates: displayStates,
-  //     hoverStates: hoverStates,
-  //   })
+  handleOpenGallery = (displayState, galleryIndex) => {
+    document.body.classList.add('stopScroll')
+    let galleries = this.state.loadedGalleries
+    let updatedGalleries = galleries.map((originalGallery, index) => {
+      if (index === galleryIndex) {
+        return update(originalGallery, {$merge: {display: 'gallery', hover: 'noHover'}})
+      } else {
+        return update(originalGallery, {$merge: {display: 'off', hover: 'noHover'}})
+      }
+    })
+    this.setState({loadedGalleries: updatedGalleries})
   }
-  //
+
   handleCloseGallery = () => {
-  //   document.body.classList.remove('stopScroll')
-  //   let displayStates = this.state.displayStates
-  //   displayStates = displayStates.map((state) => { return 'default' })
-  //   this.setState({ displayStates: displayStates})
+    document.body.classList.remove('stopScroll')
+    let galleries = this.state.loadedGalleries
+    let updatedGalleries = galleries.map((originalGallery, index) => {
+        return update(originalGallery, {$merge: {display: 'feed', hover: 'normal'}})
+    })
+    this.setState({loadedGalleries: updatedGalleries})
   }
-
-  // changeGalleryFrame = (buttonDirection, maxFrame) => {
-  //   if (buttonDirection === 'left' && this.state.currentGalleryCurrentFrame > 0) {
-  //     this.setState = ({currentGalleryCurrentFrame: this.state.currentGalleryCurrentFrame - 1 })
-  //   } else if ((buttonDirection === 'right' && this.state.currentGalleryCurrentFrame < maxFrame)){
-  //     this.setState = ({currentGalleryCurrentFrame: this.state.currentGalleryCurrentFrame + 1 })
-  //   }
-  // }
 
   onAllLoad = () => {
     const galleries = lodash.orderBy(this.state.loadedGalleries, ['index'], ['asc'])
@@ -145,7 +149,6 @@ class Home extends Component {
         const thisHeight = bounding.height
         const thisWidth = bounding.width
         const nudgeFactorX = 0.08
-
         // do the algo
         if (index === 0) {
           lastBottom = thisHeight
@@ -153,7 +156,6 @@ class Home extends Component {
         } else if (index <= this.state.loadedGalleries.length - 1 && index !== 0) {
           deltaY = lastBottom - (thisHeight * 0.08)
           lastBottom = thisHeight + deltaY
-
           if (index % 2 === 1) {
             // right
             deltaX = windowCenter - (thisWidth * nudgeFactorX)
@@ -163,16 +165,12 @@ class Home extends Component {
           }
         }
 
-        const galleryObject = {
-          hover:    originalGallery.hover,
-          display:  originalGallery.display,
+        return update(originalGallery, {$merge: {
           width:    bounding.width,
           height:   bounding.height,
           top:      deltaY,
           left:     deltaX,
-          node:     originalGallery.node,
-        }
-        return galleryObject
+        }})
       })
       // get the absolute origin of the center of the screen regardless of scrollY
       const absoluteScreenOrigin = {
@@ -186,8 +184,6 @@ class Home extends Component {
       })
     }
   }
-
-
 
   render() {
     let minHeight = {

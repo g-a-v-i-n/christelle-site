@@ -46,39 +46,43 @@ content {
   transform-origin: center center;
 }
 
-.galleryForward{
+// display states
+.gallery_display-off {
+  opacity: 0;
+  pointer-events: none;
+}
+.gallery_display-feed {
+  opacity: 1;
+  pointer-events: all;
+  z-index: 150;
+}
+.gallery_display-gallery{
+  opacity: 1;
+  pointer-events: none;
+  z-index: 150;
+}
+
+// hover states
+.gallery_hover-forward{
   opacity: 1;
   transition: opacity $longTransition, transform 500ms;
   z-index: 120;
   cursor: pointer;
 }
-
-.galleryDefault{
+.gallery_hover-fade{
+  opacity: 0.65;
+  transition: opacity $longTransition, transform 500ms;
+}
+.gallery_hover-normal{
   opacity: 1;
   pointer-events: all;
   z-index: auto;
   transition: opacity $longTransition, transform 500ms;
 }
-
-.galleryOff {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.galleryOn {
-  opacity: 1;
-  pointer-events: all;
-  z-index: 150;
-}
-
-.galleryFadeSlow{
-  opacity: 0.65;
-  transition: opacity $longTransition, transform 500ms;
-}
-
-.ignoreHover{
+.gallery_hover-noHover{
   transition: opacity 300ms, transform 500ms;
 }
+
 
 img {
   max-width: $imgWidth-desktop;

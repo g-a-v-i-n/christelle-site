@@ -5,12 +5,12 @@ import classnames from 'classnames'
 const MainAsset = (props) => {
   const onMouseEnter = (e, index) => {
     e.stopPropagation()
-    props.handleSetHoverState('hover', index)
+    props.handleSetHoverState(true, index)
   }
 
   const onMouseLeave = (e, index) => {
     e.stopPropagation()
-    props.handleSetHoverState('default', index)
+    props.handleSetHoverState(false, index)
   }
 
     return (
@@ -78,16 +78,17 @@ class Gallery extends Component {
     const top = this.props.galleryInfo.top
     const left =this.props.galleryInfo.left
     const node = this.props.galleryInfo.node
+    const galleryIndex = this.props.galleryInfo.index
 
-    const dX = 0
-    const dY = 0
+    const dX = 50
+    const dY = 50
 
     // calculate element x/y transform
     let translations = {}
     if (this.props.allLoaded) {
       // console.log(top)
       translations = { transform: `translate3d(${left}px,${top}px,0px)` }
-      if (this.props.display === 'on') {
+      if (display === 'gallery') {
         translations = { transform: `translate3d(${dX}px,${dY}px,0px)` }
       }
     }
@@ -95,13 +96,15 @@ class Gallery extends Component {
     // set hover and display classes
     let conditionalClasses = classnames({
       //open and closed states
-      'galleryOn': this.props.display === 'on',
-      'galleryOff': this.props.display === 'off',
+      'gallery_display-gallery': display === 'gallery',
+      'gallery_display-feed': display === 'feed',
+      'gallery_display-off': display === 'off',
+
       // hover states
-      'galleryForward': this.props.hover === 'forward',
-      'galleryFadeSlow': this.props.hover === 'fade',
-      'galleryDefault': this.props.hover === 'default',
-      'ignoreHover': this.props.hover === 'ignoreHover',
+      'gallery_hover-forward': hover === 'forward',
+      'gallery_hover-fade': hover === 'fade',
+      'gallery_hover-normal': hover === 'normal',
+      'gallery_hover-noHover': hover === 'noHover',
     })
 
     return (
@@ -109,7 +112,7 @@ class Gallery extends Component {
         id={'gallery'}
         className={conditionalClasses}
         style={translations}
-        onClick={() => this.props.handleOpenGallery('on', this.props.index)}>
+        onClick={() => this.props.handleOpenGallery('on', this.props.galleryIndex)}>
           <MainAsset
             addToGalleryList={this.props.addToGalleryList}
             galleryIndex={this.props.galleryIndex}
