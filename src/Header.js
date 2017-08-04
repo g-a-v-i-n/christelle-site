@@ -1,17 +1,47 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
+import classnames from 'classnames'
 
 const MainHeader = (props) => {
-  return(
+  const filterItemClasses = classnames({
+    'showMenuItem': !props.filterMenuOpen,
+    'hideMenuItem': props.filterMenuOpen,
+  })
+  const mapDropdown = () => {
+    return props.filters.map((key) => {
+      return (
+        <button
+          id={'filterButton'}
+          className={filterItemClasses}
+          key={key}
+          onClick={(e) => props.setFilterQuery(e, key)}>
+          {`${key}`}
+        </button>
+      )
+    })
+  }
+
+  const closeGalleryButtonClasses = classnames({
+    'showClose': props.galleryOn,
+    'hideClose': !props.galleryOn,
+  })
+
+  const ruleClass = classnames({
+    'showRule': props.filterMenuOpen,
+    'hideRule': !props.filterMenuOpen,
+  })
+
+  return (
     <header>
-      {'Christelle de Castro'}
+      <div className={'christelle'}>{'Christelle de Castro'}</div>
       <nav>
-        <button onClick={() => props.handleCloseGallery()}>{'Close Gallery'}</button>
         <div className={'dropdownContainer'}>
-          {props.mapDropdown()}
+          <button onClick={(e) => props.toggleFilterMenu(e)} id={'headerFilterButton'}>{props.filterQuery}</button>
+          <div className={'dropdownWrapper'}>{mapDropdown()}</div>
         </div>
-        <div className={'navLongDash'} />
+        <div id={'rule'} className={ruleClass} />
+
         <div className={'linkShim'}>
           <Link className={'aboutLinkSetWidth'} to={'/about'}>{'About'}</Link>
         </div>
@@ -21,7 +51,7 @@ const MainHeader = (props) => {
 }
 
 const AboutHeader = (props) => {
-  return(
+  return (
     <header className={'white-text'}>
       {'About'}
       <nav>
@@ -35,40 +65,18 @@ const AboutHeader = (props) => {
 }
 
 class Header extends Component {
-
-  handleMenuItemClasses = () => {
-    if (this.props.menuOpen) {
-      return 'menuItem_visible'
-    } else {
-      return 'menuItem_hidden'
-    }
-  }
-
-  mapDropdown = () => {
-    const menu = this.props.menuTitles.map((menuTitle) => {
-      return (
-        <button className={this.handleMenuItemClasses()} key={menuTitle} onClick={(e) => this.props.setFilterQuery(e, menuTitle)}>{`${menuTitle}`}</button>
-      )
-    })
-    return menu
-  }
-
   swapHeaders = () => {
-    let localHeaderProps = {
-      handleMenuItemClasses: this.handleMenuItemClasses,
-      mapDropdown: this.mapDropdown,
-    }
     if (this.props.location.pathname === '/') {
-      return <MainHeader {...this.props} {...localHeaderProps} />
+      return <MainHeader {...this.props} />
     } else {
-      return <AboutHeader {...this.props} {...localHeaderProps}/>
+      return <AboutHeader {...this.props} />
     }
   }
 
   render() {
     return (
       <div>
-      {this.swapHeaders()}
+        {this.swapHeaders()}
       </div>
     )
   }

@@ -12,6 +12,18 @@
   justify-content: center;
 }
 
+@mixin flex-center-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@mixin flex-center-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 @mixin noSkew {
   -moz-transform: scale(1) rotate(0deg) translate(0px, 0px) skew(0deg, 0deg);
   -webkit-transform: scale(1) rotate(0deg) translate(0px, 0px) skew(0deg, 0deg);

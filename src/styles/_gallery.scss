@@ -1,0 +1,97 @@
+#asset{
+  position: absolute;
+}
+
+#galleryControls{
+  position: fixed;
+  width: 100vw;
+  height: calc(100vh - 100px);
+  // border: 1px solid purple;
+  z-index: 999;
+  pointer-events: none;
+}
+
+.showControls{
+  opacity: 1;
+  visibility: visible;
+}
+
+.hideControls{
+  opacity: 0;
+  visibility: hidden;
+}
+
+.showClose{
+  opacity: 1;
+  visibility: visible;
+}
+
+.hideClose{
+  opacity: 0;
+  visibility: hidden;
+}
+
+.arrowContainer{
+  transform: translateY(calc(-50% - 50px));
+  top: 50%;
+  position: absolute;
+  z-index: 500;
+  pointer-events: all;
+  @include flex-center-all;
+}
+
+.arrow{
+  width: 150px;
+  height: 150px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.rightArrowContainer {
+  right: 20px;
+  cursor: pointer;
+  path { transition: d 0.35s;}
+  #arrowhead{ transition: transform $arrowTransition; }
+}
+
+// add px to transform from svg
+.rightArrowContainer:hover #arrowhead{
+  transform: translate(126.000000px, 60.000000px);
+}
+
+.rightArrowContainer:hover #arrowline{
+  d: path("M0.5,75.5 L140.5,75.5");
+}
+
+.leftArrowContainer {
+  left: 20px;
+  cursor: pointer;
+  path { transition: d 0.35s;}
+  #arrowhead{ transition: transform $arrowTransition; }
+}
+
+// add px to transform from svg
+.leftArrowContainer:hover #arrowhead{
+  transform: translate(16.000000px, 75.500000px) scale(-1, 1) translate(-56.000000px, -75.500000px) translate(48.000000px, 60.000000px);
+}
+
+.leftArrowContainer:hover #arrowline{
+  d: path("M9.5,75.5 L149.5,75.5");
+}
+
+#galleryInfo {
+  width: auto;
+  bottom: 0;
+  left: 40px;
+  position: absolute;
+  height: 100px;
+  @include flex-center-column;
+}
+
+.gallery-clientContainer{
+  @include flex-center-row;
+  margin-top: 11px;
+}
+
+.photoName{
+}

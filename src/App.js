@@ -19,9 +19,6 @@ export default class App extends Component {
       portrait: '',
       projects: [],
       error: false,
-      filterQuery: false,
-      menuOpen: false,
-      menuTitles: ['Index', 'Photo', 'Video'],
     }
     this.client = createClient({
       space: process.env.REACT_APP_SPACE_ID,
@@ -75,19 +72,6 @@ export default class App extends Component {
     }
   }
 
-  setFilterQuery = (e, filterQuery) => {
-    e.preventDefault()
-    e.stopPropagation()
-    let menuTitles = this.state.menuTitles
-    const from = menuTitles.indexOf(filterQuery)
-    const to = 0
-    menuTitles.splice(to, 0, menuTitles.splice(from, 1)[0])
-    this.setState({
-      filterQuery,
-      menuOpen: !this.state.menuOpen,
-      menuTitles,
-    })
-  }
 
   render() {
     const homeProps = {
@@ -107,21 +91,15 @@ export default class App extends Component {
       portrait: this.state.portrait,
     }
 
-    const headerProps = {
-      setFilterQuery:this.setFilterQuery,
-      menuOpen:this.state.menuOpen,
-      menuTitles:this.state.menuTitles,
-    }
-
     return (
       <Router>
         <div>
           <Switch>
             <Route exact path='/about' render={(props) => (
-              <About {...this.props} {...aboutProps} {...headerProps}/>
+              <About {...this.props} {...aboutProps}/>
             )}/>
             <Route exact path='/' render={(props) => (
-              <Home {...this.props} {...homeProps} {...headerProps}/>
+              <Home {...this.props} {...homeProps}/>
             )}/>
             </Switch>
         </div>

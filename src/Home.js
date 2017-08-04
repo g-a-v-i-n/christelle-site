@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Gallery } from './Gallery'
 import Header from './Header'
+import { LeftGalleryArrow, RightGalleryArrow } from './svgs'
 import lodash from 'lodash'
 import classnames from 'classnames'
 import update from 'immutability-helper'
@@ -14,11 +15,15 @@ class Home extends Component {
       minHeight: 0,
       loaded: false,
       absoluteScreenOrigin: 0,
+      galleryOn: false,
+      filterQuery: 'Index',
+      filters: ['Photo', 'Video'],
+      filterMenuOpen: false,
     }
   }
 
   componentDidMount = () => {
-    window.addEventListener("resize", lodash.throttle(this.updateDimensions, 500))
+    window.addEventListener("resize", lodash.throttle(this.updateDimensions, 250))
   }
 
   componentWillUnmount = () => {
@@ -44,6 +49,7 @@ class Home extends Component {
       loadedGalleries: this.state.loadedGalleries.concat(galleryObject),
       loaded: index === this.props.projects.length - 1 ? true : false,
     }, () => {
+        // ensure galleries are correctly ordered and update gallery positions once
         this.onAllLoad()
     })
   }
@@ -116,7 +122,11 @@ class Home extends Component {
         return update(originalGallery, {$merge: {display: 'off', hover: 'noHover'}})
       }
     })
-    this.setState({loadedGalleries: updatedGalleries})
+    this.setState({
+      loadedGalleries: updatedGalleries,
+      galleryOn: true,
+      filterMenuOpen: false,
+    })
   }
 
   handleCloseGallery = () => {
@@ -125,7 +135,10 @@ class Home extends Component {
     let updatedGalleries = galleries.map((originalGallery, index) => {
         return update(originalGallery, {$merge: {display: 'feed', hover: 'normal'}})
     })
-    this.setState({loadedGalleries: updatedGalleries})
+    this.setState({
+      loadedGalleries: updatedGalleries,
+      galleryOn: false,
+    })
   }
 
   onAllLoad = () => {
@@ -172,23 +185,42 @@ class Home extends Component {
           left:     deltaX,
         }})
       })
-      // get the absolute origin of the center of the screen regardless of scrollY
-      const absoluteScreenOrigin = {
-        y: window.scrollY + (window.innerHeight * 0.5),
-        x: window.innerWidth * 0.5,
-      }
       this.setState({
-        absoluteScreenOrigin,
         loadedGalleries: updatedGalleries,
         minHeight: lastBottom,
       })
     }
   }
 
+  setFilterQuery = (e, filterQuery) => {
+    e.preventDefault()
+    e.stopPropagation()
+    let initialFilters = this.state.filters
+    let newFilters = update(initialFilters, {$unset: filterQuery, $push:this.state.filterQuery})
+    console.log(newFilters)
+  }
+
+  toggleFilterMenu = () => {
+    this.setState({ filterMenuOpen: !this.state.filterMenuOpen })
+  }
+
   render() {
+    const headerProps = {
+      setFilterQuery:this.setFilterQuery,
+      filterMenuOpen:this.state.filterMenuOpen,
+      filterQuery: this.state.filterQuery,
+      filters: this.state.filters,
+      toggleFilterMenu: this.toggleFilterMenu,
+    }
+
     let minHeight = {
       minHeight: `${this.state.minHeight}px`,
     }
+
+    let showControls = classnames({
+      'showControls': this.state.galleryOn,
+      'hideControls': !this.state.galleryOn,
+    })
 
     let loadingState = classnames({
       'loadingOn': !this.state.loaded,
@@ -202,12 +234,22 @@ class Home extends Component {
 
     return (
       <main className={'home'}>
-      <Header {...this.props} handleCloseGallery={this.handleCloseGallery}/>
+      <Header {...this.props} {...headerProps} handleCloseGallery={this.handleCloseGallery} galleryOn={this.state.galleryOn}/>
       <div id={'loadingScreen'} className={loadingState} />
-      <div id={'galleryControls'}>
-        <div className={'arrowContainer leftArrowContainer'}><div className={'arrow'} /></div>
-        <div className={'arrowContainer rightArrowContainer'}><div className={'arrow'} /></div>
-        <div id={'galleryInfo'}>{'info'}</div>
+      <div id={'galleryControls'} className={showControls}>
+        <div className={'arrowContainer leftArrowContainer'}>
+          <LeftGalleryArrow />
+        </div>
+        <div className={'arrowContainer rightArrowContainer'}>
+          <RightGalleryArrow />
+        </div>
+        <div id={'galleryInfo'}>
+          <div className={'imageName'}>{'Lissy Trullie'}</div>
+          <div className={'gallery-clientContainer'}>
+            <div className={'midDash'}/>
+            <div className={'imageClient'}>{'Crush Fanzine'}</div>
+          </div>
+        </div>
       </div>
         <content style={minHeight}>
         <div id={'overlay'} className={overlayState} onClick={() => this.handleCloseGallery()}/>

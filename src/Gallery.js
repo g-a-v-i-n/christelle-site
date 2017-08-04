@@ -80,8 +80,14 @@ class Gallery extends Component {
     const node = this.props.galleryInfo.node
     const galleryIndex = this.props.galleryInfo.index
 
-    const dX = 50
-    const dY = 50
+    const absoluteScreenOrigin = {
+      y: window.scrollY + (window.innerHeight * 0.5),
+      x: window.innerWidth * 0.5,
+    }
+
+    const headerOffset = 100
+    const dX = absoluteScreenOrigin.x - (width * 0.5)
+    const dY = absoluteScreenOrigin.y - headerOffset - (height * 0.5)
 
     // calculate element x/y transform
     let translations = {}

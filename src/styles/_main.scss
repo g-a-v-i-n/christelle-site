@@ -3,9 +3,6 @@
 }
 
 html, body{
-  // overflow-y: scroll;
-  // overflow-x: hidden;
-  // height: 100vh;
   margin:0;
   padding:0;
 }
@@ -51,22 +48,17 @@ a, button {
   transform-origin: bottom;
   text-decoration: none;
   font-style: italic;
-  // @include skew;
 }
 
 a:hover, button:hover{
   font-style: normal;
-  // @include noSkew;
   cursor: pointer;
 }
 
 main{
-  // position: absolute;
   padding-top: $header_height;
   width: 100%;
   z-index: 20;
-  // padding-right: 60px;
-  // padding-left: 60px;
 }
 
 ul, ol, li {
@@ -85,4 +77,21 @@ ul, ol, li {
 
 .stopScroll{
   overflow-y: hidden;
+}
+
+.midDash{
+  width: 80px;
+  height: 1px;
+  background-color: $christelle_black;
+  flex: 1;
+  margin-right: 10px;
+}
+
+.smallDash{
+  max-width: 40px;
+  height: 1px;
+  background-color: $christelle_white;
+  margin-top: 10px;
+  flex: 1;
+  margin-right: 10px;
 }

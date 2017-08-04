@@ -1,27 +1,36 @@
 header{
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100vw;
   position: fixed;
   z-index: 500;
   top:0;
   left:0;
-  justify-content: space-between;
-  padding: $headerPadding;
-  max-height: 100px;
+  padding: 0px 40px 0px 40px;
+  height: 100px;
   overflow-y: visible;
   @include for-phone-only {
     justify-content: flex-start;
+    align-items: flex-start;
     flex-direction: column;
-    padding: 30px;
+    padding: 20px;
   }
 }
 
 nav {
   display: flex;
-  height: $nav-height;
+  align-items: center;
+  justify-content: flex-end;
+  height: $menu-translate-height;
+  width: 100%;
   @include for-phone-only {
     margin-top: 15px;
   }
+}
+
+.christelle{
+  flex-shrink: 0;
 }
 
 .backLink{
@@ -35,73 +44,109 @@ nav {
 }
 
 .linkShim {
-  height: $nav-height;
+  height: 100%;
   @include flex-center-all;
-}
-
-.navLongDash{
-  width: 80px;
-  height: 1px;
-  margin: calc(#{$nav-height} / 2) 20px 0px 20px;
-  background-color: black;
-  @include for-phone-only {
-    width: 100%;
-  }
 }
 
 .dropdownContainer{
   position: relative;
-  width: 100px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  width: 59px;
+  @include for-phone-only {
+    width: 38px;
+  }
 }
 
-nav button {
+.dropdownWrapper{
+  position: absolute;
+}
+
+#headerFilterButton{
   background: transparent;
   border: none;
   outline: none;
   font-size: inherit;
-  height: $nav-height;
+  padding: 0;
+  text-align: left;
+  height: $menu-translate-height;
 }
 
-nav a{
-  vertical-align: middle;
+#filterButton{
+  width: 155px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: inherit;
+  padding: 0;
+  height: $menu-translate-height;
+  text-align: left;
+  border-top: 1px solid black;
+  position: absolute;
+  top: -25px;
+  @include for-phone-only {
+    // horrible but accurate calc
+    width: calc(100vw - 40px - 45px - 15px);
+  }
+}
+
+.showMenuItem{
+  opacity: 1;
+  pointer-events: all;
+}
+
+.hideMenuItem {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dropdownWrapper{
+  .showMenuItem:nth-child(1) {
+    transition: 200ms;
+    transform: translateY(#{$menu-translate-height} - 25px);
+  }
+  .hideMenuItem:nth-child(1) {
+    transition: 200ms;
+    transform: translateY(0);
+  }
+  .showMenuItem:nth-child(2) {
+    transition: 400ms;
+    transform: translateY(calc((#{$menu-translate-height} * 2) - 25px));
+  }
+  .hideMenuItem:nth-child(2) {
+    transition: 200ms;
+    transform: translateY(0);
+  }
+}
+
+
+#rule{
+  height: 1px;
+  background-color: black;
+  max-width: 80px;
+  flex: 1;
+  margin: 0px 15px 0px 15px;
+  transition: opacity 250ms transition 200ms;
+  @include for-phone-only {
+    max-width:none;
+  }
+}
+
+.showRule{
+  opacity: 1;
+  transition: 200ms;
+}
+
+.hideRule{
+  opacity: 0;
+  transition: 200ms;
+  transform: translateY(#{$menu-translate-height} - 25px);
 }
 
 .aboutLinkSetWidth {
-  width: 65px;
+  width: 70px;
+  @include for-phone-only {
+    width: 45px;
+  }
 }
-
-.dropdownContainer button {
-  position: absolute;
-}
-
-.dropdownContainer button:first-child{
-  z-index: 90;
-  opacity: 1;
-}
-
-.dropdownContainer .menuItem_visible:nth-child(2){
-  z-index: 80;
-  opacity: 1;
-  transform: translateY($menu-translate-height);
-}
-
-.dropdownContainer .menuItem_visible:nth-child(3){
-  z-index: 80;
-  opacity: 1;
-  transform: translateY(calc(#{$menu-translate-height} * 2));
-}
-
-.dropdownContainer .menuItem_hidden:nth-child(2){
-  opacity: 0;
-}
-
-.dropdownContainer .menuItem_hidden:nth-child(3){
-  opacity: 0;
-}
-
 
 .backArrow{
   border: none;

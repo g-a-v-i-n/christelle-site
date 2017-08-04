@@ -1,21 +1,21 @@
-
-.centerline{
-  width: 1px;
-  height: 200vh;
-  background-color: blue;
-  transform: translateX(50vw);
-  position: fixed;
-  z-index: 999;
-}
-
-.centerline2{
-  height: 1px;
-  width: 200vh;
-  background-color: blue;
-  transform: translateY(calc(50vh - 50px));
-  position: fixed;
-  z-index: 999;
-}
+//
+// .centerline{
+//   width: 1px;
+//   height: 200vh;
+//   background-color: blue;
+//   transform: translateX(50vw);
+//   position: fixed;
+//   z-index: 999;
+// }
+//
+// .centerline2{
+//   height: 1px;
+//   width: 200vh;
+//   background-color: blue;
+//   transform: translateY(calc(50vh - 50px));
+//   position: fixed;
+//   z-index: 999;
+// }
 
 ///////
 ///////
@@ -33,7 +33,7 @@ content {
   position: relative;
   display: block;
   margin-bottom: 100px;
-  border: 1px solid red;
+  // border: 1px solid red;
 }
 
 
@@ -54,7 +54,7 @@ content {
 .gallery_display-feed {
   opacity: 1;
   pointer-events: all;
-  z-index: 150;
+  // z-index: 150;
 }
 .gallery_display-gallery{
   opacity: 1;
@@ -97,7 +97,6 @@ img {
   }
 }
 
-
 #loadingScreen{
   width: 100vw;
   height: 100vh;
@@ -127,69 +126,4 @@ img {
   position: fixed;
   background-color: white;
   will-change: opacity;
-}
-
-#asset{
-  position: absolute;
-}
-
-#galleryControls{
-  position: fixed;
-  width: 100vw;
-  height: calc(100vh - 100px);
-  border: 1px solid purple;
-  z-index: 999;
-  pointer-events: none;
-}
-
-.arrowContainer{
-  // width: $imgSize / 2;
-  // height: $imgSize / 2;
-  transform: translateY(-50%);
-  top: 50%;
-  position: absolute;
-  border: 1px solid red;
-  @include flex-center-all;
-}
-
-.arrow{
-  width: 150px;
-  height: 150px;
-  // background-color: blue;
-}
-
-.rightArrowContainer {
-  right: 0;
-  .arrow {
-
-  }
-}
-
-.leftArrowContainer {
-  left: 0;
-  .arrow {
-
-  }
-}
-
-.rightArrowContainer:hover{
-  .arrow{
-    transform: translateX(30px);
-  }
-}
-
-.leftArrowContainer:hover{
-  .arrow{
-    transform: translateX(-30px);
-  }
-}
-
-#galleryInfo {
-  width: 100%;
-  bottom: 0;
-  left: 0;
-  position: absolute;
-  height: 100px;
-  border: 1px solid green;
-  padding: $headerPadding;
 }

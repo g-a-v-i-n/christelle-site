@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="150px" height="150px" viewBox="0 0 150 150" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.2 (43514) - http://www.bohemiancoding.com/sketch -->
+    <title>Artboard</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Groups" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g id="Artboard" stroke="#000000">
+            <path d="M9.5,75.5 L149.5,75.5" id="arrowline"></path>
+            <g id="arrowhead" transform="translate(16.000000, 75.500000) scale(-1, 1) translate(-16.000000, -75.500000) translate(8.000000, 60.000000)">
+                <path d="M15.5,15.5 L0.991381871,0.991381871" id="Line-2"></path>
+                <path d="M15.5,15.5 L0.5,30.5" id="Line-2"></path>
+            </g>
+        </g>
+    </g>
+</svg>
