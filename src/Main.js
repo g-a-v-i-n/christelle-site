@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Gallery } from './Gallery'
-import Header from './Header'
+import { MainHeader } from './Header'
+import About from './About'
 import { LeftGalleryArrow, RightGalleryArrow } from './svgs'
 import lodash from 'lodash'
 import classnames from 'classnames'
@@ -19,15 +20,18 @@ class Home extends Component {
       filterQuery: 'Index',
       filters: ['Photo', 'Video'],
       filterMenuOpen: false,
+      aboutOpen: false,
+      currentGalleryIndex: 0,
+      totalFrames: 0,
     }
   }
 
   componentDidMount = () => {
-    window.addEventListener("resize", lodash.throttle(this.updateDimensions, 250))
+    window.addEventListener("resize", lodash.throttle(this.handleOnResize, 250))
   }
 
   componentWillUnmount = () => {
-    window.removeEventListener("resize", this.updateDimensions)
+    window.removeEventListener("resize", this.handleOnResize)
   }
 
   addToGalleryList = (e, index) => {
@@ -74,6 +78,7 @@ class Home extends Component {
           thumbURL={project.fields.assets[0].fields.file.url}
           fields={project.fields}
           // misc
+          currentGalleryIndex={this.state.currentGalleryIndex}
           galleryIndex={index}
           key={project.sys.id}
           absoluteScreenOrigin={this.state.absoluteScreenOrigin}
@@ -126,6 +131,7 @@ class Home extends Component {
       loadedGalleries: updatedGalleries,
       galleryOn: true,
       filterMenuOpen: false,
+      totalFrames: this.props.projects[galleryIndex].fields.assets.length,
     })
   }
 
@@ -133,20 +139,34 @@ class Home extends Component {
     document.body.classList.remove('stopScroll')
     let galleries = this.state.loadedGalleries
     let updatedGalleries = galleries.map((originalGallery, index) => {
-        return update(originalGallery, {$merge: {display: 'feed', hover: 'normal'}})
+      return update(originalGallery, {$merge: {display: 'feed', hover: 'normal'}})
     })
     this.setState({
       loadedGalleries: updatedGalleries,
       galleryOn: false,
+      totalFrames: 0,
+      currentGalleryIndex: 0,
     })
   }
 
   onAllLoad = () => {
-    const galleries = lodash.orderBy(this.state.loadedGalleries, ['index'], ['asc'])
-    this.setState({
-      loadedGalleries: galleries,
-    }, () => this.updateDimensions())
+    if (this.state.loaded) {
+      const galleries = lodash.sortBy(this.state.loadedGalleries, ['index'], ['asc'])
+      console.log(galleries)
+      this.setState({
+        loadedGalleries: galleries,
+      }, () => this.updateDimensions())
+    }
   }
+
+  handleOnResize = () => {
+    // only move images when resize has finished
+    clearTimeout(window.resizedFinished)
+    window.resizedFinished = setTimeout(() => {
+        this.updateDimensions()
+    }, 400)
+  }
+
 
   updateDimensions = () => {
     if (this.state.loaded) {
@@ -200,8 +220,40 @@ class Home extends Component {
     console.log(newFilters)
   }
 
-  toggleFilterMenu = () => {
+  toggleFilterMenu = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
     this.setState({ filterMenuOpen: !this.state.filterMenuOpen })
+  }
+
+  toggleAbout = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    this.setState({
+      aboutOpen: !this.state.aboutOpen,
+      filterMenuOpen: false,
+      galleryOn: false,
+     })
+  }
+
+  handleAdvanceGallery = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (this.state.currentGalleryIndex < this.state.totalFrames) {
+      this.setState({
+        currentGalleryIndex: this.state.currentGalleryIndex + 1,
+      })
+    }
+  }
+
+  handleRetreatGallery = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (this.state.currentGalleryIndex !== 0) {
+      this.setState({
+        currentGalleryIndex: this.state.currentGalleryIndex - 1,
+      })
+    }
   }
 
   render() {
@@ -211,6 +263,9 @@ class Home extends Component {
       filterQuery: this.state.filterQuery,
       filters: this.state.filters,
       toggleFilterMenu: this.toggleFilterMenu,
+      handleCloseGallery: this.handleCloseGallery,
+      toggleAbout: this.toggleAbout,
+      galleryOn: this.state.galleryOn,
     }
 
     let minHeight = {
@@ -234,13 +289,14 @@ class Home extends Component {
 
     return (
       <main className={'home'}>
-      <Header {...this.props} {...headerProps} handleCloseGallery={this.handleCloseGallery} galleryOn={this.state.galleryOn}/>
+      <About {...this.props} aboutOpen={this.state.aboutOpen}/>
+      <MainHeader {...this.props} {...headerProps} />
       <div id={'loadingScreen'} className={loadingState} />
       <div id={'galleryControls'} className={showControls}>
-        <div className={'arrowContainer leftArrowContainer'}>
+        <div className={'arrowContainer leftArrowContainer'} onClick={(e) => this.handleRetreatGallery(e)}>
           <LeftGalleryArrow />
         </div>
-        <div className={'arrowContainer rightArrowContainer'}>
+        <div className={'arrowContainer rightArrowContainer'} onClick={(e) => this.handleAdvanceGallery(e)}>
           <RightGalleryArrow />
         </div>
         <div id={'galleryInfo'}>

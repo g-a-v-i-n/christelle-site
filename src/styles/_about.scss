@@ -1,12 +1,27 @@
-.about {
+#about {
+  position: fixed;
   display: flex;
   overflow: hidden;
   background-color: $christelle_blue;
   margin-top: -$header_height;
+  top: 0;
+  will-change: transform;
+  transition: transform 600ms;
+  @include for-phone-only {
+    flex-direction: column;
+  }
+}
+
+.about-open{
+  transform: translate(0,0);
+}
+
+.about-closed{
+  transform: translate(100vw,0);
 }
 
 .bio {
-  width: 60vw;
+  width: 100%;
   min-height: 100vh;
   padding-top: $header_height;
   padding-right: 60px;
@@ -22,6 +37,9 @@
   background-size: cover;
   background-color: $christelle_blue;
   transition: opacity 300ms;
+  @include for-phone-only {
+    width: 0px;
+  }
 }
 
 .imgLoaded{
@@ -32,8 +50,8 @@
   opacity: 0;
 }
 
-.about-meta {
-  position: relative;
+#tray {
+  position: absolute;
   display: flex;
   flex-direction: row;
   width: 100vw;
@@ -45,31 +63,34 @@
   transition: transform 400ms;
   overflow-y: scroll;
   padding-bottom: 10px;
+  @include for-phone-only {
+    position: relative;
+  }
 }
 
-.about-closed {
+.tray-closed {
   transform: translate3D(60vw, 80vh, 0);
+  @include for-phone-only {
+    transform: translate3D(0,0,0);
+  }
 }
 
-.about-hover-on{
+.tray-closed-hover{
   transform: translate3D(10vw, 80vh, 0);
 }
 
-.about-hover-off{
 
-}
-
-.about-open {
+.tray-open {
   transform: translate3D(10vw, 10vh, 0);
 }
 
-.about-meta li, .about-meta span, .about-meta a{
+#tray li, #trayspan, #tray a{
   margin-bottom: 20px;
   margin-top: 20px;
   color: $christelle_white;
 }
 
-.about-meta ul {
+#tray ul {
   margin-bottom: 50px;
 }
 

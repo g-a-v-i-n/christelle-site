@@ -11,6 +11,12 @@
   pointer-events: none;
 }
 
+
+.slidingTray{
+  will-change: transform;
+  transition: transform 400ms;
+}
+
 .showControls{
   opacity: 1;
   visibility: visible;

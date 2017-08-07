@@ -103,13 +103,14 @@ nav {
     transition: 200ms;
     transform: translateY(#{$menu-translate-height} - 25px);
   }
-  .hideMenuItem:nth-child(1) {
-    transition: 200ms;
-    transform: translateY(0);
-  }
   .showMenuItem:nth-child(2) {
     transition: 400ms;
     transform: translateY(calc((#{$menu-translate-height} * 2) - 25px));
+  }
+
+  .hideMenuItem:nth-child(1) {
+    transition: 200ms;
+    transform: translateY(0);
   }
   .hideMenuItem:nth-child(2) {
     transition: 200ms;

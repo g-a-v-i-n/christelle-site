@@ -26,15 +26,14 @@ const MainAsset = (props) => {
 const Asset = (props) => {
   // REMINDER: Index does not include the thumbnail
   const translations = {
-    transform: `translate3d(${props.assetCoordinates.x}px,${props.assetCoordinates.y}px,0px)`,
+    transform: `translate3d(${props.assetCoordinates.x}px,0px,0px)`,
   }
   return (
     <img
       id={'asset'}
       alt={`imageGallery_${props.index}`}
       src={props.imageSRC}
-      style={translations}
-      onLoad={(e) => props.tallyAssetsOnLoad(e, props.index)}/>
+      style={translations}/>
   )
 }
 
@@ -46,17 +45,13 @@ class Gallery extends Component {
       galleryFrame: 0,
     }
   }
-  tallyAssetsOnLoad = (assetIndex) => {
-    // console.log(assetIndex)
-  }
 
   loadAllGalleryAssets = () => {
     const imageObjects = lodash.tail(this.props.fields.assets)
-
     return imageObjects.map((imageObject, index) => {
       // REMINDER: not sure about this math
       const assetCoordinates = {
-        x: (index * window.innerWidth) + window.innerWidth,
+        x: (index * window.innerWidth) + (window.innerWidth * 0.5),
         y: 0,
       }
       return (
@@ -79,12 +74,10 @@ class Gallery extends Component {
     const left =this.props.galleryInfo.left
     const node = this.props.galleryInfo.node
     const galleryIndex = this.props.galleryInfo.index
-
     const absoluteScreenOrigin = {
       y: window.scrollY + (window.innerHeight * 0.5),
       x: window.innerWidth * 0.5,
     }
-
     const headerOffset = 100
     const dX = absoluteScreenOrigin.x - (width * 0.5)
     const dY = absoluteScreenOrigin.y - headerOffset - (height * 0.5)
@@ -113,21 +106,32 @@ class Gallery extends Component {
       'gallery_hover-noHover': hover === 'noHover',
     })
 
+    let slidingTrayTransform = {}
+    if (display === 'gallery') {
+      const calcTransform = -this.props.currentGalleryIndex * window.innerWidth
+      slidingTrayTransform = {
+        transform: `translate3d(${calcTransform}px,0px,0px)`,
+      }
+    }
+
+
     return (
       <div
         id={'gallery'}
         className={conditionalClasses}
         style={translations}
         onClick={() => this.props.handleOpenGallery('on', this.props.galleryIndex)}>
-          <MainAsset
-            addToGalleryList={this.props.addToGalleryList}
-            galleryIndex={this.props.galleryIndex}
-            assetIndex={0}
-            onImgLoad={this.props.onImgLoad}
-            thumbURL={this.props.thumbURL}
-            handleSetHoverState={this.props.handleSetHoverState}
-          />
-          {this.props.display === 'on' ? this.loadAllGalleryAssets() : null}
+          <div className={'slidingTray'} style={slidingTrayTransform}>
+            <MainAsset
+              addToGalleryList={this.props.addToGalleryList}
+              galleryIndex={this.props.galleryIndex}
+              assetIndex={0}
+              onImgLoad={this.props.onImgLoad}
+              thumbURL={this.props.thumbURL}
+              handleSetHoverState={this.props.handleSetHoverState}
+            />
+            {display === 'gallery' ? this.loadAllGalleryAssets() : null}
+          </div>
       </div>
     )
   }

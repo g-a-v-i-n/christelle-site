@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { withRouter } from 'react-router'
 import classnames from 'classnames'
 
 const MainHeader = (props) => {
   const filterItemClasses = classnames({
-    'showMenuItem': !props.filterMenuOpen,
-    'hideMenuItem': props.filterMenuOpen,
+    'showMenuItem': props.filterMenuOpen,
+    'hideMenuItem': !props.filterMenuOpen,
   })
   const mapDropdown = () => {
     return props.filters.map((key) => {
@@ -28,8 +27,8 @@ const MainHeader = (props) => {
   })
 
   const ruleClass = classnames({
-    'showRule': props.filterMenuOpen,
-    'hideRule': !props.filterMenuOpen,
+    'showRule': !props.filterMenuOpen,
+    'hideRule': props.filterMenuOpen,
   })
 
   return (
@@ -43,7 +42,7 @@ const MainHeader = (props) => {
         <div id={'rule'} className={ruleClass} />
 
         <div className={'linkShim'}>
-          <Link className={'aboutLinkSetWidth'} to={'/about'}>{'About'}</Link>
+          <button className={'aboutLinkSetWidth'} onClick={(e) => props.toggleAbout(e)}>{'About'}</button>
         </div>
       </nav>
     </header>
@@ -55,32 +54,17 @@ const AboutHeader = (props) => {
     <header className={'white-text'}>
       {'About'}
       <nav>
-        <Link className={`white-text backLink`} to={'/'}>
+        <button className={`white-text backLink`} to={'/'}>
           <div className={'backArrow'} />
           {'Back'}
-        </Link>
+        </button>
       </nav>
     </header>
   )
 }
 
-class Header extends Component {
-  swapHeaders = () => {
-    if (this.props.location.pathname === '/') {
-      return <MainHeader {...this.props} />
-    } else {
-      return <AboutHeader {...this.props} />
-    }
-  }
 
-  render() {
-    return (
-      <div>
-        {this.swapHeaders()}
-      </div>
-    )
-  }
+export {
+  MainHeader,
+  AboutHeader,
 }
-
-const HeaderWithRouter = withRouter(Header)
-export default HeaderWithRouter

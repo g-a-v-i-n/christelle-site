@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import Markdown from 'react-markdown'
-import Header from './Header'
+import { AboutHeader } from './Header'
 import _ from 'lodash'
+import classnames from 'classnames'
 
 const ContactItem = (props) => {
   return (
@@ -22,7 +23,7 @@ export default class About extends Component {
     super(props)
     this.state = {
       loaded: false,
-      metaOpen: false,
+      open: false,
       hover: false,
       imgLoaded: false,
       metaSectionClassArray: ['about-meta', 'about-closed'],
@@ -61,49 +62,11 @@ export default class About extends Component {
     )
   }
 
-  handleMetaSectionEvents = (e, eventKey) => {
-    e.preventDefault()
-    e.stopPropagation()
-    let classArray = this.state.metaSectionClassArray
-    if (classArray.indexOf('about-open') === -1) {
-      switch (eventKey) {
-        case 'mouseEnter':
-          _.pull(classArray, 'about-hover-off')
-          classArray.push('about-hover-on')
-          break
-        case 'mouseLeave':
-          _.pull(classArray, 'about-hover-on')
-          classArray.push('about-hover-off')
-          break
-        case 'onClick':
-          _.pull(classArray, 'about-closed')
-          classArray.push('about-open')
-          break
-        default: console.error('About.js handleMetaSectionEvents() switch error top section')
-        }
-    } else {
-      switch (eventKey) {
-        case 'mouseEnter':
-          _.pull(classArray, 'about-hover-off')
-          classArray.push('about-hover-on')
-          break
-        case 'mouseLeave':
-          _.pull(classArray, 'about-hover-on')
-          classArray.push('about-hover-off')
-          break
-        case 'onClick':
-          _.pull(classArray, 'about-open')
-          classArray.push('about-closed')
-          break
-        default: console.error('About.js handleMetaSectionEvents() switch error bottom section')
-        }
-    }
-    classArray = _.uniq(classArray)
-    this.setState({
-      metaSectionClassArray: classArray,
+  handleToggleHover = (key) => {
+    this.setState.hover({
+      hover: !this.state.hover,
     })
   }
-
 
   applyMetaSectionClass = () => {
     return this.state.metaSectionClassArray.join(' ')
@@ -121,21 +84,40 @@ export default class About extends Component {
     }
   }
 
+  toggleMetaTray = (e) => {
+    e.preventDefault()
+      this.setState({
+        open: !this.state.open,
+      })
+  }
+
 
   render() {
     const portraitStyle = { backgroundImage: `url(${this.props.portrait.url})` }
     const contact = this.props.contact
+    const trayStyle = classnames({
+      'tray-open': this.state.open,
+      'tray-open-hover': this.state.open && this.state.hover,
+      'tray-closed': !this.state.open,
+      'tray-closed-hover': !this.state.open && this.state.hover,
+    })
+
+    const aboutClasses = classnames({
+      'about-open': this.props.aboutOpen,
+      'about-closed': !this.props.aboutOpen,
+    })
+
     return (
-      <main className={'about'}>
-      <Header {...this.props} />
+      <main id={'about'} className={aboutClasses} >
+      <AboutHeader {...this.props} />
         <button
           className={'arrowToggle'}
-          onMouseEnter={(e) => this.handleMetaSectionEvents(e, 'mouseEnter')}
-          onMouseLeave={(e) => this.handleMetaSectionEvents(e, 'mouseLeave')}
-          onClick={(e) => this.handleMetaSectionEvents(e, 'onClick')} />
+          onMouseEnter={() => this.handleMetaHover('enter')}
+          onMouseLeave={() => this.handleMetaHover('leave')}
+          onClick={(e) => this.toggleMetaTray(e)} />
         <section className={'bio'}><Markdown source={this.props.biography} /></section>
         <section className={'bio-portrait'} style={portraitStyle}/>
-        <section className={this.applyMetaSectionClass()}>
+        <section id={'tray'} className={trayStyle}>
           <div className={'about-left'}>
           <ul>
             <ContactItem title={'Email'} content={this.returnEmail(contact.email)} />

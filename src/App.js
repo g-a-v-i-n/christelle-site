@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { createClient }  from 'contentful'
 import Header from './Header'
 import About from './About'
-import Home from './Home'
+import Main from './Main'
 import './styles/application.css'
 
 export default class App extends Component {
@@ -92,18 +92,7 @@ export default class App extends Component {
     }
 
     return (
-      <Router>
-        <div>
-          <Switch>
-            <Route exact path='/about' render={(props) => (
-              <About {...this.props} {...aboutProps}/>
-            )}/>
-            <Route exact path='/' render={(props) => (
-              <Home {...this.props} {...homeProps}/>
-            )}/>
-            </Switch>
-        </div>
-      </Router>
+      <Main {...this.props} {...homeProps} {...aboutProps}/>
     )
   }
 }
