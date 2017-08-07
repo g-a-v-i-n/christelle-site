@@ -51,7 +51,7 @@ class Home extends Component {
 
     this.setState({
       loadedGalleries: this.state.loadedGalleries.concat(galleryObject),
-      loaded: index === this.props.projects.length - 1 ? true : false,
+      loaded: this.state.loadedGalleries.length === this.props.projects.length -1 ? true : false,
     }, () => {
         // ensure galleries are correctly ordered and update gallery positions once
         this.onAllLoad()
@@ -151,7 +151,7 @@ class Home extends Component {
 
   onAllLoad = () => {
     if (this.state.loaded) {
-      const galleries = lodash.sortBy(this.state.loadedGalleries, ['index'], ['asc'])
+      const galleries = lodash.sortBy(this.state.loadedGalleries, ['galleryIndex'], ['asc'])
       console.log(galleries)
       this.setState({
         loadedGalleries: galleries,
@@ -239,7 +239,7 @@ class Home extends Component {
   handleAdvanceGallery = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    if (this.state.currentGalleryIndex < this.state.totalFrames) {
+    if (this.state.currentGalleryIndex < this.state.totalFrames - 1) {
       this.setState({
         currentGalleryIndex: this.state.currentGalleryIndex + 1,
       })
