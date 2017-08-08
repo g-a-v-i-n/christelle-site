@@ -25,7 +25,7 @@ class Gallery extends Component {
     }
     this.setState({
       loadedImages: this.state.loadedImages.concat(imageObject),
-      loaded: this.state.loadedImages.length === this.props.fields.assets.length -2 ? true : false,
+      loaded: this.state.loadedImages.length === this.props.fields.assets.length - 2 ? true : false,
     }, () => {
         this.onAllLoad()
     })
@@ -86,28 +86,16 @@ class Gallery extends Component {
     let translations = {}
     const hover = this.props.galleryInfo.hover
     const display = this.props.galleryInfo.display
-
     if (this.props.allLoaded) {
-      const width = this.props.galleryInfo.width
-      const height = this.props.galleryInfo.height
       const top = this.props.galleryInfo.top
       const left =this.props.galleryInfo.left
-      const node = this.props.galleryInfo.node
       const galleryIndex = this.props.galleryInfo.index
-      const absoluteScreenOrigin = {
-        y: window.scrollY + (window.innerHeight * 0.5),
-        x: window.innerWidth * 0.5,
-      }
-      const headerOffset = 100
-      const dX = absoluteScreenOrigin.x - (width * 0.5)
-      const dY = absoluteScreenOrigin.y - headerOffset - (height * 0.5)
-      const calcTransform = -this.props.currentGalleryIndex * window.innerWidth + dX
+      const calcTransformX = -this.props.currentGalleryIndex * window.innerWidth
 
       // calculate element x/y transform
-        // console.log(top)
         translations = { transform: `translate3d(${left}px,${top}px,0px)` }
         if (display === 'gallery') {
-          translations = { transform: `translate3d(${calcTransform}px,${dY}px,0px)` }
+          translations = { transform: `translate3d(${calcTransformX}px,${window.scrollY}px,0px)` }
         }
       // set hover and display classes
       conditionalClasses = classnames({
@@ -124,31 +112,21 @@ class Gallery extends Component {
       })
       }
 
-
-
-    let slidingTrayTransform = {}
-    if (display === 'gallery') {
-      const calcTransform = -this.props.currentGalleryIndex * window.innerWidth
-      slidingTrayTransform = {
-        transform: `translate3d(${calcTransform}px,0px,0px)`,
-      }
-    }
-
     return (
       <div
         id={'gallery'}
         className={conditionalClasses}
         style={translations}
         onClick={() => this.props.handleOpenGallery('on', this.props.galleryIndex)}>
-            <MainAsset
-              addToGalleryList={this.props.addToGalleryList}
-              galleryIndex={this.props.galleryIndex}
-              assetIndex={0}
-              onImgLoad={this.props.onImgLoad}
-              thumbURL={this.props.thumbURL}
-              handleSetHoverState={this.props.handleSetHoverState}
-            />
-            {this.generateAssets()}
+          <MainAsset
+            addToGalleryList={this.props.addToGalleryList}
+            galleryIndex={this.props.galleryIndex}
+            assetIndex={0}
+            onImgLoad={this.props.onImgLoad}
+            thumbURL={this.props.thumbURL}
+            handleSetHoverState={this.props.handleSetHoverState}
+          />
+          {display === 'gallery' ? this.generateAssets() : null}
       </div>
     )
   }

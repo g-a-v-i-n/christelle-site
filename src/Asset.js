@@ -6,28 +6,19 @@ class Asset extends Component {
   render() {
     let translations = {}
     if (this.props.allImagesLoaded) {
-      const width = this.props.imageInfo.width
-      const height = this.props.imageInfo.height
-      const top = this.props.imageInfo.top
-      const left =this.props.imageInfo.left
-      const galleryIndex = this.props.imageInfo.index
-      const absoluteScreenOrigin = {
-        y: window.scrollY + (window.innerHeight * 0.5),
-        x: window.innerWidth * 0.5,
-      }
-      const dX = absoluteScreenOrigin.x - (width * 0.5)
-      const dY = absoluteScreenOrigin.y - (height * 0.5)
-
-      translations = { transform: `translate3d(${left}px,${top}px,0px)` }
+      const imageIndex = this.props.imageInfo.imageIndex
+      const dX = window.innerWidth * imageIndex
+      translations = { transform: `translate3d(${dX}px,0px,0px)` }
     }
 
     return (
+      <div id={'assetTray'} style={translations}>
       <img
         id={'asset'}
         alt={`imageGallery_${this.props.index}`}
         src={this.props.imageURL}
-        style={translations}
         onLoad={(e) => this.props.handleOnLoad(e, this.props.index)}/>
+      </div>
     )
   }
 }
@@ -45,12 +36,15 @@ const MainAsset = (props) => {
   }
 
   return (
+    <div id={'assetTray'}>
     <img
       alt={`imageGallery_${props.galleryIndex}`}
       src={props.thumbURL}
+      id={'asset'}
       onLoad={(e) => props.addToGalleryList(e, props.galleryIndex)}
       onMouseEnter={(e) => onMouseEnter(e, props.galleryIndex)}
       onMouseLeave={(e) => onMouseLeave(e, props.galleryIndex)}/>
+      </div>
   )
 }
 export{
