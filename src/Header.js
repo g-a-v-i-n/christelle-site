@@ -32,17 +32,17 @@ const MainHeader = (props) => {
   })
 
   return (
-    <header>
+    <header id={'mainHeader'}>
       <div className={'christelle'}>{'Christelle de Castro'}</div>
       <nav>
         <div className={'dropdownContainer'}>
-          <button onClick={(e) => props.toggleFilterMenu(e)} id={'headerFilterButton'}>{props.filterQuery}</button>
+          <button onClick={(e) => props.toggleFilterMenu(e)} id={'headerButton'}>{props.filterQuery}</button>
           <div className={'dropdownWrapper'}>{mapDropdown()}</div>
         </div>
         <div id={'rule'} className={ruleClass} />
 
         <div className={'linkShim'}>
-          <button className={'aboutLinkSetWidth'} onClick={(e) => props.toggleAbout(e)}>{'About'}</button>
+          <button className={'aboutLinkSetWidth'} id={'headerButton'} onClick={(e) => props.toggleAbout(e)}>{'About'}</button>
         </div>
       </nav>
     </header>
@@ -51,10 +51,10 @@ const MainHeader = (props) => {
 
 const AboutHeader = (props) => {
   return (
-    <header className={'white-text'}>
+    <header id={'aboutHeader'} className={'white-text'}>
       {'About'}
       <nav>
-        <button className={`white-text backLink`} to={'/'}>
+        <button id={'headerButton'} className={`white-text backLink`} onClick={(e) => props.toggleAbout(e)}>
           <div className={'backArrow'} />
           {'Back'}
         </button>

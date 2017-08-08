@@ -25,6 +25,7 @@ class Home extends Component {
       totalFrames: 0,
       loadedImages: [],
       allImagesLoaded: false,
+      galleryVisibility: false,
     }
   }
 
@@ -36,8 +37,8 @@ class Home extends Component {
     window.removeEventListener("resize", this.handleOnResize)
   }
 
-  addToPhotoList = (e, index) => {
-    const totalAssets = this.props.projects[index].fields.assets.length - 1
+  addToPhotoList = (e, index, galleryIndex) => {
+    const totalAssets = this.props.projects[galleryIndex].fields.assets.length
     const originalLoadedImages = this.state.loadedImages
     const imageObject = {
       width: 0,
@@ -49,7 +50,8 @@ class Home extends Component {
     }
     this.setState({
       loadedImages: this.state.loadedImages.concat(imageObject),
-      allImagesLoaded: originalLoadedImages.length  === totalAssets - 1 ? true : false,
+      // recall that we skip the thumbnail and want to call this AT the last image load
+      allImagesLoaded: originalLoadedImages.length + 1  === totalAssets - 1 ? true : false,
     }, () => {
         this.onAllImagesLoaded()
     })
@@ -77,7 +79,6 @@ class Home extends Component {
       node: e.target,
       galleryIndex: index,
     }
-
     this.setState({
       loadedGalleries: this.state.loadedGalleries.concat(galleryObject),
       loaded: this.state.loadedGalleries.length === this.props.projects.length - 1 ? true : false,
@@ -105,6 +106,7 @@ class Home extends Component {
       // console.log(updatedImages)
       this.setState({
         loadedImages: updatedImages,
+        galleryVisibility: true,
       })
     }
   }
@@ -133,6 +135,7 @@ class Home extends Component {
           loadedImages={this.state.loadedImages}
           addToPhotoList={this.addToPhotoList}
           currentGalleryIndex={this.state.currentGalleryIndex}
+          galleryVisibility={this.state.galleryVisibility}
           // misc
           galleryIndex={index}
           key={project.sys.id}
@@ -198,10 +201,12 @@ class Home extends Component {
     })
     this.setState({
       loadedImages: [],
+      allImagesLoaded: false,
       loadedGalleries: updatedGalleries,
       galleryOn: false,
       totalFrames: 0,
       currentGalleryIndex: 0,
+      galleryVisibility: false,
     })
   }
 
@@ -285,6 +290,11 @@ class Home extends Component {
   toggleAbout = (e) => {
     e.preventDefault()
     e.stopPropagation()
+    if (this.state.aboutOpen) {
+      document.body.classList.remove('stopScroll')
+    } else {
+      document.body.classList.add('stopScroll')
+    }
     this.setState({
       aboutOpen: !this.state.aboutOpen,
       filterMenuOpen: false,
@@ -338,13 +348,13 @@ class Home extends Component {
     })
 
     let overlayState = classnames({
-      'overlayOn': this.props.galleryToDisplay !== -1,
-      'overlayOff': this.props.galleryToDisplay === -1,
+      'overlayOn': this.state.galleryOn,
+      'overlayOff': !this.state.galleryOn,
     })
 
     return (
       <main className={'home'}>
-      <About {...this.props} aboutOpen={this.state.aboutOpen}/>
+      <About {...this.props} aboutOpen={this.state.aboutOpen} {...headerProps}/>
       <MainHeader {...this.props} {...headerProps} />
       <div id={'loadingScreen'} className={loadingState} />
       <div id={'galleryControls'} className={showControls}>

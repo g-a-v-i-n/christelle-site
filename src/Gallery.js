@@ -16,8 +16,10 @@ class Gallery extends Component {
           index={index + 1}
           allImagesLoaded = {this.props.allImagesLoaded}
           imageInfo={imageInfo}
+          galleryIndex={this.props.galleryIndex}
           imageURL={image.fields.file.url}
-          handleOnLoad={this.props.addToPhotoList}/>
+          handleOnLoad={this.props.addToPhotoList}
+          visibility={this.props.galleryVisibility}/>
       )
     })
   }
@@ -57,8 +59,7 @@ class Gallery extends Component {
       <div
         id={'gallery'}
         className={conditionalClasses}
-        style={translations}
-        onClick={() => this.props.handleOpenGallery('on', this.props.galleryIndex)}>
+        style={translations}>
           <MainAsset
             addToGalleryList={this.props.addToGalleryList}
             galleryIndex={this.props.galleryIndex}
@@ -66,6 +67,7 @@ class Gallery extends Component {
             onImgLoad={this.props.onImgLoad}
             thumbURL={this.props.thumbURL}
             handleSetHoverState={this.props.handleSetHoverState}
+            handleOpenGallery={this.props.handleOpenGallery}
           />
           {display === 'gallery' ? this.generateAssets() : null}
       </div>

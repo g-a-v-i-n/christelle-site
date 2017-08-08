@@ -2,6 +2,7 @@
   position: absolute;
   width: 100vw;
   height: calc(100vh - 200px);
+  pointer-events: none;
 }
 
 #assetTray{
@@ -65,7 +66,7 @@
 .rightArrowContainer {
   right: 20px;
   cursor: pointer;
-  path { transition: d 0.35s;}
+  path { transition: d $arrowTransition;}
   #arrowhead{ transition: transform $arrowTransition; }
 }
 
@@ -81,7 +82,7 @@
 .leftArrowContainer {
   left: 20px;
   cursor: pointer;
-  path { transition: d 0.35s;}
+  path { transition: d $arrowTransition;}
   #arrowhead{ transition: transform $arrowTransition; }
 }
 
@@ -100,6 +101,7 @@
   left: 40px;
   position: absolute;
   height: 100px;
+  pointer-events:none;
   @include flex-center-column;
 }
 
@@ -108,5 +110,14 @@
   margin-top: 11px;
 }
 
-.photoName{
+.showImage{
+  visibility: visible;
+  transition: visibility 500ms;
+  transition-delay: 500ms;
+}
+
+.hideImage{
+  visibility: hidden;
+  transition: visibility 500ms;
+  transition-delay: 500ms;
 }

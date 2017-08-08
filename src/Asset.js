@@ -8,22 +8,24 @@ class Asset extends Component {
     if (this.props.allImagesLoaded) {
       const imageIndex = this.props.imageInfo.imageIndex
       const dX = window.innerWidth * imageIndex
-      console.log(imageIndex)
       translations = { transform: `translate3d(${dX}px,0px,0px)` }
     }
-
+    const visibility = classnames({
+      'showImage': this.props.visibility,
+      'hideImage': !this.props.visibility,
+    })
     return (
       <div id={'assetTray'} style={translations}>
       <img
         id={'asset'}
+        className={visibility}
         alt={`imageGallery_${this.props.index}`}
         src={this.props.imageURL}
-        onLoad={(e) => this.props.handleOnLoad(e, this.props.index)}/>
+        onLoad={(e) => this.props.handleOnLoad(e, this.props.index, this.props.galleryIndex)}/>
       </div>
     )
   }
 }
-
 
 const MainAsset = (props) => {
   const onMouseEnter = (e, index) => {
@@ -44,7 +46,8 @@ const MainAsset = (props) => {
       id={'asset'}
       onLoad={(e) => props.addToGalleryList(e, props.galleryIndex)}
       onMouseEnter={(e) => onMouseEnter(e, props.galleryIndex)}
-      onMouseLeave={(e) => onMouseLeave(e, props.galleryIndex)}/>
+      onMouseLeave={(e) => onMouseLeave(e, props.galleryIndex)}
+      onClick={() => props.handleOpenGallery('on', props.galleryIndex)}/>
       </div>
   )
 }

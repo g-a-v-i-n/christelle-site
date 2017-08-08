@@ -80,6 +80,7 @@ img {
   width: auto;
   transform-origin: center center;
   transition: 500ms;
+  pointer-events: all;
   @include for-phone-only{
     max-width: $imgWidth-mobile;
     max-height: $imgHeight-mobile;
@@ -115,4 +116,9 @@ img {
   position: fixed;
   background-color: white;
   will-change: opacity;
+  pointer-events: all;
+}
+
+.overlayOn{
+  z-index: 140;
 }

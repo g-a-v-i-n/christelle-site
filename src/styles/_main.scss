@@ -17,12 +17,22 @@ html, body, h1, h2, h3, h4, h5, h6{
   }
 }
 
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+
 p {
   padding: 0;
   margin:0;
   font-size: 18px;
   line-height: 28px;
   letter-spacing: 0.34px;
+  @include for-phone-only {
+    font-size: 16px;
+    line-height: 25px;
+    letter-spacing: 0.2px;
+  }
 }
 
 .bio p {
@@ -88,10 +98,10 @@ ul, ol, li {
 }
 
 .smallDash{
-  max-width: 40px;
+  min-width: 40px;
   height: 1px;
   background-color: $christelle_white;
   margin-top: 10px;
-  flex: 1;
+  flex: 0;
   margin-right: 10px;
 }

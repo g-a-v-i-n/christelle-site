@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import Markdown from 'react-markdown'
 import { AboutHeader } from './Header'
+import { AboutArrow, LeftGalleryArrow } from './svgs'
 import _ from 'lodash'
 import classnames from 'classnames'
 
 const ContactItem = (props) => {
   return (
     <li>
-      {props.title}
+      <div className={'aboutItemTitle'}>{props.title}</div>
       <span className={'aboutItemBody'}>
         <div className={'smallDash'}/>
         <div className={'content'}>
-          {props.content}
+          <p>{props.content}</p>
         </div>
         </span>
     </li>
@@ -29,7 +30,7 @@ export default class About extends Component {
       metaSectionClassArray: ['about-meta', 'about-closed'],
       portraitStyle: {},
     }
-    document.title = 'Christelle de Castro – About'
+    // document.title = 'Christelle de Castro – About'
   }
 
   componentWillMount = () => {
@@ -86,6 +87,7 @@ export default class About extends Component {
 
   toggleMetaTray = (e) => {
     e.preventDefault()
+
       this.setState({
         open: !this.state.open,
       })
@@ -109,12 +111,16 @@ export default class About extends Component {
 
     return (
       <main id={'about'} className={aboutClasses} >
+      <div id={'aboutScrollContainer'}>
       <AboutHeader {...this.props} />
-        <button
-          className={'arrowToggle'}
+      <div id={'contentWrapper'}>
+        <div
+          id={'aboutArrowContainer'}
           onMouseEnter={() => this.handleMetaHover('enter')}
           onMouseLeave={() => this.handleMetaHover('leave')}
-          onClick={(e) => this.toggleMetaTray(e)} />
+          onClick={(e) => this.toggleMetaTray(e)} >
+          <AboutArrow />
+        </div>
         <section className={'bio'}><Markdown source={this.props.biography} /></section>
         <section className={'bio-portrait'} style={portraitStyle}/>
         <section id={'tray'} className={trayStyle}>
@@ -136,6 +142,8 @@ export default class About extends Component {
             </div>
           </div>
         </section>
+        </div>
+        </div>
       </main>
     )
   }

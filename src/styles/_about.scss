@@ -1,6 +1,5 @@
 #about {
   position: fixed;
-  display: flex;
   overflow: hidden;
   background-color: $christelle_blue;
   margin-top: -$header_height;
@@ -8,9 +7,6 @@
   will-change: transform;
   transition: transform 600ms;
   z-index: 500;
-  @include for-phone-only {
-    flex-direction: column;
-  }
 }
 
 .about-open{
@@ -21,17 +17,42 @@
   transform: translate(100vw,0);
 }
 
-.bio {
+#aboutScrollContainer {
   width: 100%;
+  height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#contentWrapper{
+  display: flex;
+  @include for-phone-only{
+    flex-direction: column;
+  }
+}
+
+.bio {
+  width: 55vw;
   min-height: 100vh;
   padding-top: $header_height;
+  // padding-bottom: $header_height;
   padding-right: 60px;
   padding-left: 60px;
   color: $christelle_white;
+  @include for-phone-only {
+    width: 100%;
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-top: 0px;
+    padding-bottom: 50px;
+    min-height: auto;
+  }
 }
 
 .bio-portrait {
-  width: 40vw;
+  width: 45vw;
   min-height: 100vh;
   background-position: center;
   background-repeat: no-repeat;
@@ -39,7 +60,7 @@
   background-color: $christelle_blue;
   transition: opacity 300ms;
   @include for-phone-only {
-    width: 0px;
+    width: 100%;
   }
 }
 
@@ -56,33 +77,40 @@
   display: flex;
   flex-direction: row;
   width: 100vw;
-  height: 90vh;
+  height: 91vh;
   background-color: $christelle_black;
   color: $christelle_white;
   position: absolute;
   will-change: transform;
   transition: transform 400ms;
   overflow-y: scroll;
-  padding-bottom: 10px;
   @include for-phone-only {
     position: relative;
+    flex-direction: column;
+    overflow-y: visible;
   }
 }
 
 .tray-closed {
-  transform: translate3D(60vw, 80vh, 0);
+  transform: translate3D(55vw, calc(100vh - 200px), 0);
   @include for-phone-only {
     transform: translate3D(0,0,0);
   }
 }
 
 .tray-closed-hover{
-  transform: translate3D(10vw, 80vh, 0);
+  transform: translate3D(10vw, calc(100vh - 200px), 0);
+  @include for-phone-only {
+    transform: translate3D(0,0,0);
+  }
 }
 
 
 .tray-open {
   transform: translate3D(10vw, 10vh, 0);
+  @include for-phone-only {
+    transform: translate3D(0,0,0);
+  }
 }
 
 #tray li, #trayspan, #tray a{
@@ -93,6 +121,10 @@
 
 #tray ul {
   margin-bottom: 50px;
+}
+
+.aboutItemTitle{
+  margin-bottom: 16px;
 }
 
 .aboutItemBody {
@@ -110,33 +142,40 @@
   color: $christelle_white;
 }
 
-.arrowToggle{
+#aboutArrowContainer{
   border: none;
   outline: none;
   background-color: transparent;
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  padding: 20px 50px 20px 50px;
-  background-image: url('../assets/arrow.svg');
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 32px;
-  height: 124px;
+  bottom: 10px;
+  right: 10px;
+  width: 150px;
+  height: 150px;
   z-index: 500;
-  transition: transform 300ms;
+  cursor: pointer;
+  path { transition: d $arrowTransition;}
+  #arrowhead{ transition: transform $arrowTransition; }
+  @include for-phone-only {
+    visibility: hidden;
+    pointer-events: none;
+  }
 }
 
-.arrowToggle:hover {
-  transform: translate3d(0, -25px, 0);
+// don't forget to add 'px' and 'deg' to transform from svg
+#aboutArrowContainer:hover #arrowhead{
+  transform:translate(75.000000px, 16.500000px) scale(-1, 1) rotate(-90.000000deg) translate(-75.000000px, -16.500000px) translate(67.000000px, 1.000000px);
 }
+
+#aboutArrowContainer:hover #arrowline{
+  d: path("M75,150 L75,10");
+}
+
 
 .about-left, .about-right{
   width: 45vw;
   padding: 60px;
-}
-
-.about-right{
-  padding-left: 0;
+  @include for-phone-only {
+    width: 100vw;
+    padding: 30px;
+  }
 }
