@@ -23,6 +23,8 @@ class Home extends Component {
       aboutOpen: false,
       currentGalleryIndex: 0,
       totalFrames: 0,
+      loadedImages: [],
+      allImagesLoaded: false,
     }
   }
 
@@ -34,8 +36,35 @@ class Home extends Component {
     window.removeEventListener("resize", this.handleOnResize)
   }
 
+  addToPhotoList = (e, index) => {
+    const totalAssets = this.props.projects[index].fields.assets.length - 1
+    const originalLoadedImages = this.state.loadedImages
+    const imageObject = {
+      width: 0,
+      height: 0,
+      top: 0,
+      left: 0,
+      node: e.target,
+      imageIndex: index,
+    }
+    this.setState({
+      loadedImages: this.state.loadedImages.concat(imageObject),
+      allImagesLoaded: originalLoadedImages.length  === totalAssets - 1 ? true : false,
+    }, () => {
+        this.onAllImagesLoaded()
+    })
+  }
+
+  onAllImagesLoaded = () => {
+    if (this.state.allImagesLoaded) {
+      const images = lodash.sortBy(this.state.loadedImages, ['imageIndex'], ['asc'])
+      this.setState({
+        loadedImages: images,
+      }, () => this.placeGalleryImages())
+    }
+  }
+
   addToGalleryList = (e, index) => {
-    // when an image is loaded with all its information, copy the array in state and add the new image
     const galleryObject = {
       //hover: normal, fade, ignore
       hover:'normal',
@@ -51,11 +80,33 @@ class Home extends Component {
 
     this.setState({
       loadedGalleries: this.state.loadedGalleries.concat(galleryObject),
-      loaded: this.state.loadedGalleries.length === this.props.projects.length -1 ? true : false,
+      loaded: this.state.loadedGalleries.length === this.props.projects.length - 1 ? true : false,
     }, () => {
         // ensure galleries are correctly ordered and update gallery positions once
         this.onAllLoad()
     })
+  }
+
+  placeGalleryImages = () => {
+    if (this.state.allImagesLoaded) {
+      const updatedImages = this.state.loadedImages.map((originalImage, index) => {
+        const bounding = originalImage.node.getBoundingClientRect()
+        const thisHeight = bounding.height
+        const thisWidth = bounding.width
+        const deltaY = 0
+        const deltaX = (index * window.innerWidth) + (thisWidth * 0.5) + (window.innerWidth *.5)
+        return update(originalImage, {$merge: {
+          width:    bounding.width,
+          height:   bounding.height,
+          top:      deltaY,
+          left:     deltaX,
+        }})
+      })
+      // console.log(updatedImages)
+      this.setState({
+        loadedImages: updatedImages,
+      })
+    }
   }
 
   generatePiles = () => {
@@ -77,8 +128,12 @@ class Home extends Component {
           //gallery info
           thumbURL={project.fields.assets[0].fields.file.url}
           fields={project.fields}
-          // misc
+          // asset management
+          allImagesLoaded={this.state.allImagesLoaded}
+          loadedImages={this.state.loadedImages}
+          addToPhotoList={this.addToPhotoList}
           currentGalleryIndex={this.state.currentGalleryIndex}
+          // misc
           galleryIndex={index}
           key={project.sys.id}
           absoluteScreenOrigin={this.state.absoluteScreenOrigin}
@@ -142,6 +197,7 @@ class Home extends Component {
       return update(originalGallery, {$merge: {display: 'feed', hover: 'normal'}})
     })
     this.setState({
+      loadedImages: [],
       loadedGalleries: updatedGalleries,
       galleryOn: false,
       totalFrames: 0,

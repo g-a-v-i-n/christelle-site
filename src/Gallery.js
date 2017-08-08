@@ -5,81 +5,22 @@ import classnames from 'classnames'
 import update from 'immutability-helper'
 
 class Gallery extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loadedImages: [],
-      loaded: false,
-    }
-  }
-
-  addToPhotoList = (e, index) => {
-    // when an image is loaded with all its information, copy the array in state and add the new image
-    const imageObject = {
-      width: 0,
-      height: 0,
-      top: 0,
-      left: 0,
-      node: e.target,
-      imageIndex: index,
-    }
-    this.setState({
-      loadedImages: this.state.loadedImages.concat(imageObject),
-      loaded: this.state.loadedImages.length === this.props.fields.assets.length - 2 ? true : false,
-    }, () => {
-        this.onAllLoad()
-    })
-  }
 
   generateAssets = () => {
     const imageObjects = lodash.tail(this.props.fields.assets)
     let imageInfo = {}
     return imageObjects.map((image, index) => {
-      if (this.state.loaded) {
-        imageInfo = this.state.loadedImages[index]
-      }
+      if (this.props.allImagesLoaded) { imageInfo = this.props.loadedImages[index] }
       return (
         <Asset
-          allImagesLoaded = {this.state.loaded}
           index={index + 1}
+          allImagesLoaded = {this.props.allImagesLoaded}
           imageInfo={imageInfo}
           imageURL={image.fields.file.url}
-          handleOnLoad={this.addToPhotoList}/>
+          handleOnLoad={this.props.addToPhotoList}/>
       )
     })
   }
-
-  onAllLoad = () => {
-    if (this.state.loaded) {
-      const images = lodash.sortBy(this.state.loadedImages, ['imageIndex'], ['asc'])
-      this.setState({
-        loadedImages: images,
-      }, () => this.updateDimensions())
-    }
-  }
-
-  updateDimensions = () => {
-    if (this.state.loaded) {
-      const updatedImages = this.state.loadedImages.map((originalImage, index) => {
-        const bounding = originalImage.node.getBoundingClientRect()
-        const thisHeight = bounding.height
-        const thisWidth = bounding.width
-        const deltaY = 0
-        const deltaX = (index * window.innerWidth) + (thisWidth * 0.5) + (window.innerWidth *.5)
-        return update(originalImage, {$merge: {
-          width:    bounding.width,
-          height:   bounding.height,
-          top:      deltaY,
-          left:     deltaX,
-        }})
-      })
-      // console.log(updatedImages)
-      this.setState({
-        loadedImages: updatedImages,
-      })
-    }
-  }
-
 
   render() {
     let conditionalClasses = {}

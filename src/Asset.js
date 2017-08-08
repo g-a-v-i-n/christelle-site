@@ -8,6 +8,7 @@ class Asset extends Component {
     if (this.props.allImagesLoaded) {
       const imageIndex = this.props.imageInfo.imageIndex
       const dX = window.innerWidth * imageIndex
+      console.log(imageIndex)
       translations = { transform: `translate3d(${dX}px,0px,0px)` }
     }
 
