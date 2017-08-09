@@ -1,7 +1,9 @@
 #gallery{
   position: absolute;
   width: 100vw;
-  height: calc(100vh - 200px);
+  min-height: calc(100vh - 200px);
+  max-height: calc(100vh - 200px);
+
   pointer-events: none;
 }
 

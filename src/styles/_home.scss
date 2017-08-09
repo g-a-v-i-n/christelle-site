@@ -33,6 +33,7 @@ content {
   position: relative;
   display: block;
   margin-bottom: 100px;
+  overflow: hidden;
 }
 
 // display states
@@ -80,7 +81,7 @@ img {
   width: auto;
   transform-origin: center center;
   transition: 500ms;
-  pointer-events: all;
+  pointer-events: auto;
   @include for-phone-only{
     max-width: $imgWidth-mobile;
     max-height: $imgHeight-mobile;

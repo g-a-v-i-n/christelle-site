@@ -238,27 +238,28 @@ class Home extends Component {
       let lastBottom = 0
       let deltaY = 0
       let deltaX = 0
+      let position = 0
       const updatedGalleries = this.state.loadedGalleries.map((originalGallery, index) => {
         const bounding = originalGallery.node.getBoundingClientRect()
         const thisHeight = bounding.height
+        console.log(thisHeight)
         const thisWidth = bounding.width
         const nudgeFactorX = 0.08
         // do the algo
         if (index === 0) {
-          lastBottom = thisHeight
-          deltaX = windowCenter - (thisWidth - (viewWidth * .08)) - ((viewWidth/2) - (thisWidth / 2))
-        } else if (index <= this.state.loadedGalleries.length - 1 && index !== 0) {
-          deltaY = lastBottom - (thisHeight * 0.08)
-          lastBottom = thisHeight + deltaY
+          deltaY = 0 - ((viewHeight - 240 - thisHeight) * 0.5)
+          position = deltaY + thisHeight
+          deltaX = windowCenter - (thisWidth - (viewWidth * .08)) - ((viewWidth / 2) - (thisWidth / 2))
+        } else if (index + 1 <= this.state.loadedGalleries.length && index !== 0) {
+          deltaY = position - ((viewHeight - 240 - thisHeight) * 0.5)
+          position = deltaY + thisHeight
+
           if (index % 2 === 1) {
-            // right
-            deltaX = windowCenter - (thisWidth * nudgeFactorX) - ((viewWidth/2) - (thisWidth / 2))
+            deltaX = windowCenter - (thisWidth * nudgeFactorX) - ((viewWidth / 2) - (thisWidth / 2))
           } else {
-            // left
-            deltaX = windowCenter - (thisWidth - (viewWidth * nudgeFactorX)) - ((viewWidth/2) - (thisWidth / 2))
+            deltaX = windowCenter - (thisWidth - (viewWidth * nudgeFactorX)) - ((viewWidth / 2) - (thisWidth / 2))
           }
         }
-
         return update(originalGallery, {$merge: {
           width:    bounding.width,
           height:   bounding.height,
@@ -268,7 +269,7 @@ class Home extends Component {
       })
       this.setState({
         loadedGalleries: updatedGalleries,
-        minHeight: lastBottom,
+        minHeight: position,
       })
     }
   }
