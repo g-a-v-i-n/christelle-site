@@ -3,7 +3,7 @@
   width: 100vw;
   min-height: calc(100vh - 200px);
   max-height: calc(100vh - 200px);
-
+  will-change: transform;
   pointer-events: none;
 }
 
@@ -13,6 +13,7 @@
   height: 100%;
   display: flex;
   justify-content: center;
+  will-change: transform;
   align-items: center;
 }
 

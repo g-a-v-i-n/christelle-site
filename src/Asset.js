@@ -41,8 +41,8 @@ const MainAsset = (props) => {
         src={props.thumbURL}
         id={'asset'}
         onLoad={(e) => props.addToGalleryList(e, props.galleryIndex)}
-        onMouseEnter={(e) => props.handleSetHoverState(props.galleryIndex, true)}
-        onMouseLeave={(e) => props.handleSetHoverState(props.galleryIndex, false)}
+        onMouseEnter={() => props.handleSetHoverState(props.galleryIndex, true)}
+        onMouseLeave={() => props.handleSetHoverState(props.galleryIndex, false)}
         onClick={() => props.handleOpenGallery('on', props.galleryIndex)}/>
       </VisibilitySensor>
     </div>

@@ -140,7 +140,6 @@ class Home extends Component {
           addToPhotoList={this.addToPhotoList}
           currentGalleryIndex={this.state.currentGalleryIndex}
           galleryVisibility={this.state.galleryVisibility}
-          isFinishedOpening={this.state.isFinishedOpening}
           setCurrentGalleryScrollIndex={this.setCurrentGalleryScrollIndex}
           // misc
           galleryIndex={index}
@@ -208,12 +207,9 @@ class Home extends Component {
       galleryOn: true,
       filterMenuOpen: false,
       totalFrames: this.props.projects[galleryIndex].fields.assets.length,
-    }, this.delayOpen())
+    })
   }
 
-  delayOpen = () => {
-    setTimeout(() => { this.setState({isFinishedOpening: true}) }, 550)
-  }
 
   handleCloseGallery = () => {
     document.body.classList.remove('stopScroll')
@@ -229,7 +225,6 @@ class Home extends Component {
       totalFrames: 0,
       currentGalleryIndex: 0,
       galleryVisibility: false,
-      isFinishedOpening: false,
     })
   }
 
@@ -241,9 +236,7 @@ class Home extends Component {
       }, () => this.updateDimensions())
     }
     setTimeout(() => {
-        this.setState({
-          releaseLoadingScreen: true,
-        })
+        this.setState({ releaseLoadingScreen: true })
     }, 650)
   }
 

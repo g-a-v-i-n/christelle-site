@@ -70,7 +70,7 @@ class Gallery extends Component {
             handleOpenGallery={this.props.handleOpenGallery}
             setCurrentGalleryScrollIndex={this.props.setCurrentGalleryScrollIndex}
           />
-          {display === 'gallery' && this.props.isFinishedOpening === true ? this.generateAssets() : null}
+          {display === 'gallery' ? this.generateAssets() : null}
       </div>
     )
   }
