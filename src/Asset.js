@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import lodash from 'lodash'
 import classnames from 'classnames'
 
 class Asset extends Component {

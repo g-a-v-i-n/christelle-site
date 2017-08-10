@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { MainAsset, Asset } from './Asset'
 import lodash from 'lodash'
 import classnames from 'classnames'
-import update from 'immutability-helper'
 
 class Gallery extends Component {
 
@@ -32,27 +31,25 @@ class Gallery extends Component {
     if (this.props.allLoaded) {
       const top = this.props.galleryInfo.top
       const left =this.props.galleryInfo.left
-      const galleryIndex = this.props.galleryInfo.index
       const calcTransformX = -this.props.currentGalleryIndex * window.innerWidth
-
       // calculate element x/y transform
         translations = { transform: `translate3d(${left}px,${top}px,0px)` }
         if (display === 'gallery') {
           translations = { transform: `translate3d(${calcTransformX}px,${window.scrollY}px,0px)` }
         }
       // set hover and display classes
-      conditionalClasses = classnames({
-        //open and closed states
-        'gallery_display-gallery': display === 'gallery',
-        'gallery_display-feed': display === 'feed',
-        'gallery_display-off': display === 'off',
+        conditionalClasses = classnames({
+          //open and closed states
+          'gallery_display-gallery': display === 'gallery',
+          'gallery_display-feed': display === 'feed',
+          'gallery_display-off': display === 'off',
 
-        // hover states
-        'gallery_hover-forward': hover === 'forward',
-        'gallery_hover-fade': hover === 'fade',
-        'gallery_hover-normal': hover === 'normal',
-        'gallery_hover-noHover': hover === 'noHover',
-      })
+          // hover states
+          'gallery_hover-forward': hover === 'forward',
+          'gallery_hover-fade': hover === 'fade',
+          'gallery_hover-normal': hover === 'normal',
+          'gallery_hover-noHover': hover === 'noHover',
+        })
       }
 
     return (

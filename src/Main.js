@@ -92,7 +92,6 @@ class Home extends Component {
     if (this.state.allImagesLoaded) {
       const updatedImages = this.state.loadedImages.map((originalImage, index) => {
         const bounding = originalImage.node.getBoundingClientRect()
-        const thisHeight = bounding.height
         const thisWidth = bounding.width
         const deltaY = 0
         const deltaX = (index * window.innerWidth) + (thisWidth * 0.5) + (window.innerWidth *.5)
@@ -233,31 +232,37 @@ class Home extends Component {
     if (this.state.loaded) {
       const viewWidth = window.innerWidth
       const viewHeight = window.innerHeight
-      const windowCenter = window.innerWidth * 0.5
-      const nudgeFactorY = 0.008
-      let lastBottom = 0
+      const unitRatio = viewWidth / 10000
+      const strutLeft = -(viewWidth * (unitRatio))
+      const strutRight = (viewWidth * (unitRatio))
+      console.log(unitRatio, strutLeft)
+
+      const frameHeight = viewHeight - 200
       let deltaY = 0
       let deltaX = 0
       let position = 0
+      let imageBottom = 0
+      let marginHeight = 0
       const updatedGalleries = this.state.loadedGalleries.map((originalGallery, index) => {
         const bounding = originalGallery.node.getBoundingClientRect()
         const thisHeight = bounding.height
-        console.log(thisHeight)
-        const thisWidth = bounding.width
-        const nudgeFactorX = 0.08
         // do the algo
         if (index === 0) {
-          deltaY = 0 - ((viewHeight - 240 - thisHeight) * 0.5)
-          position = deltaY + thisHeight
-          deltaX = windowCenter - (thisWidth - (viewWidth * .08)) - ((viewWidth / 2) - (thisWidth / 2))
+          deltaY = 0 - ((frameHeight - thisHeight)/2)
+          marginHeight = frameHeight - thisHeight/2
+          imageBottom = thisHeight + marginHeight + deltaY - (thisHeight * 0.04)
+          deltaX = strutLeft
+          // deltaX = windowCenter - (thisWidth - (viewWidth * .08)) - ((viewWidth / 2) - (thisWidth / 2))
         } else if (index + 1 <= this.state.loadedGalleries.length && index !== 0) {
-          deltaY = position - ((viewHeight - 240 - thisHeight) * 0.5)
-          position = deltaY + thisHeight
-
+          marginHeight = frameHeight - thisHeight/2
+          deltaY = imageBottom - marginHeight - (thisHeight * 0.04)
+          position = imageBottom = thisHeight + marginHeight + deltaY
           if (index % 2 === 1) {
-            deltaX = windowCenter - (thisWidth * nudgeFactorX) - ((viewWidth / 2) - (thisWidth / 2))
+            // deltaX = windowCenter - (Math.pow(viewRatio * 10, 2)) - ((viewWidth / 2) - (thisWidth / 2))
+            deltaX = strutRight
           } else {
-            deltaX = windowCenter - (thisWidth - (viewWidth * nudgeFactorX)) - ((viewWidth / 2) - (thisWidth / 2))
+            // deltaX = windowCenter + (Math.pow(viewRatio * 10, 2)) - (thisWidth) - ((viewWidth / 2) - (thisWidth / 2))
+            deltaX = strutLeft
           }
         }
         return update(originalGallery, {$merge: {

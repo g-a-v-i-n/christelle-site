@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Markdown from 'react-markdown'
 import { AboutHeader } from './Header'
 import { AboutArrow, LeftGalleryArrow } from './svgs'
-import _ from 'lodash'
 import classnames from 'classnames'
 
 const ContactItem = (props) => {

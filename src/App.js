@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { createClient }  from 'contentful'
-import Header from './Header'
-import About from './About'
 import Main from './Main'
 import './styles/application.css'
 

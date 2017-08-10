@@ -115,11 +115,18 @@ img {
   height: 100vh;
   margin-top: -100px;
   position: fixed;
-  background-color: white;
-  will-change: opacity;
   pointer-events: all;
+  z-index: 140;
 }
 
 .overlayOn{
-  z-index: 140;
+  // opacity: 1;
+  visibility: visible;
+  transition: visibility 300ms step-start;
+}
+
+.overlayOff{
+  // opacity: 0;
+  visibility: hidden;
+  transition: visibility 300ms step-end;
 }

@@ -25,18 +25,20 @@
   position: fixed;
   width: 100vw;
   height: calc(100vh - 100px);
-  z-index: 999;
+  z-index: 300;
   pointer-events: none;
 }
 
 .showControls{
   opacity: 1;
   visibility: visible;
+  transition: visibility 300ms step-start, opacity 300ms linear;
 }
 
 .hideControls{
   opacity: 0;
   visibility: hidden;
+  transition: visibility 300ms step-end, opacity 300ms linear;
 }
 
 .showClose{
