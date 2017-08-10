@@ -60,7 +60,7 @@ content {
   cursor: pointer;
 }
 .gallery_hover-fade{
-  opacity: 0.65;
+  opacity: 0.35;
   transition: opacity $longTransition, transform 500ms;
 }
 .gallery_hover-normal{
@@ -92,7 +92,7 @@ img {
   width: 100vw;
   height: 100vh;
   position: fixed;
-  z-index: 104;
+  z-index: 140;
   background-color: white;
   will-change: opacity;
   pointer-events: auto;

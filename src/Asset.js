@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
+import VisibilitySensor from 'react-visibility-sensor'
 
 class Asset extends Component {
   render() {
@@ -27,27 +28,25 @@ class Asset extends Component {
 }
 
 const MainAsset = (props) => {
-  const onMouseEnter = (e, index) => {
-    e.stopPropagation()
-    props.handleSetHoverState(true, index)
-  }
-
-  const onMouseLeave = (e, index) => {
-    e.stopPropagation()
-    props.handleSetHoverState(false, index)
+  const handleVisibilityChange = (change, index) => {
+    change ? props.setCurrentGalleryScrollIndex(index) : null
+    props.handleSetHoverState(index)
   }
 
   return (
     <div id={'assetTray'}>
-    <img
-      alt={`imageGallery_${props.galleryIndex}`}
-      src={props.thumbURL}
-      id={'asset'}
-      onLoad={(e) => props.addToGalleryList(e, props.galleryIndex)}
-      onMouseEnter={(e) => onMouseEnter(e, props.galleryIndex)}
-      onMouseLeave={(e) => onMouseLeave(e, props.galleryIndex)}
-      onClick={() => props.handleOpenGallery('on', props.galleryIndex)}/>
-      </div>
+      <VisibilitySensor offset={{top:50}} onChange={(change) => handleVisibilityChange(change, props.galleryIndex)}>
+      <img
+        alt={`imageGallery_${props.galleryIndex}`}
+        src={props.thumbURL}
+        id={'asset'}
+        onLoad={(e) => props.addToGalleryList(e, props.galleryIndex)}
+        onMouseEnter={(e) => props.handleSetHoverState(props.galleryIndex, true)}
+        onMouseLeave={(e) => props.handleSetHoverState(props.galleryIndex, false)}
+        onClick={() => props.handleOpenGallery('on', props.galleryIndex)}/>
+      </VisibilitySensor>
+    </div>
+
   )
 }
 export{

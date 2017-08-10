@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { MainAsset, Asset } from './Asset'
+import VisibilitySensor from 'react-visibility-sensor'
 import lodash from 'lodash'
 import classnames from 'classnames'
 
@@ -58,6 +59,8 @@ class Gallery extends Component {
         className={conditionalClasses}
         style={translations}>
           <MainAsset
+            allLoaded ={this.props.allLoaded}
+            info={this.props.galleryInfo}
             addToGalleryList={this.props.addToGalleryList}
             galleryIndex={this.props.galleryIndex}
             assetIndex={0}
@@ -65,8 +68,9 @@ class Gallery extends Component {
             thumbURL={this.props.thumbURL}
             handleSetHoverState={this.props.handleSetHoverState}
             handleOpenGallery={this.props.handleOpenGallery}
+            setCurrentGalleryScrollIndex={this.props.setCurrentGalleryScrollIndex}
           />
-          {display === 'gallery' ? this.generateAssets() : null}
+          {display === 'gallery' && this.props.isFinishedOpening === true ? this.generateAssets() : null}
       </div>
     )
   }

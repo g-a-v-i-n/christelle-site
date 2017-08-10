@@ -15,6 +15,7 @@ class Home extends Component {
       arrangeDone: false,
       minHeight: 0,
       loaded: false,
+      releaseLoadingScreen: false,
       absoluteScreenOrigin: 0,
       galleryOn: false,
       filterQuery: 'Index',
@@ -26,6 +27,9 @@ class Home extends Component {
       loadedImages: [],
       allImagesLoaded: false,
       galleryVisibility: false,
+      galleryScrollIndex: 0,
+      currentFocusedIndex: 0,
+      scrollLatch: false,
     }
   }
 
@@ -70,6 +74,7 @@ class Home extends Component {
     const galleryObject = {
       //hover: normal, fade, ignore
       hover:'normal',
+
       // display: feed, off, gallery
       display: 'feed',
       width: 0,
@@ -135,6 +140,8 @@ class Home extends Component {
           addToPhotoList={this.addToPhotoList}
           currentGalleryIndex={this.state.currentGalleryIndex}
           galleryVisibility={this.state.galleryVisibility}
+          isFinishedOpening={this.state.isFinishedOpening}
+          setCurrentGalleryScrollIndex={this.setCurrentGalleryScrollIndex}
           // misc
           galleryIndex={index}
           key={project.sys.id}
@@ -144,33 +151,45 @@ class Home extends Component {
     })
   }
 
+  setCurrentGalleryScrollIndex = (index) => {
+    if (this.state.scrollLatch) {
+      this.setState({ galleryScrollIndex: index})
+    }
+  }
 
-  handleSetHoverState = (isHovering, galleryIndex) => {
+
+  handleSetHoverState = (galleryIndex, isHovering) => {
     let galleries = this.state.loadedGalleries
     let updatedGalleries = []
+    let currentFocusedIndex = this.state.galleryScrollIndex
     // if a gallery is displayed, ignore hover
-    if (lodash.find(galleries, ['display', 'gallery'])) {
+    if (this.state.galleryOn) {
       updatedGalleries = galleries.map((originalGallery) => {
         return update(originalGallery, {$merge: {hover: 'noHover'}})
       })
     // if no gallery is displayed
     } else {
-      // if a gallery is being hovered over, it should be 'normal', others should fade out
-      if (isHovering) {
+      if (isHovering === true) {
         updatedGalleries = galleries.map((originalGallery, index) => {
           if (index === galleryIndex) {
+            currentFocusedIndex = index
             return update(originalGallery, {$merge: {hover: 'forward'}})
           } else {
             return update(originalGallery, {$merge: {hover: 'fade'}})
           }
         })
-      // if no galleries are being hovered over, all should display 'normal'
       } else {
         updatedGalleries = galleries.map((originalGallery, index) => {
-          return update(originalGallery, {$merge: {hover: 'normal'}})
+          return this.state.galleryScrollIndex === index ?
+            update(originalGallery, {$merge: {hover: 'forward'}}) :
+            update(originalGallery, {$merge: {hover: 'fade'}})
         })
       }
-      this.setState({loadedGalleries: updatedGalleries})
+      this.setState({
+        loadedGalleries: updatedGalleries,
+        currentFocusedIndex,
+        scrollLatch: true,
+      })
     }
   }
 
@@ -189,7 +208,11 @@ class Home extends Component {
       galleryOn: true,
       filterMenuOpen: false,
       totalFrames: this.props.projects[galleryIndex].fields.assets.length,
-    })
+    }, this.delayOpen())
+  }
+
+  delayOpen = () => {
+    setTimeout(() => { this.setState({isFinishedOpening: true}) }, 550)
   }
 
   handleCloseGallery = () => {
@@ -206,17 +229,22 @@ class Home extends Component {
       totalFrames: 0,
       currentGalleryIndex: 0,
       galleryVisibility: false,
+      isFinishedOpening: false,
     })
   }
 
   onAllLoad = () => {
     if (this.state.loaded) {
       const galleries = lodash.sortBy(this.state.loadedGalleries, ['galleryIndex'], ['asc'])
-      console.log(galleries)
       this.setState({
         loadedGalleries: galleries,
       }, () => this.updateDimensions())
     }
+    setTimeout(() => {
+        this.setState({
+          releaseLoadingScreen: true,
+        })
+    }, 650)
   }
 
   handleOnResize = () => {
@@ -235,8 +263,6 @@ class Home extends Component {
       const unitRatio = viewWidth / 10000
       const strutLeft = -(viewWidth * (unitRatio))
       const strutRight = (viewWidth * (unitRatio))
-      console.log(unitRatio, strutLeft)
-
       const frameHeight = viewHeight - 200
       let deltaY = 0
       let deltaX = 0
@@ -349,14 +375,20 @@ class Home extends Component {
     })
 
     let loadingState = classnames({
-      'loadingOn': !this.state.loaded,
-      'loadingOff': this.state.loaded,
+      'loadingOn': !this.state.releaseLoadingScreen,
+      'loadingOff': this.state.releaseLoadingScreen,
     })
 
     let overlayState = classnames({
       'overlayOn': this.state.galleryOn,
       'overlayOff': !this.state.galleryOn,
     })
+    let projectName = ''
+    let projectClient = ''
+    if (this.props.projects.length !== 0) {
+      projectName = this.props.projects[this.state.currentFocusedIndex].fields.projectName
+      projectClient = this.props.projects[this.state.currentFocusedIndex].fields.client
+    }
 
     return (
       <main className={'home'}>
@@ -370,12 +402,12 @@ class Home extends Component {
         <div className={'arrowContainer rightArrowContainer'} onClick={(e) => this.handleAdvanceGallery(e)}>
           <RightGalleryArrow />
         </div>
-        <div id={'galleryInfo'}>
-          <div className={'imageName'}>{'Lissy Trullie'}</div>
-          <div className={'gallery-clientContainer'}>
-            <div className={'midDash'}/>
-            <div className={'imageClient'}>{'Crush Fanzine'}</div>
-          </div>
+      </div>
+      <div id={'galleryInfo'}>
+        <div className={'imageName'}>{projectName}</div>
+        <div className={'gallery-clientContainer'}>
+          <div className={'midDash'}/>
+          <div className={'imageClient'}>{projectClient}</div>
         </div>
       </div>
         <content style={minHeight}>
@@ -384,7 +416,6 @@ class Home extends Component {
         <div className={'centerline2'} />
           {this.generatePiles()}
         </content>
-        <footer>{'Christelle De Castro'}</footer>
       </main>
     )
   }
