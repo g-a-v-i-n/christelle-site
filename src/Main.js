@@ -235,9 +235,7 @@ class Home extends Component {
         loadedGalleries: galleries,
       }, () => this.updateDimensions())
     }
-    setTimeout(() => {
-        this.setState({ releaseLoadingScreen: true })
-    }, 650)
+    setTimeout(() => { this.setState({ releaseLoadingScreen: true }) }, 650)
   }
 
   handleOnResize = () => {
@@ -271,16 +269,13 @@ class Home extends Component {
           marginHeight = frameHeight - thisHeight/2
           imageBottom = thisHeight + marginHeight + deltaY - (thisHeight * 0.04)
           deltaX = strutLeft
-          // deltaX = windowCenter - (thisWidth - (viewWidth * .08)) - ((viewWidth / 2) - (thisWidth / 2))
         } else if (index + 1 <= this.state.loadedGalleries.length && index !== 0) {
           marginHeight = frameHeight - thisHeight/2
           deltaY = imageBottom - marginHeight - (thisHeight * 0.04)
           position = imageBottom = thisHeight + marginHeight + deltaY
           if (index % 2 === 1) {
-            // deltaX = windowCenter - (Math.pow(viewRatio * 10, 2)) - ((viewWidth / 2) - (thisWidth / 2))
             deltaX = strutRight
           } else {
-            // deltaX = windowCenter + (Math.pow(viewRatio * 10, 2)) - (thisWidth) - ((viewWidth / 2) - (thisWidth / 2))
             deltaX = strutLeft
           }
         }
@@ -293,7 +288,7 @@ class Home extends Component {
       })
       this.setState({
         loadedGalleries: updatedGalleries,
-        minHeight: position,
+        minHeight: position - 200,
       })
     }
   }
@@ -376,6 +371,8 @@ class Home extends Component {
       'overlayOn': this.state.galleryOn,
       'overlayOff': !this.state.galleryOn,
     })
+
+
     let projectName = ''
     let projectClient = ''
     if (this.props.projects.length !== 0) {
@@ -390,10 +387,10 @@ class Home extends Component {
       <div id={'loadingScreen'} className={loadingState} />
       <div id={'galleryControls'} className={showControls}>
         <div className={'arrowContainer leftArrowContainer'} onClick={(e) => this.handleRetreatGallery(e)}>
-          <LeftGalleryArrow />
+          <LeftGalleryArrow active={this.state.currentGalleryIndex !== 0 ? true : false}/>
         </div>
         <div className={'arrowContainer rightArrowContainer'} onClick={(e) => this.handleAdvanceGallery(e)}>
-          <RightGalleryArrow />
+          <RightGalleryArrow active={this.state.currentGalleryIndex < this.state.totalFrames - 1 ? true : false}/>
         </div>
       </div>
       <div id={'galleryInfo'}>

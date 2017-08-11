@@ -33,6 +33,15 @@
   }
 }
 
+.backButtonArrow{
+  margin-right: 30px;
+}
+
+.backButton:hover{
+  //classes for arrow here
+}
+
+
 .bio {
   width: 55vw;
   min-height: 100vh;
@@ -169,7 +178,6 @@
 #aboutArrowContainer:hover #arrowline{
   d: path("M75,150 L75,10");
 }
-
 
 .about-left, .about-right{
   width: 45vw;

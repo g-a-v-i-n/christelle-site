@@ -1,4 +1,5 @@
 import React from 'react'
+import { BackArrow } from './svgs'
 import classnames from 'classnames'
 
 const MainHeader = (props) => {
@@ -39,7 +40,6 @@ const MainHeader = (props) => {
           <div className={'dropdownWrapper'}>{mapDropdown()}</div>
         </div>
         <div id={'rule'} className={ruleClass} />
-
         <div className={'linkShim'}>
           <button className={'aboutLinkSetWidth'} id={'headerButton'} onClick={(e) => props.toggleAbout(e)}>{'About'}</button>
         </div>
@@ -53,9 +53,9 @@ const AboutHeader = (props) => {
     <header id={'aboutHeader'} className={'white-text'}>
       {'About'}
       <nav>
-        <button id={'headerButton'} className={`white-text backLink`} onClick={(e) => props.toggleAbout(e)}>
-          <div className={'backArrow'} />
-          {'Back'}
+        <button id={'headerButton'} className={`backButton white-text backLink`} onClick={(e) => props.toggleAbout(e)}>
+          <BackArrow />
+          <div className={'aboutLinkSetWidth'}>{'Back'}</div>
         </button>
       </nav>
     </header>

@@ -6,11 +6,11 @@
     <defs></defs>
     <g id="Groups" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
         <g id="Artboard" stroke="#000000">
-            <path d="M49.5,75.5 L149.5,75.5" id="arrowline"></path>
-            <g id="arrowhead" transform="translate(48.000000, 60.000000)">
-                <path d="M0.5,15.5 L15.0086181,0.991381871" id="upperLine"></path>
-                <path d="M0.5,15.5 L15.5,30.5" id="lowerLine"></path>
+            <g id="arrwohead" transform="translate(79.000000, 73.000000)">
+                <path d="M22.5,2.5 L1.5,2.5" id="Line-4"></path>
+                <path d="M22.5,2.5 L1.5,2.5" id="Line-4"></path>
             </g>
+            <path d="M0.5,75.5 L100.5,75.5" id="arrowline"></path>
         </g>
     </g>
 </svg>

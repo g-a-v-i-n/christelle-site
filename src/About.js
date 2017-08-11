@@ -29,12 +29,8 @@ export default class About extends Component {
       metaSectionClassArray: ['about-meta', 'about-closed'],
       portraitStyle: {},
     }
-    // document.title = 'Christelle de Castro – About'
   }
-
-  componentWillMount = () => {
-  }
-
+  
   makeList = (clientList) => {
     return <Markdown source={clientList} />
   }
