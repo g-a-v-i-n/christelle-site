@@ -6,6 +6,9 @@
 
 content {
   display: block;
+  position: relative; // IMPORTANT: DO NOT REMOVE
+  height: 100%;
+  overflow: hidden;
 }
 
 // display states

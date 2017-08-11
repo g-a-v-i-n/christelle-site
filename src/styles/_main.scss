@@ -5,9 +5,11 @@
 html, body{
   margin:0;
   padding:0;
+  width: 100vw;
+  height: 100vh;
 }
 
-html, body, h1, h2, h3, h4, h5, h6{
+html, body, h1, h2, h3, h4, h5, h6 {
   outline: none;
   font-size: 24px;
   font-family: 'Nurom', sans-serif;
@@ -45,7 +47,6 @@ p {
 
 header a {
   color: $christelle_black;
-
 }
 
 .about-meta p{
@@ -86,11 +87,12 @@ ul, ol, li {
 }
 
 .stopScroll{
-  overflow-y: hidden;
+  overflow: hidden;
 }
 
 .midDash{
   width: 80px;
+  max-width: 80px;
   height: 1px;
   background-color: $christelle_black;
   flex: 1;
@@ -99,6 +101,7 @@ ul, ol, li {
 
 .smallDash{
   min-width: 40px;
+  max-width: 40px;
   height: 1px;
   background-color: $christelle_white;
   margin-top: 10px;

@@ -110,11 +110,13 @@ nav {
 .showMenuItem{
   opacity: 1;
   pointer-events: all;
+  visibility: visible;
 }
 
 .hideMenuItem {
   opacity: 0;
   pointer-events: none;
+  visibility: hidden;
 }
 
 .dropdownWrapper{

@@ -6,6 +6,7 @@ import { LeftGalleryArrow, RightGalleryArrow } from './svgs'
 import lodash from 'lodash'
 import classnames from 'classnames'
 import update from 'immutability-helper'
+import ReactSwipeEvents from 'react-swipe-events'
 
 class Home extends Component {
   constructor(props) {
@@ -30,6 +31,8 @@ class Home extends Component {
       galleryScrollIndex: 0,
       currentFocusedIndex: 0,
       scrollLatch: false,
+      windowHeight: window.innerHeight,
+      windowWidth: window.innerWidth,
     }
   }
 
@@ -234,15 +237,19 @@ class Home extends Component {
       this.setState({
         loadedGalleries: galleries,
       }, () => this.updateDimensions())
+      setTimeout(() => { this.setState({ releaseLoadingScreen: true }) }, 650)
     }
-    setTimeout(() => { this.setState({ releaseLoadingScreen: true }) }, 650)
   }
 
   handleOnResize = () => {
     // only move images when resize has finished
+    // only resize when horizontal changes occur at any delta, or when vertical changes occur greater than delta 100
     clearTimeout(window.resizedFinished)
     window.resizedFinished = setTimeout(() => {
-        this.updateDimensions()
+        if (Math.abs(this.state.windowHeight - window.innerHeight) > 100 || this.state.windowWidth !== window.innerWidth) {
+          this.setState({windowHeight: window.innerHeight, windowWidth: window.innerWidth})
+          this.updateDimensions()
+        }
     }, 400)
   }
 
@@ -252,9 +259,10 @@ class Home extends Component {
       const viewWidth = window.innerWidth
       const viewHeight = window.innerHeight
       const unitRatio = viewWidth / 10000
-      const strutLeft = -(viewWidth * (unitRatio))
-      const strutRight = (viewWidth * (unitRatio))
+      const strutLeft = viewWidth > 1650 ? -(1650 * (1650 / 10000)) : -(viewWidth * (unitRatio))
+      const strutRight = viewWidth > 1650 ? (1650 * (1650 / 10000)) : (viewWidth * (unitRatio))
       const frameHeight = viewHeight - 200
+      let minHeight = 0
       let deltaY = 0
       let deltaX = 0
       let position = 0
@@ -286,9 +294,14 @@ class Home extends Component {
           left:     deltaX,
         }})
       })
+      if (viewWidth < 500) {
+        minHeight = position
+      } else {
+        minHeight = position - 200
+      }
       this.setState({
         loadedGalleries: updatedGalleries,
-        minHeight: position - 200,
+        minHeight: minHeight,
       })
     }
   }
@@ -385,6 +398,8 @@ class Home extends Component {
       <About {...this.props} aboutOpen={this.state.aboutOpen} {...headerProps}/>
       <MainHeader {...this.props} {...headerProps} />
       <div id={'loadingScreen'} className={loadingState} />
+      <ReactSwipeEvents onSwipedLeft={(e) => this.handleAdvanceGallery(e)} onSwipedRight={(e) => this.handleRetreatGallery(e)}>
+
       <div id={'galleryControls'} className={showControls}>
         <div className={'arrowContainer leftArrowContainer'} onClick={(e) => this.handleRetreatGallery(e)}>
           <LeftGalleryArrow active={this.state.currentGalleryIndex !== 0 ? true : false}/>
@@ -393,6 +408,8 @@ class Home extends Component {
           <RightGalleryArrow active={this.state.currentGalleryIndex < this.state.totalFrames - 1 ? true : false}/>
         </div>
       </div>
+      </ReactSwipeEvents>
+
       <div id={'galleryInfo'}>
         <div className={'imageName'}>{projectName}</div>
         <div className={'gallery-clientContainer'}>
@@ -402,8 +419,6 @@ class Home extends Component {
       </div>
         <content style={minHeight}>
         <div id={'overlay'} className={overlayState} onClick={() => this.handleCloseGallery()}/>
-        <div className={'centerline'} />
-        <div className={'centerline2'} />
           {this.generatePiles()}
         </content>
       </main>

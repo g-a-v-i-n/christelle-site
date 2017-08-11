@@ -15,6 +15,7 @@
   justify-content: center;
   will-change: transform;
   align-items: center;
+  overflow:hidden;
 }
 
 #asset{
@@ -28,6 +29,9 @@
   height: calc(100vh - 100px);
   z-index: 300;
   pointer-events: none;
+  @include for-phone-only {
+    visibility: hidden;
+  }
 }
 
 .showControls{
@@ -102,10 +106,10 @@
 
 #galleryInfo {
   width: auto;
-  bottom: 0;
+  bottom: 15px;
   left: 40px;
   position: fixed;
-  height: 100px;
+  height: auto;
   z-index: 300;
   pointer-events:none;
   @include flex-center-column;

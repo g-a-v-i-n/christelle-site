@@ -15,7 +15,6 @@ export default class App extends Component {
       exhibitionList: '',
       portrait: '',
       projects: [],
-      error: false,
     }
     this.client = createClient({
       space: process.env.REACT_APP_SPACE_ID,

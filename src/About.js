@@ -30,7 +30,7 @@ export default class About extends Component {
       portraitStyle: {},
     }
   }
-  
+
   makeList = (clientList) => {
     return <Markdown source={clientList} />
   }
@@ -82,7 +82,6 @@ export default class About extends Component {
 
   toggleMetaTray = (e) => {
     e.preventDefault()
-
       this.setState({
         open: !this.state.open,
       })
@@ -90,19 +89,27 @@ export default class About extends Component {
 
 
   render() {
-    const portraitStyle = { backgroundImage: `url(${this.props.portrait.url})` }
     const contact = this.props.contact
     const trayStyle = classnames({
       'tray-open': this.state.open,
       'tray-open-hover': this.state.open && this.state.hover,
       'tray-closed': !this.state.open,
       'tray-closed-hover': !this.state.open && this.state.hover,
+
+    })
+
+    const trayTransitionClasses = classnames({
+      'tray-in': !this.props.aboutOpen,
+      'tray-out': this.props.aboutOpen,
     })
 
     const aboutClasses = classnames({
       'about-open': this.props.aboutOpen,
       'about-closed': !this.props.aboutOpen,
     })
+
+    const portraitStyle = { backgroundImage: `url(${this.props.portrait.url})` }
+
 
     return (
       <main id={'about'} className={aboutClasses} >
@@ -117,26 +124,28 @@ export default class About extends Component {
           <AboutArrow />
         </div>
         <section className={'bio'}><Markdown source={this.props.biography} /></section>
-        <section className={'bio-portrait'} style={portraitStyle}/>
-        <section id={'tray'} className={trayStyle}>
-          <div className={'about-left'}>
-          <ul>
-            <ContactItem title={'Email'} content={this.returnEmail(contact.email)} />
-            <ContactItem title={'Instagram'} content={this.parseInstagram(contact.instagram)} />
-          </ul>
-          <div className={'clientList'}>
-            <ContactItem title={'Clients'} content={this.makeList(this.props.clientList)} />
-          </div>
-          </div>
-          <div className={'about-right'}>
+        <section id={'bio-portrait'} style={portraitStyle}/>
+        <div id={'trayWrapper'} className={trayTransitionClasses}>
+          <section id={'tray'} className={trayStyle}>
+            <div className={'about-left'}>
+            <ul>
+              <ContactItem title={'Email'} content={this.returnEmail(contact.email)} />
+              <ContactItem title={'Instagram'} content={this.parseInstagram(contact.instagram)} />
+            </ul>
             <div className={'clientList'}>
-              <ContactItem title={'Exhibitions'} content={this.makeList(this.props.exhibitionList)} />
+              <ContactItem title={'Clients'} content={this.makeList(this.props.clientList)} />
             </div>
-            <div className={'clientList'}>
-              <ContactItem title={'Press'} content={this.makeList(this.props.pressList)} />
             </div>
-          </div>
-        </section>
+            <div className={'about-right'}>
+              <div className={'clientList'}>
+                <ContactItem title={'Exhibitions'} content={this.makeList(this.props.exhibitionList)} />
+              </div>
+              <div className={'clientList'}>
+                <ContactItem title={'Press'} content={this.makeList(this.props.pressList)} />
+              </div>
+            </div>
+          </section>
+        </div>
         </div>
         </div>
       </main>
