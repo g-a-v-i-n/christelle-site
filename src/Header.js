@@ -37,7 +37,15 @@ const MainHeader = (props) => {
       <nav>
         <div className={'dropdownContainer'}>
           <button onClick={(e) => props.toggleFilterMenu(e)} id={'headerButton'}>{props.filterQuery}</button>
-          <div className={'dropdownWrapper'}>{mapDropdown()}</div>
+          <div className={'dropdownWrapper'}>
+            {mapDropdown()}
+            <button
+              id={'filterButton'}
+              className={filterItemClasses}
+              onClick={() => window.location.href='http://google.com'}>
+              {'Blog'}
+            </button>
+          </div>
         </div>
         <div id={'rule'} className={ruleClass} />
         <div className={'linkShim'}>

@@ -59,10 +59,15 @@ a, button {
   transform-origin: bottom;
   text-decoration: none;
   font-style: italic;
+  border: none;
+  // border-bottom: 1px solid transparent;
+  // opacity: 1;
 }
 
 a:hover, button:hover{
-  font-style: normal;
+  // border-bottom: 1px solid black;
+  box-sizing:content-box;
+  // opacity: 0.5;
   cursor: pointer;
 }
 
