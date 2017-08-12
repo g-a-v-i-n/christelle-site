@@ -121,7 +121,7 @@ nav {
 .dropdownWrapper{
   .showMenuItem:first-child {
     transition: 200ms;
-    transform: translateY(#{$menu-translate-height} - 25px);
+    transform: translateY(calc(#{$menu-translate-height} - 25px));
   }
   .showMenuItem:nth-child(2) {
     transition: 300ms;

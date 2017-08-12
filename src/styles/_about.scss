@@ -145,7 +145,7 @@
 
 .tray-closed{
   transition: transform 400ms;
-  transform: translate3D(52vw, calc(100vh - 200px), 0);
+  transform: translate3D(55vw, calc(100vh - 200px), 0);
   @include for-phone-only {
     transform: translate3D(0,0,0);
   }
@@ -162,7 +162,7 @@
 
 .tray-open {
   transition: transform 400ms;
-  transform: translate3D(10vw, 10vh, 0);
+  transform: translate3D(10vw, 100px, 0);
   @include for-phone-only {
     transform: translate3D(0,0,0);
   }
@@ -228,9 +228,17 @@
 .about-left, .about-right{
   width: 45vw;
   padding: 60px;
+  padding-bottom: 80px;
   background-color: $christelle_black;
   @include for-phone-only {
     width: 100vw;
     padding: 30px;
+  }
+}
+
+.about-right{
+  @include for-phone-only{
+    padding-bottom: 80px;
+
   }
 }

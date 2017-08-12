@@ -22,6 +22,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-markdown": "^2.5.0",
+    "react-player": "^0.20.0",
     "react-router-dom": "^4.1.1",
     "react-router-transition": "^0.1.1",
     "react-swipe-events": "^1.0.2",

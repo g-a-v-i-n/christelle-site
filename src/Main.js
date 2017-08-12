@@ -33,6 +33,7 @@ class Home extends Component {
       scrollLatch: false,
       windowHeight: window.innerHeight,
       windowWidth: window.innerWidth,
+      totalLoadableAssets: [],
     }
   }
 
@@ -55,10 +56,11 @@ class Home extends Component {
       node: e.target,
       imageIndex: index,
     }
-    this.setState({
-      loadedImages: this.state.loadedImages.concat(imageObject),
-      // recall that we skip the thumbnail and want to call this AT the last image load
-      allImagesLoaded: originalLoadedImages.length + 1  === totalAssets - 1 ? true : false,
+    this.setState((prevState) => {
+      return {
+        loadedImages: prevState.loadedImages.concat(imageObject),
+        allImagesLoaded: originalLoadedImages.length + 1  === totalAssets - 1 ? true : false,
+      }
     }, () => {
         this.onAllImagesLoaded()
     })
@@ -77,7 +79,6 @@ class Home extends Component {
     const galleryObject = {
       //hover: normal, fade, ignore
       hover:'normal',
-
       // display: feed, off, gallery
       display: 'feed',
       width: 0,
@@ -87,32 +88,19 @@ class Home extends Component {
       node: e.target,
       galleryIndex: index,
     }
-    this.setState({
-      loadedGalleries: this.state.loadedGalleries.concat(galleryObject),
-      loaded: this.state.loadedGalleries.length === this.props.projects.length - 1 ? true : false,
+    this.setState((prevState) => {
+      return {
+        loadedGalleries: prevState.loadedGalleries.concat(galleryObject),
+        loaded: this.state.loadedGalleries.length === this.props.projects.length - 1 ? true : false,
+      }
     }, () => {
-        // ensure galleries are correctly ordered and update gallery positions once
-        this.onAllLoad()
+        this.onAllGalleryLoad()
     })
   }
 
   placeGalleryImages = () => {
     if (this.state.allImagesLoaded) {
-      const updatedImages = this.state.loadedImages.map((originalImage, index) => {
-        const bounding = originalImage.node.getBoundingClientRect()
-        const thisWidth = bounding.width
-        const deltaY = 0
-        const deltaX = (index * window.innerWidth) + (thisWidth * 0.5) + (window.innerWidth *.5)
-        return update(originalImage, {$merge: {
-          width:    bounding.width,
-          height:   bounding.height,
-          top:      deltaY,
-          left:     deltaX,
-        }})
-      })
-      // console.log(updatedImages)
       this.setState({
-        loadedImages: updatedImages,
         galleryVisibility: true,
       })
     }
@@ -205,11 +193,16 @@ class Home extends Component {
         return update(originalGallery, {$merge: {display: 'off', hover: 'noHover'}})
       }
     })
+    // const assets = this.props.projects[galleryIndex].fields.assets
+    // let totalLoadableAssets = assets.filter((asset) => {
+    //   return /\b(images.contentful.com)\b/.test(asset.fields.file.url)
+    // })
     this.setState({
       loadedGalleries: updatedGalleries,
       galleryOn: true,
       filterMenuOpen: false,
       totalFrames: this.props.projects[galleryIndex].fields.assets.length,
+      // totalLoadableAssets,
     })
   }
 
@@ -231,7 +224,7 @@ class Home extends Component {
     })
   }
 
-  onAllLoad = () => {
+  onAllGalleryLoad = () => {
     if (this.state.loaded) {
       const galleries = lodash.sortBy(this.state.loadedGalleries, ['galleryIndex'], ['asc'])
       this.setState({

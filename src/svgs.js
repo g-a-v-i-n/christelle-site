@@ -39,7 +39,7 @@ const RightGalleryArrow = (props) => {
       <g id="Groups" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
           <g id="Artboard" stroke="#000000">
             <path d="M0.5,75.5 L100.5,75.5" className={lineClasses} id="arrowline"></path>
-              <g id="arrowhead" className={lineClasses} transform="translate(86.000000, 60.000000)">
+              <g id="arrowhead" className={lineClasses}>
                   <path className={arroheadClasses} d="M15.5,15.5 L0.650757595,30.3492424" id="upperline"></path>
                   <path className={arroheadClasses} d="M15.5,15.5 L0.650757595,0.650757595" id="lowerline"></path>
               </g>

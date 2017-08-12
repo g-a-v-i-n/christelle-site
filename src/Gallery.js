@@ -1,26 +1,52 @@
 import React, { Component } from 'react'
-import { MainAsset, Asset } from './Asset'
+import { MainAsset, Asset, VideoAsset, VideoMainAsset, BlankAsset } from './Asset'
 import VisibilitySensor from 'react-visibility-sensor'
 import lodash from 'lodash'
 import classnames from 'classnames'
 
 class Gallery extends Component {
-
   generateAssets = () => {
     const imageObjects = lodash.tail(this.props.fields.assets)
     let imageInfo = {}
-    return imageObjects.map((image, index) => {
+    return imageObjects.map((asset, index) => {
       if (this.props.allImagesLoaded) { imageInfo = this.props.loadedImages[index] }
-      return (
-        <Asset
-          index={index + 1}
-          allImagesLoaded = {this.props.allImagesLoaded}
-          imageInfo={imageInfo}
-          galleryIndex={this.props.galleryIndex}
-          imageURL={image.fields.file.url}
-          handleOnLoad={this.props.addToPhotoList}
-          visibility={this.props.galleryVisibility}/>
-      )
+
+      const imageRegex = /\b(images.contentful.com)\b/.test(asset.fields.file.url)
+      const videoRegex = /\b(videos.contentful.com)\b/.test(asset.fields.file.url)
+      if (imageRegex) {
+        return (
+          <Asset
+            index={index + 1}
+            allImagesLoaded = {this.props.allImagesLoaded}
+            imageInfo={imageInfo}
+            galleryIndex={this.props.galleryIndex}
+            imageURL={asset.fields.file.url}
+            handleOnLoad={this.props.addToPhotoList}
+            visibility={this.props.galleryVisibility}/>
+        )
+      } else if (videoRegex) {
+        return (
+          <VideoAsset
+            index={index + 1}
+            allImagesLoaded = {this.props.allImagesLoaded}
+            imageInfo={imageInfo}
+            galleryIndex={this.props.galleryIndex}
+            imageURL={asset.fields.file.url}
+            handleOnLoad={this.props.addToPhotoList}
+            visibility={this.props.galleryVisibility}/>
+        )
+      } else {
+        return (
+          <BlankAsset
+            index={index + 1}
+            allImagesLoaded = {this.props.allImagesLoaded}
+            imageInfo={imageInfo}
+            galleryIndex={this.props.galleryIndex}
+            imageURL={asset.fields.file.url}
+            handleOnLoad={this.props.addToPhotoList}
+            visibility={this.props.galleryVisibility}/>
+        )
+      }
     })
   }
 
@@ -33,7 +59,6 @@ class Gallery extends Component {
       const top = this.props.galleryInfo.top
       const left =this.props.galleryInfo.left
       const calcTransformX = -this.props.currentGalleryIndex * window.innerWidth
-      console.log(window.scrollY)
       // calculate element x/y transform
         translations = { transform: `translate3d(${left}px,${top}px,0px)` }
         if (display === 'gallery') {

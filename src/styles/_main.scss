@@ -11,7 +11,8 @@ html, body{
 
 html, body, h1, h2, h3, h4, h5, h6 {
   outline: none;
-  font-size: 24px;
+  font-size: 20px;
+  letter-spacing: 0.03em;
   font-family: 'Nurom', sans-serif;
   font-weight: 400;
   @include for-phone-only {
@@ -81,6 +82,32 @@ ul, ol, li {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+img {
+  max-width: $imgWidth-desktop;
+  max-height: $imgHeight-desktop;
+  height: auto;
+  width: auto;
+  transform-origin: center center;
+  pointer-events: auto;
+  @include for-phone-only{
+    max-width: $imgWidth-mobile;
+    max-height: $imgHeight-mobile;
+  }
+}
+
+video {
+  max-width: $imgWidth-desktop;
+  max-height: $imgHeight-desktop;
+  height: auto;
+  width: auto;
+  transform-origin: center center;
+  pointer-events: auto;
+  @include for-phone-only{
+    max-width: $imgWidth-mobile;
+    max-height: $imgHeight-mobile;
+  }
 }
 
 .white-text{

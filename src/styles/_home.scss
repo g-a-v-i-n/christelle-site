@@ -48,20 +48,6 @@ content {
   transition: opacity 300ms, transform 500ms;
 }
 
-
-img {
-  max-width: $imgWidth-desktop;
-  max-height: $imgHeight-desktop;
-  height: auto;
-  width: auto;
-  transform-origin: center center;
-  pointer-events: auto;
-  @include for-phone-only{
-    max-width: $imgWidth-mobile;
-    max-height: $imgHeight-mobile;
-  }
-}
-
 #loadingScreen{
   width: 100vw;
   height: 100vh;
