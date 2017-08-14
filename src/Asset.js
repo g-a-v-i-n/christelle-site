@@ -58,7 +58,6 @@ class VideoAsset extends Component{
 }
 
 const MainAsset = (props) => {
-
   return (
     <div id={'assetTray'}>
       <img
@@ -74,7 +73,6 @@ const MainAsset = (props) => {
 }
 
 const VideoMainAsset = (props) => {
-
   return (
     <div id={'assetTray'}>
       <video

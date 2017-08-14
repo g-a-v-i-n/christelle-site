@@ -10,7 +10,6 @@ class Gallery extends Component {
     let imageInfo = {}
     return imageObjects.map((asset, index) => {
       if (this.props.allImagesLoaded) { imageInfo = this.props.loadedImages[index] }
-
       const imageRegex = /\b(images.contentful.com)\b/.test(asset.fields.file.url)
       const videoRegex = /\b(videos.contentful.com)\b/.test(asset.fields.file.url)
       if (imageRegex) {

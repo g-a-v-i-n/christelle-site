@@ -6,7 +6,7 @@ import { LeftGalleryArrow, RightGalleryArrow } from './svgs'
 import lodash from 'lodash'
 import classnames from 'classnames'
 import update from 'immutability-helper'
-import ReactSwipeEvents from 'react-swipe-events'
+import Swipe from 'react-easy-swipe'
 
 class Home extends Component {
   constructor(props) {
@@ -172,7 +172,7 @@ class Home extends Component {
         updatedGalleries = galleries.map((originalGallery, index) => {
           return this.state.galleryScrollIndex === index ?
             update(originalGallery, {$merge: {hover: 'forward'}}) :
-            update(originalGallery, {$merge: {hover: 'fade'}})
+            update(originalGallery, {$merge: {hover: 'normal'}})
         })
       }
       this.setState({
@@ -328,8 +328,6 @@ class Home extends Component {
   }
 
   handleAdvanceGallery = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
     if (this.state.currentGalleryIndex < this.state.totalFrames - 1) {
       this.setState({
         currentGalleryIndex: this.state.currentGalleryIndex + 1,
@@ -338,8 +336,6 @@ class Home extends Component {
   }
 
   handleRetreatGallery = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
     if (this.state.currentGalleryIndex !== 0) {
       this.setState({
         currentGalleryIndex: this.state.currentGalleryIndex - 1,
@@ -391,8 +387,6 @@ class Home extends Component {
       <About {...this.props} aboutOpen={this.state.aboutOpen} {...headerProps}/>
       <MainHeader {...this.props} {...headerProps} />
       <div id={'loadingScreen'} className={loadingState} />
-      <ReactSwipeEvents onSwipedLeft={(e) => this.handleAdvanceGallery(e)} onSwipedRight={(e) => this.handleRetreatGallery(e)}>
-
       <div id={'galleryControls'} className={showControls}>
         <div className={'arrowContainer leftArrowContainer'} onClick={(e) => this.handleRetreatGallery(e)}>
           <LeftGalleryArrow active={this.state.currentGalleryIndex !== 0 ? true : false}/>
@@ -401,7 +395,6 @@ class Home extends Component {
           <RightGalleryArrow active={this.state.currentGalleryIndex < this.state.totalFrames - 1 ? true : false}/>
         </div>
       </div>
-      </ReactSwipeEvents>
 
       <div id={'galleryInfo'}>
         <div className={'imageName'}>{projectName}</div>
@@ -410,10 +403,12 @@ class Home extends Component {
           <div className={'imageClient'}>{projectClient}</div>
         </div>
       </div>
-        <content style={minHeight}>
-        <div id={'overlay'} className={overlayState} onClick={() => this.handleCloseGallery()}/>
-          {this.generatePiles()}
-        </content>
+        <Swipe onSwipeRight={(e) => this.handleRetreatGallery(e)} onSwipeLeft={(e) => this.handleAdvanceGallery(e)}>
+          <content style={minHeight}>
+          <div id={'overlay'} className={overlayState} onClick={() => this.handleCloseGallery()}/>
+            {this.generatePiles()}
+          </content>
+        </Swipe>
       </main>
     )
   }

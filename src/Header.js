@@ -59,7 +59,7 @@ const MainHeader = (props) => {
 const AboutHeader = (props) => {
   return (
     <header id={'aboutHeader'} className={'white-text'}>
-      {'About'}
+      <div>{'About'}</div>
       <nav>
         <button id={'headerButton'} className={`backButton white-text backLink`} onClick={(e) => props.toggleAbout(e)}>
           <BackArrow />

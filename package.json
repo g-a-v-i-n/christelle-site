@@ -21,6 +21,7 @@
     "npm-run-all": "^4.0.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-easy-swipe": "0.0.13",
     "react-markdown": "^2.5.0",
     "react-player": "^0.20.0",
     "react-router-dom": "^4.1.1",
