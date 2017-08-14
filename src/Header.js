@@ -21,6 +21,31 @@ const MainHeader = (props) => {
     })
   }
 
+  const handleNav = () => {
+    if(props.galleryOn){
+      return (
+        <div className={'backButtonContainer'}>
+          <button onClick={(e) => props.handleCloseGallery(e)} id={'headerButton'}>{'Back'}</button>
+        </div>
+      )
+    } else {
+      return (
+        <div className={'dropdownContainer'}>
+          <button onClick={(e) => props.toggleFilterMenu(e)} id={'headerButton'}>{props.filterQuery}</button>
+          <div className={'dropdownWrapper'}>
+            {mapDropdown()}
+            <button
+              id={'filterButton'}
+              className={filterItemClasses}
+              onClick={() => window.location.href='http://google.com'}>
+              {'Blog'}
+            </button>
+          </div>
+        </div>
+      )
+    }
+  }
+
   const closeGalleryButtonClasses = classnames({
     'showClose': props.galleryOn,
     'hideClose': !props.galleryOn,
@@ -35,18 +60,8 @@ const MainHeader = (props) => {
     <header id={'mainHeader'}>
       <div className={'christelle'}>{'Christelle de Castro'}</div>
       <nav>
-        <div className={'dropdownContainer'}>
-          <button onClick={(e) => props.toggleFilterMenu(e)} id={'headerButton'}>{props.filterQuery}</button>
-          <div className={'dropdownWrapper'}>
-            {mapDropdown()}
-            <button
-              id={'filterButton'}
-              className={filterItemClasses}
-              onClick={() => window.location.href='http://google.com'}>
-              {'Blog'}
-            </button>
-          </div>
-        </div>
+        {handleNav()}
+
         <div id={'rule'} className={ruleClass} />
         <div className={'linkShim'}>
           <button className={'aboutLinkSetWidth'} id={'headerButton'} onClick={(e) => props.toggleAbout(e)}>{'About'}</button>

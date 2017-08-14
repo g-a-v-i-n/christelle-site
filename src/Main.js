@@ -374,12 +374,16 @@ class Home extends Component {
       'overlayOff': !this.state.galleryOn,
     })
 
-
     let projectName = ''
     let projectClient = ''
     if (this.props.projects.length !== 0) {
-      projectName = this.props.projects[this.state.currentFocusedIndex].fields.projectName
-      projectClient = this.props.projects[this.state.currentFocusedIndex].fields.client
+      if (!this.state.galleryOn) {
+        projectName = this.props.projects[this.state.currentFocusedIndex].fields.projectName
+        projectClient = this.props.projects[this.state.currentFocusedIndex].fields.client
+      } else {
+        projectName = this.props.projects[this.state.currentFocusedIndex].fields.assets[this.state.currentGalleryIndex].fields.title
+        projectClient = this.props.projects[this.state.currentFocusedIndex].fields.client
+      }
     }
 
     return (
@@ -395,7 +399,6 @@ class Home extends Component {
           <RightGalleryArrow active={this.state.currentGalleryIndex < this.state.totalFrames - 1 ? true : false}/>
         </div>
       </div>
-
       <div id={'galleryInfo'}>
         <div className={'imageName'}>{projectName}</div>
         <div className={'gallery-clientContainer'}>
