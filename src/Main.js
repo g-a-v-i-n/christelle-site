@@ -87,6 +87,8 @@ class Home extends Component {
       left: 0,
       node: e.target,
       galleryIndex: index,
+      fields: this.props.projects[index].fields,
+      sys: this.props.projects[index].sys,
     }
     this.setState((prevState) => {
       return {
@@ -114,30 +116,29 @@ class Home extends Component {
       if (this.state.loaded) {
         galleryInfo = this.state.loadedGalleries[index]
       }
-      return (
-        <Gallery
-          //gallery display state and methods
-          galleryInfo={galleryInfo}
-          addToGalleryList={this.addToGalleryList}
-          handleOpenGallery={this.handleOpenGallery}
-          handleSetHoverState={this.handleSetHoverState}
-          allLoaded={this.state.loaded}
-          //gallery info
-          thumbURL={project.fields.assets[0].fields.file.url}
-          fields={project.fields}
-          // asset management
-          allImagesLoaded={this.state.allImagesLoaded}
-          loadedImages={this.state.loadedImages}
-          addToPhotoList={this.addToPhotoList}
-          currentGalleryIndex={this.state.currentGalleryIndex}
-          galleryVisibility={this.state.galleryVisibility}
-          setCurrentGalleryScrollIndex={this.setCurrentGalleryScrollIndex}
-          // misc
-          galleryIndex={index}
-          key={project.sys.id}
-          absoluteScreenOrigin={this.state.absoluteScreenOrigin}
-        />
-      )
+      const galleryProps = {
+        //gallery display state and methods
+        galleryInfo: galleryInfo,
+        addToGalleryList: this.addToGalleryList,
+        handleOpenGallery: this.handleOpenGallery,
+        handleSetHoverState: this.handleSetHoverState,
+        allLoaded: this.state.loaded,
+        //gallery info
+        thumbURL: project.fields.assets[0].fields.file.url,
+        fields: project.fields,
+        // asset management
+        allImagesLoaded: this.state.allImagesLoaded,
+        loadedImages: this.state.loadedImages,
+        addToPhotoList: this.addToPhotoList,
+        currentGalleryIndex: this.state.currentGalleryIndex,
+        galleryVisibility: this.state.galleryVisibility,
+        setCurrentGalleryScrollIndex: this.setCurrentGalleryScrollIndex,
+        // misc
+        galleryIndex: index,
+        key: project.sys.id,
+        absoluteScreenOrigin: this.state.absoluteScreenOrigin,
+      }
+      return <Gallery {...galleryProps}/>
     })
   }
 
@@ -193,16 +194,11 @@ class Home extends Component {
         return update(originalGallery, {$merge: {display: 'off', hover: 'noHover'}})
       }
     })
-    // const assets = this.props.projects[galleryIndex].fields.assets
-    // let totalLoadableAssets = assets.filter((asset) => {
-    //   return /\b(images.contentful.com)\b/.test(asset.fields.file.url)
-    // })
     this.setState({
       loadedGalleries: updatedGalleries,
       galleryOn: true,
       filterMenuOpen: false,
       totalFrames: this.props.projects[galleryIndex].fields.assets.length,
-      // totalLoadableAssets,
     })
   }
 
@@ -233,29 +229,27 @@ class Home extends Component {
       const galleries = lodash.sortBy(this.state.loadedGalleries, ['galleryIndex'], ['asc'])
       this.setState({
         loadedGalleries: galleries,
-      }, () => this.updateDimensions())
+      }, () => this.updateDimensions('Index'))
       setTimeout(() => { this.setState({ releaseLoadingScreen: true }) }, 650)
     }
   }
 
   handleOnResize = () => {
-    // only move images when resize has finished
-    // only resize when horizontal changes occur at any delta, or when vertical changes occur greater than delta 100
     clearTimeout(window.resizedFinished)
     window.resizedFinished = setTimeout(() => {
-        if (Math.abs(this.state.windowHeight - window.innerHeight) > 100 || this.state.windowWidth !== window.innerWidth) {
-          this.setState({windowHeight: window.innerHeight, windowWidth: window.innerWidth})
-          this.updateDimensions()
-        }
+      if (Math.abs(this.state.windowHeight - window.innerHeight) > 100 || this.state.windowWidth !== window.innerWidth) {
+        this.setState({windowHeight: window.innerHeight, windowWidth: window.innerWidth})
+        this.updateDimensions(this.state.filterQuery)
+      }
     }, 400)
   }
 
-
-  updateDimensions = () => {
+  updateDimensions = (filterQuery) => {
     if (this.state.loaded) {
       const viewWidth = window.innerWidth
       const viewHeight = window.innerHeight
       const unitRatio = viewWidth / 10000
+      // define struts with max offset based on screen width
       const strutLeft = viewWidth > 1650 ? -(1650 * (1650 / 10000)) : -(viewWidth * (unitRatio))
       const strutRight = viewWidth > 1650 ? (1650 * (1650 / 10000)) : (viewWidth * (unitRatio))
       const frameHeight = viewHeight - 200
@@ -265,25 +259,28 @@ class Home extends Component {
       let position = 0
       let imageBottom = 0
       let marginHeight = 0
+      let marginWidth = 0
+      let filterIndex = 0
       const updatedGalleries = this.state.loadedGalleries.map((originalGallery, index) => {
         const bounding = originalGallery.node.getBoundingClientRect()
         const thisHeight = bounding.height
-        // do the algo
-        if (index === 0) {
-          deltaY = 0 - ((frameHeight - thisHeight)/2)
-          marginHeight = frameHeight - thisHeight/2
-          imageBottom = thisHeight + marginHeight + deltaY - (thisHeight * 0.04)
-          deltaX = strutLeft
-        } else if (index + 1 <= this.state.loadedGalleries.length && index !== 0) {
-          marginHeight = frameHeight - thisHeight/2
-          deltaY = imageBottom - marginHeight - (thisHeight * 0.04)
-          position = imageBottom = thisHeight + marginHeight + deltaY
-          if (index % 2 === 1) {
-            deltaX = strutRight
-          } else {
-            deltaX = strutLeft
-          }
+        const thisWidth = bounding.width
+        marginHeight = (frameHeight - thisHeight)/2
+        marginWidth = (viewWidth - thisWidth)/2
+//handle Y
+        if (filterQuery !== 'Index' && originalGallery.fields.projectType !== filterQuery) {
+          deltaY = index === 0 ? 0 - marginHeight : imageBottom - marginHeight - (thisHeight * 0.04)
+        } else {
+          deltaY = filterIndex === 0 ? 0 - marginHeight : imageBottom - marginHeight - (thisHeight * 0.04)
         }
+        position = imageBottom = thisHeight + marginHeight + deltaY
+//handle X
+        if (filterQuery !== 'Index' && originalGallery.fields.projectType !== filterQuery) {
+          deltaX = index % 2 === 0 ? -viewWidth + marginWidth - 100 : viewWidth - marginWidth + 100
+        } else {
+          deltaX = filterIndex % 2 === 0 ? strutLeft : strutRight
+        }
+        filterQuery !== 'Index' && originalGallery.fields.projectType !== filterQuery ? null : filterIndex++
         return update(originalGallery, {$merge: {
           width:    bounding.width,
           height:   bounding.height,
@@ -291,11 +288,7 @@ class Home extends Component {
           left:     deltaX,
         }})
       })
-      if (viewWidth < 500) {
-        minHeight = position
-      } else {
-        minHeight = position - 200
-      }
+      minHeight = position > viewHeight ? position + 200 : viewHeight
       this.setState({
         loadedGalleries: updatedGalleries,
         minHeight: minHeight,
@@ -304,11 +297,17 @@ class Home extends Component {
   }
 
   setFilterQuery = (e, filterQuery) => {
-    e.preventDefault()
-    e.stopPropagation()
-    let initialFilters = this.state.filters
-    let newFilters = update(initialFilters, {$unset: filterQuery, $push:this.state.filterQuery})
-    console.log(newFilters)
+    const currentFilter = this.state.filterQuery
+    const currentUnsetFilters = this.state.filters
+    let newFilters = currentUnsetFilters.filter((filter) => {
+      return filter !== filterQuery
+    })
+    newFilters.push(currentFilter)
+    this.setState({
+      filters: newFilters,
+      filterQuery: filterQuery,
+      filterMenuOpen: false,
+    }, this.updateDimensions(filterQuery))
   }
 
   toggleFilterMenu = (e) => {
