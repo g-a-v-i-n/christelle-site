@@ -34,8 +34,11 @@ content {
   z-index: 120;
   cursor: pointer;
 }
+.gallery_scroll_effect{
+  z-index: 120;
+}
 .gallery_hover-fade{
-  opacity: 0.35;
+  opacity: 0.65;
   transition: opacity $longTransition, transform 500ms;
 }
 .gallery_hover-normal{

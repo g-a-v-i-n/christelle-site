@@ -15,7 +15,7 @@ const MainHeader = (props) => {
           className={filterItemClasses}
           key={key}
           onClick={(e) => props.setFilterQuery(e, key)}>
-          {`${key}`}
+          <div className={'buttonText'}>{`${key}`}</div>
         </button>
       )
     })
@@ -38,7 +38,7 @@ const MainHeader = (props) => {
               id={'filterButton'}
               className={filterItemClasses}
               onClick={() => window.location.href='http://google.com'}>
-              {'Blog'}
+              <div className={'buttonText'}>{'Blog'}</div>
             </button>
           </div>
         </div>
@@ -61,10 +61,9 @@ const MainHeader = (props) => {
       <div className={'christelle'}>{'Christelle de Castro'}</div>
       <nav>
         {handleNav()}
-
         <div id={'rule'} className={ruleClass} />
         <div className={'linkShim'}>
-          <button className={'aboutLinkSetWidth'} id={'headerButton'} onClick={(e) => props.toggleAbout(e)}>{'About'}</button>
+          <button className={'aboutLinkSetWidth reverseHoverTranslate'} id={'headerButton'} onClick={(e) => props.toggleAbout(e)}>{'About'}</button>
         </div>
       </nav>
     </header>
@@ -76,9 +75,9 @@ const AboutHeader = (props) => {
     <header id={'aboutHeader'} className={'white-text'}>
       <div>{'About'}</div>
       <nav>
-        <button id={'headerButton'} className={`backButton white-text backLink`} onClick={(e) => props.toggleAbout(e)}>
+        <button id={'headerButton'} className={`backButton white-text backLink reverseHoverTranslate`} onClick={(e) => props.toggleAbout(e)}>
           <BackArrow />
-          <div className={'aboutLinkSetWidth'}>{'Back'}</div>
+          <div className={'aboutLinkSetWidth '}>{'Back'}</div>
         </button>
       </nav>
     </header>

@@ -218,10 +218,14 @@ class Home extends Component {
       allImagesLoaded: false,
       loadedGalleries: updatedGalleries,
       galleryOn: false,
-      totalFrames: 0,
-      currentGalleryIndex: 0,
       galleryVisibility: false,
     })
+    setTimeout(() => {
+      this.setState({
+        totalFrames: 0,
+        currentGalleryIndex: 0,
+      })
+    }, 300)
   }
 
   onAllGalleryLoad = () => {
@@ -398,6 +402,10 @@ class Home extends Component {
         <div className={'arrowContainer rightArrowContainer'} onClick={(e) => this.handleAdvanceGallery(e)}>
           <RightGalleryArrow active={this.state.currentGalleryIndex < this.state.totalFrames - 1 ? true : false}/>
         </div>
+      </div>
+      <div id={'galleryIndex'} className={showControls}>
+        <div>{this.state.currentGalleryIndex > 9 ? `${this.state.currentGalleryIndex + 1}` : `0${this.state.currentGalleryIndex + 1}`}</div>
+        <div>{this.state.totalFrames > 9 ? `${this.state.totalFrames}` : `0${this.state.totalFrames}`}</div>
       </div>
       <div id={'galleryInfo'}>
         <div className={'imageName'}>{projectName}</div>

@@ -61,15 +61,27 @@ a, button {
   text-decoration: none;
   font-style: italic;
   border: none;
-  // border-bottom: 1px solid transparent;
-  // opacity: 1;
+  font-family: 'Nurom', sans-serif;
+  letter-spacing: 0.03em;
 }
 
-a:hover, button:hover{
-  // border-bottom: 1px solid black;
+a {
+  text-decoration: underline;
+}
+
+a:visited{
+  color: white;
+}
+
+header a:hover, header button:hover{
+  text-decoration: none;
   box-sizing:content-box;
-  // opacity: 0.5;
+  transform: translateX(6px);
   cursor: pointer;
+}
+
+.reverseHoverTranslate:hover{
+  transform: translateX(-6px);
 }
 
 main{
@@ -91,10 +103,15 @@ img {
   width: auto;
   transform-origin: center center;
   pointer-events: auto;
+  transition: transform 230ms;
   @include for-phone-only{
     max-width: $imgWidth-mobile;
     max-height: $imgHeight-mobile;
   }
+}
+
+img:hover{
+  transform: scale(1.003);
 }
 
 video {

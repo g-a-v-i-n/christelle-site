@@ -5,6 +5,7 @@
   max-height: calc(100vh - 200px);
   will-change: transform;
   pointer-events: none;
+
 }
 
 #assetTray{
@@ -120,6 +121,21 @@
   z-index: 300;
   pointer-events:none;
   @include flex-center-column;
+}
+
+#galleryIndex {
+  width: auto;
+  bottom: 25px;
+  right: 40px;
+  position: fixed;
+  height: auto;
+  z-index: 300;
+  pointer-events:none;
+}
+
+#galleryIndex div {
+  display: inline-block;
+  margin-left: 50px;
 }
 
 .gallery-clientContainer{
