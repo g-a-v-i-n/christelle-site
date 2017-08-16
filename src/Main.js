@@ -13,6 +13,7 @@ class Home extends Component {
     super(props)
     this.state = {
       loadedGalleries: [],
+      isHovering: false,
       arrangeDone: false,
       minHeight: 0,
       loaded: false,
@@ -71,16 +72,16 @@ class Home extends Component {
       const images = lodash.sortBy(this.state.loadedImages, ['imageIndex'], ['asc'])
       this.setState({
         loadedImages: images,
-      }, () => this.placeGalleryImages())
+      }, () => {this.placeGalleryImages() })
     }
   }
 
   addToGalleryList = (e, index) => {
     const galleryObject = {
       //hover: normal, fade, ignore
-      hover:'normal',
+      hover:'gallery_hover-normal',
       // display: feed, off, gallery
-      display: 'feed',
+      display: 'gallery_display-feed',
       width: 0,
       height: 0,
       top: 0,
@@ -156,7 +157,7 @@ class Home extends Component {
     // if a gallery is displayed, ignore hover
     if (this.state.galleryOn) {
       updatedGalleries = galleries.map((originalGallery) => {
-        return update(originalGallery, {$merge: {hover: 'noHover'}})
+        return update(originalGallery, {$merge: {hover: 'gallery_hover-noHover'}})
       })
     // if no gallery is displayed
     } else {
@@ -164,22 +165,23 @@ class Home extends Component {
         updatedGalleries = galleries.map((originalGallery, index) => {
           if (index === galleryIndex) {
             currentFocusedIndex = index
-            return update(originalGallery, {$merge: {hover: 'forward'}})
+            return update(originalGallery, {$merge: {hover: 'gallery_hover-forward'}})
           } else {
-            return update(originalGallery, {$merge: {hover: 'fade'}})
+            return update(originalGallery, {$merge: {hover: 'gallery_hover-fade'}})
           }
         })
       } else {
         updatedGalleries = galleries.map((originalGallery, index) => {
           return this.state.galleryScrollIndex === index ?
-            update(originalGallery, {$merge: {hover: 'forward'}}) :
-            update(originalGallery, {$merge: {hover: 'normal'}})
+            update(originalGallery, {$merge: {hover: 'gallery_hover-forward'}}) :
+            update(originalGallery, {$merge: {hover: 'gallery_hover-normal'}})
         })
       }
       this.setState({
         loadedGalleries: updatedGalleries,
         currentFocusedIndex,
         scrollLatch: true,
+        isHovering,
       })
     }
   }
@@ -189,9 +191,9 @@ class Home extends Component {
     let galleries = this.state.loadedGalleries
     let updatedGalleries = galleries.map((originalGallery, index) => {
       if (index === galleryIndex) {
-        return update(originalGallery, {$merge: {display: 'gallery', hover: 'noHover'}})
+        return update(originalGallery, {$merge: {display: 'gallery_display-gallery', hover: 'gallery_hover-noHover'}})
       } else {
-        return update(originalGallery, {$merge: {display: 'off', hover: 'noHover'}})
+        return update(originalGallery, {$merge: {display: 'gallery_display-off', hover: 'gallery_hover-noHover'}})
       }
     })
     this.setState({
@@ -205,23 +207,36 @@ class Home extends Component {
 
   handleCloseGallery = () => {
     document.body.classList.remove('stopScroll')
-    let galleries = this.state.loadedGalleries
-    let updatedGalleries = galleries.map((originalGallery, index) => {
-      return update(originalGallery, {$merge: {display: 'feed', hover: 'normal'}})
+    let updatedGalleries = this.state.loadedGalleries.map((originalGallery, index) => {
+      return update(originalGallery, {$merge: {display: 'gallery_display-feed', hover: 'gallery_hover-normal'}})
     })
-    this.setState({
-      loadedImages: [],
-      allImagesLoaded: false,
-      loadedGalleries: updatedGalleries,
-      galleryOn: false,
-      galleryVisibility: false,
-    })
-    setTimeout(() => {
+    if (this.state.currentGalleryIndex !== 0) {
       this.setState({
+        galleryVisibility: false,
+        galleryOn: false,
+      })
+      // delay resetting counter for elegant transition
+      setTimeout(() => {
+        this.setState({
+          loadedGalleries: updatedGalleries,
+          allImagesLoaded: false,
+          loadedImages: [],
+          totalFrames: 0,
+          currentGalleryIndex: 0,
+        })
+      }, 300)
+    } else {
+      this.setState({
+        galleryVisibility: false,
+        galleryOn: false,
+        loadedGalleries: updatedGalleries,
+        allImagesLoaded: false,
+        loadedImages: [],
         totalFrames: 0,
         currentGalleryIndex: 0,
       })
-    }, 300)
+    }
+
   }
 
   onAllGalleryLoad = () => {
@@ -267,14 +282,14 @@ class Home extends Component {
         const thisWidth = bounding.width
         marginHeight = (frameHeight - thisHeight)/2
         marginWidth = (viewWidth - thisWidth)/2
-//handle Y
+        //handle Y
         if (filterQuery !== 'Index' && originalGallery.fields.projectType !== filterQuery) {
           deltaY = index === 0 ? 0 - marginHeight : imageBottom - marginHeight - (thisHeight * 0.04)
         } else {
           deltaY = filterIndex === 0 ? 0 - marginHeight : imageBottom - marginHeight - (thisHeight * 0.04)
         }
         position = imageBottom = thisHeight + marginHeight + deltaY
-//handle X
+        //handle X
         if (filterQuery !== 'Index' && originalGallery.fields.projectType !== filterQuery) {
           deltaX = index % 2 === 0 ? -viewWidth + marginWidth - 100 : viewWidth - marginWidth + 100
         } else {
@@ -377,6 +392,11 @@ class Home extends Component {
       'overlayOff': !this.state.galleryOn,
     })
 
+    let infoBoxState = classnames({
+      'overlayOn': this.state.isHovering,
+      'overlayOff': !this.state.isHovering,
+    })
+
     let projectName = ''
     let projectClient = ''
     if (this.props.projects.length !== 0) {
@@ -406,7 +426,7 @@ class Home extends Component {
         <div>{this.state.currentGalleryIndex > 9 ? `${this.state.currentGalleryIndex + 1}` : `0${this.state.currentGalleryIndex + 1}`}</div>
         <div>{this.state.totalFrames > 9 ? `${this.state.totalFrames}` : `0${this.state.totalFrames}`}</div>
       </div>
-      <div id={'galleryInfo'}>
+      <div id={'galleryInfo'} className={infoBoxState}>
         <div className={'imageName'}>{projectName}</div>
         <div className={'gallery-clientContainer'}>
           <div className={'midDash'}/>

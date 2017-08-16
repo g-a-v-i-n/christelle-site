@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { MainAsset, Asset, VideoAsset, VideoMainAsset, BlankAsset } from './Asset'
+import { MainAsset, Asset, VideoAsset, BlankAsset } from './Asset'
 import VisibilitySensor from 'react-visibility-sensor'
 import lodash from 'lodash'
 import classnames from 'classnames'
@@ -10,41 +10,21 @@ class Gallery extends Component {
     let imageInfo = {}
     return imageObjects.map((asset, index) => {
       if (this.props.allImagesLoaded) { imageInfo = this.props.loadedImages[index] }
-      const imageRegex = /\b(images.contentful.com)\b/.test(asset.fields.file.url)
-      const videoRegex = /\b(videos.contentful.com)\b/.test(asset.fields.file.url)
-      if (imageRegex) {
-        return (
-          <Asset
-            index={index + 1}
-            allImagesLoaded = {this.props.allImagesLoaded}
-            imageInfo={imageInfo}
-            galleryIndex={this.props.galleryIndex}
-            imageURL={asset.fields.file.url}
-            handleOnLoad={this.props.addToPhotoList}
-            visibility={this.props.galleryVisibility}/>
-        )
-      } else if (videoRegex) {
-        return (
-          <VideoAsset
-            index={index + 1}
-            allImagesLoaded = {this.props.allImagesLoaded}
-            imageInfo={imageInfo}
-            galleryIndex={this.props.galleryIndex}
-            imageURL={asset.fields.file.url}
-            handleOnLoad={this.props.addToPhotoList}
-            visibility={this.props.galleryVisibility}/>
-        )
+      const assetProps = {
+        index: index + 1,
+        allImagesLoaded : this.props.allImagesLoaded,
+        imageInfo: imageInfo,
+        galleryIndex: this.props.galleryIndex,
+        imageURL: asset.fields.file.url,
+        handleOnLoad: this.props.addToPhotoList,
+        visibility: this.props.galleryVisibility,
+      }
+      if (/\b(images.contentful.com)\b/.test(asset.fields.file.url)) {
+        return <Asset {...assetProps}/>
+      } else if (/\b(videos.contentful.com)\b/.test(asset.fields.file.url)) {
+        return <VideoAsset {...assetProps}/>
       } else {
-        return (
-          <BlankAsset
-            index={index + 1}
-            allImagesLoaded = {this.props.allImagesLoaded}
-            imageInfo={imageInfo}
-            galleryIndex={this.props.galleryIndex}
-            imageURL={asset.fields.file.url}
-            handleOnLoad={this.props.addToPhotoList}
-            visibility={this.props.galleryVisibility}/>
-        )
+        return <BlankAsset {...assetProps}/>
       }
     })
   }
@@ -60,28 +40,15 @@ class Gallery extends Component {
       const calcTransformX = -this.props.currentGalleryIndex * window.innerWidth
       // calculate element x/y transform
         translations = { transform: `translate3d(${left}px,${top}px,0px)` }
-        if (display === 'gallery') {
+        if (display === 'gallery_display-gallery') {
           translations = { transform: `translate3d(${calcTransformX}px,${window.scrollY}px,0px)` }
         }
-      // set hover and display classes
-        conditionalClasses = classnames({
-          //open and closed states
-          'gallery_display-gallery': display === 'gallery',
-          'gallery_display-feed': display === 'feed',
-          'gallery_display-off': display === 'off',
-
-          // hover states
-          'gallery_hover-forward': hover === 'forward',
-          'gallery_hover-fade': hover === 'fade',
-          'gallery_hover-normal': hover === 'normal',
-          'gallery_hover-noHover': hover === 'noHover',
-        })
       }
 
     return (
       <div
         id={'gallery'}
-        className={conditionalClasses}
+        className={`${hover} ${display}`}
         style={translations}>
           <MainAsset
             allLoaded ={this.props.allLoaded}
@@ -95,7 +62,7 @@ class Gallery extends Component {
             handleOpenGallery={this.props.handleOpenGallery}
             setCurrentGalleryScrollIndex={this.props.setCurrentGalleryScrollIndex}
           />
-          {display === 'gallery' ? this.generateAssets() : null}
+          {display === 'gallery_display-gallery' ? this.generateAssets() : null}
       </div>
     )
   }

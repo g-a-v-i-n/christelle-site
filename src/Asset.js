@@ -58,31 +58,22 @@ class VideoAsset extends Component{
 }
 
 const MainAsset = (props) => {
+  const handleVisibilityChange = (change, index) => {
+    change ? props.setCurrentGalleryScrollIndex(index) : null
+    props.handleSetHoverState(index)
+  }
   return (
     <div id={'assetTray'}>
-      <img
-        alt={`imageGallery_${props.galleryIndex}`}
-        src={props.thumbURL}
-        id={'asset'}
-        onLoad={(e) => props.addToGalleryList(e, props.galleryIndex)}
-        onMouseEnter={() => props.handleSetHoverState(props.galleryIndex, true)}
-        onMouseLeave={() => props.handleSetHoverState(props.galleryIndex, false)}
-        onClick={() => props.handleOpenGallery('on', props.galleryIndex)}/>
-    </div>
-  )
-}
-
-const VideoMainAsset = (props) => {
-  return (
-    <div id={'assetTray'}>
-      <video
-        alt={`imageGallery_${props.galleryIndex}`}
-        src={props.thumbURL}
-        id={'asset'}
-        onLoad={(e) => props.addToGalleryList(e, props.galleryIndex)}
-        onMouseEnter={() => props.handleSetHoverState(props.galleryIndex, true)}
-        onMouseLeave={() => props.handleSetHoverState(props.galleryIndex, false)}
-        onClick={() => props.handleOpenGallery('on', props.galleryIndex)}/>
+      <VisibilitySensor offset={{top:50}} onChange={(change) => handleVisibilityChange(change, props.galleryIndex)}>
+        <img
+          alt={`imageGallery_${props.galleryIndex}`}
+          src={props.thumbURL}
+          id={'asset'}
+          onLoad={(e) => props.addToGalleryList(e, props.galleryIndex)}
+          onMouseEnter={() => props.handleSetHoverState(props.galleryIndex, true)}
+          onMouseLeave={() => props.handleSetHoverState(props.galleryIndex, false)}
+          onClick={() => props.handleOpenGallery('on', props.galleryIndex)}/>
+        </VisibilitySensor>
     </div>
   )
 }
@@ -102,7 +93,6 @@ const BlankAsset = (props) => {
 export{
   Asset,
   MainAsset,
-  VideoMainAsset,
   BlankAsset,
   VideoAsset,
 }

@@ -144,13 +144,17 @@
 }
 
 .showImage{
-  visibility: visible;
-  transition: visibility 500ms;
-  transition-delay: 500ms;
+  opacity: 1;
+  // visibility: visible;
+  transition: visibility step-start 300ms, opacity 300ms;
 }
 
 .hideImage{
-  visibility: hidden;
-  transition: visibility 500ms;
-  transition-delay: 500ms;
+  opacity: 0;
+  // visibility: hidden;
+  transition: visibility step-end 300ms, opacity 300ms;
+}
+
+#assets{
+  position: absolute;
 }

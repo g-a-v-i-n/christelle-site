@@ -19,12 +19,14 @@ content {
 .gallery_display-feed {
   opacity: 1;
   pointer-events: all;
+  transition: transform 500ms;
   // z-index: 150;
 }
 .gallery_display-gallery{
   opacity: 1;
   pointer-events: none;
   z-index: 150;
+  transition: transform 500ms;
 }
 
 // hover states
@@ -39,16 +41,17 @@ content {
 }
 .gallery_hover-fade{
   opacity: 0.65;
-  transition: opacity $longTransition, transform 500ms;
+  transition: opacity $longTransition;
 }
 .gallery_hover-normal{
   opacity: 1;
   pointer-events: all;
   z-index: auto;
   transition: opacity $longTransition, transform 500ms;
+;
 }
 .gallery_hover-noHover{
-  transition: opacity 350ms, transform 500ms;
+  // transition: opacity 350ms;
 }
 
 #loadingScreen{
