@@ -76,41 +76,18 @@
 .rightArrowContainer {
   right: 20px;
   cursor: pointer;
-  path { transition: d $arrowTransition;}
-  #arrowhead{
-    transition: transform $arrowTransition;
-    transform-origin: center;
-  }
-  #upperline.arrowHeadOff{ d: path("M16.5,15.5 L0.5,15.5") }
-  #lowerline.arrowHeadOff{ d: path("M16.5,15.5 L0.5,15.5") }
 }
-// add px to transform from svg
-.rightArrowContainer:hover .lineStretch#arrowhead{
-  transform: translate(126.000000px, 60.000000px);
-  -webkit-transform: translate(126.000000px, 60.000000px);
 
+.forwardContainer{
+  transform: rotateZ(90deg);
 }
-.rightArrowContainer:hover .lineStretch#arrowline{
-  d: path("M0.5,75.5 L140.5,75.5");
-}
+
 
 .leftArrowContainer {
   left: 20px;
   cursor: pointer;
-  path { transition: d $arrowTransition;}
-  #arrowhead{ transition: transform $arrowTransition; }
-  #upperline.arrowHeadOff{ d: path("M16.5,15.5 L0.5,15.5") }
-  #lowerline.arrowHeadOff{ d: path("M16.5,15.5 L0.5,15.5") }
 }
-// add px to transform from svg
-.leftArrowContainer:hover .lineStretch#arrowhead{
-  transform: translate(16.000000px, 75.500000px) scale(-1, 1) translate(-56.000000px, -75.500000px) translate(48.000000px, 60.000000px);
-  -webkit-transform: translate(16.000000px, 75.500000px) scale(-1, 1) translate(-56.000000px, -75.500000px) translate(48.000000px, 60.000000px);
 
-}
-.leftArrowContainer:hover .lineStretch#arrowline{
-  d: path("M9.5,75.5 L149.5,75.5");
-}
 
 #galleryInfo {
   width: auto;

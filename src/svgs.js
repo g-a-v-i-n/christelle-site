@@ -1,53 +1,6 @@
 import React from 'react'
+import Anime from 'react-anime'
 import classnames from 'classnames'
-
-const LeftGalleryArrow = (props) => {
-  let arroheadClasses = classnames({
-    'arrowHeadOn': props.active,
-    'arrowHeadOff': !props.active,
-  })
-  let lineClasses = classnames({
-    'lineStretch': props.active,
-    'noLineStretch': !props.active,
-  })
-  return (
-    <svg width="150px" height="150px" viewBox="0 0 150 150" version="1.1">
-        <g id="Groups" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="square">
-            <g id="Artboard" stroke="#000000">
-                <path d="M49.5,75.5 L149.5,75.5" className={lineClasses} id="arrowline"></path>
-                <g id="arrowhead" className={lineClasses} transform="translate(56.000000, 75.500000) scale(-1, 1) translate(-56.000000, -75.500000) translate(48.000000, 60.000000)">
-                    <path className={arroheadClasses} d="M15.5,15.5 L0.991381871,0.991381871" id="upperline"></path>
-                    <path className={arroheadClasses} d="M15.5,15.5 L0.5,30.5" id="lowerline"></path>
-                </g>
-            </g>
-        </g>
-    </svg>
-  )
-}
-
-const RightGalleryArrow = (props) => {
-  let arroheadClasses = classnames({
-    'arrowHeadOn': props.active,
-    'arrowHeadOff': !props.active,
-  })
-  let lineClasses = classnames({
-    'lineStretch': props.active,
-    'noLineStretch': !props.active,
-  })
-  return (
-    <svg width="150px" height="150px" viewBox="0 0 150 150" version="1.1">
-      <g id="Groups" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
-          <g id="Artboard" stroke="#000000">
-            <path d="M0.5,75.5 L100.5,75.5" className={lineClasses} id="arrowline"></path>
-              <g id="arrowhead" className={lineClasses}>
-                  <path className={arroheadClasses} d="M15.5,15.5 L0.650757595,30.3492424" id="upperline"></path>
-                  <path className={arroheadClasses} d="M15.5,15.5 L0.650757595,0.650757595" id="lowerline"></path>
-              </g>
-          </g>
-      </g>
-    </svg>
-  )
-}
 
 const AboutArrow = (props) => {
   return (
@@ -87,8 +40,6 @@ const BackArrow = (props) => {
 }
 
 export {
-  LeftGalleryArrow,
-  RightGalleryArrow,
   AboutArrow,
   BackArrow,
 }

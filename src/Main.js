@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Gallery } from './Gallery'
 import { MainHeader } from './Header'
+import GalleryControls from './GalleryControls'
 import About from './About'
-import { LeftGalleryArrow, RightGalleryArrow } from './svgs'
+
 import lodash from 'lodash'
 import classnames from 'classnames'
 import update from 'immutability-helper'
@@ -414,14 +415,12 @@ class Home extends Component {
       <About {...this.props} aboutOpen={this.state.aboutOpen} {...headerProps}/>
       <MainHeader {...this.props} {...headerProps} />
       <div id={'loadingScreen'} className={loadingState} />
-      <div id={'galleryControls'} className={showControls}>
-        <div className={'arrowContainer leftArrowContainer'} onClick={(e) => this.handleRetreatGallery(e)}>
-          <LeftGalleryArrow active={this.state.currentGalleryIndex !== 0 ? true : false}/>
-        </div>
-        <div className={'arrowContainer rightArrowContainer'} onClick={(e) => this.handleAdvanceGallery(e)}>
-          <RightGalleryArrow active={this.state.currentGalleryIndex < this.state.totalFrames - 1 ? true : false}/>
-        </div>
-      </div>
+      <GalleryControls
+        currentGalleryIndex={this.state.currentGalleryIndex}
+        totalFrames={this.state.totalFrames}
+        handleAdvanceGallery={this.handleAdvanceGallery}
+        handleRetreatGallery={this.handleRetreatGallery}
+        galleryOn={this.state.galleryOn}/>
       <div id={'galleryIndex'} className={showControls}>
         <div>{this.state.currentGalleryIndex > 9 ? `${this.state.currentGalleryIndex + 1}` : `0${this.state.currentGalleryIndex + 1}`}</div>
         <div>{this.state.totalFrames > 9 ? `${this.state.totalFrames}` : `0${this.state.totalFrames}`}</div>
