@@ -101,7 +101,7 @@ nav {
 }
 
 #filterButton{
-  width: 155px;
+  width: 147px;
   background: transparent;
   border: none;
   outline: none;
@@ -181,15 +181,17 @@ nav {
 }
 
 .nudgeRuleLeft{
-  transform: translateX(8px);
-}
-
-.nudgeRuleRight{
   transform: translateX(-8px);
 }
 
+.nudgeRuleRight{
+  transform: translateX(8px);
+}
+
 .hideRuleHover{
-  transform: translate(#{$menu-translate-height} - 25px, -12px);
+  opacity: 0;
+  transition: 200ms;
+  transform: translate(-8px, #{$menu-translate-height} - 25px);
 }
 
 .showRule{

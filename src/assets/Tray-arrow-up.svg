@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="150px" height="150px" viewBox="0 0 150 150" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46 (44423) - http://www.bohemiancoding.com/sketch -->
+    <title>Tray-arrow-up</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Groups" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g id="Tray-arrow-up" stroke="#000000">
+            <path d="M74,125 L74,25" id="Line-2"></path>
+            <path d="M74,24 L88,38" id="Line-3"></path>
+            <path d="M74,24 L60,38" id="Line-3"></path>
+        </g>
+    </g>
+</svg>

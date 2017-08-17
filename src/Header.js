@@ -59,10 +59,10 @@ class MainHeader extends Component {
     })
     const ruleClass = classnames({
       'showRule': !this.props.filterMenuOpen,
-      'nudgeRuleLeft': this.state.aboutHover,
-      'nudgeRuleRight': this.state.menuHover && !this.props.filterMenuOpen,
+      'nudgeRuleLeft': this.state.menuHover && !this.props.filterMenuOpen,
+      'nudgeRuleRight': this.state.aboutHover && !this.props.filterMenuOpen,
       'hideRuleHover': this.props.filterMenuOpen && this.state.menuHover,
-      'hideRuleNoHover': this.props.filterMenuOpen,
+      'hideRuleNoHover': this.props.filterMenuOpen && !this.state.menuHover,
     })
 
     const backNavClasses = classnames({

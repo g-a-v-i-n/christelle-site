@@ -32,12 +32,12 @@ export default class App extends Component {
     if (this.state.biography === '') {
       this.client.getEntry('2bqR4gkUxKqMSwC6q8GQKu')
       .then((entry) => {
-          let portrait = entry.fields.portrait.sys.id
-          this.client.getAsset(portrait).then((response) => {
-            this.setState({
-              portrait: response.fields.file,
-            })
+        let portrait = entry.fields.portrait.sys.id
+        this.client.getAsset(portrait).then((response) => {
+          this.setState({
+            portrait: response.fields.file,
           })
+        })
         this.setState({
           biography: entry.fields.biography,
           contact: {
