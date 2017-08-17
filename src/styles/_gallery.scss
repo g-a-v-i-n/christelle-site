@@ -3,9 +3,8 @@
   width: 100vw;
   min-height: calc(100vh - 200px);
   max-height: calc(100vh - 200px);
-  will-change: transform;
+  will-change: transform, opacity;
   pointer-events: none;
-
 }
 
 #assetTray{
@@ -34,6 +33,14 @@
   @include for-phone-only {
     visibility: hidden;
   }
+}
+
+.hideArrow{
+  opacity: 0;
+  pointer-events: none;
+  // cursor: default;
+  visibility: hidden;
+  transition: visibility 300ms step-end, opacity 300ms linear;
 }
 
 .showControls{
@@ -75,17 +82,26 @@
 }
 
 .rightArrowContainer {
-  right: 20px;
+  right: 0px;
   cursor: pointer;
 }
 
 .forwardContainer{
   transform: rotateZ(90deg);
+  width: 109px;
+  height: 18px;
+  text-align: center;
 }
 
+.backwardContainer{
+  transform: rotateZ(-90deg);
+  width: 109px;
+  height: 18px;
+  text-align: center;
+}
 
 .leftArrowContainer {
-  left: 20px;
+  left: 0px;
   cursor: pointer;
 }
 

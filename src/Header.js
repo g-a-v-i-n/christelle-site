@@ -19,9 +19,7 @@ class MainHeader extends Component {
           id={'filterButton'}
           className={filterItemClasses}
           key={key}
-          onClick={(e) => this.props.setFilterQuery(e, key)}
-          onMouseEnter={() => this.setState({menuHover: true})}
-          onMouseLeave={() => this.setState({menuHover: false})}>
+          onClick={(e) => this.props.setFilterQuery(e, key)}>
           <div className={'buttonText'}>{`${key}`}</div>
         </button>
       )
@@ -38,7 +36,11 @@ class MainHeader extends Component {
     } else {
       return (
         <div className={'dropdownContainer'}>
-          <button onClick={(e) => this.props.toggleFilterMenu(e)} id={'headerButton'}>{this.props.filterQuery}</button>
+          <button
+            onMouseEnter={() => this.setState({menuHover: true})}
+            onMouseLeave={() => this.setState({menuHover: false})}
+            onClick={(e) => this.props.toggleFilterMenu(e)}
+            id={'headerButton'}>{this.props.filterQuery}</button>
           <div className={'dropdownWrapper'}>
             {this.mapDropdown(filterItemClasses)}
             <button
@@ -50,16 +52,6 @@ class MainHeader extends Component {
           </div>
         </div>
       )
-    }
-  }
-
-  handleRuleTranslation = () => {
-    if (this.state.aboutHover) {
-      return '1rem'
-    } else if (this.state.menuHover) {
-      return '-1rem'
-    } else {
-      return '0rem'
     }
   }
 
@@ -76,7 +68,10 @@ class MainHeader extends Component {
 
     const ruleClass = classnames({
       'showRule': !this.props.filterMenuOpen,
-      'hideRule': this.props.filterMenuOpen,
+      'nudgeRuleLeft': this.state.aboutHover,
+      'nudgeRuleRight': this.state.menuHover && !this.props.filterMenuOpen,
+      'hideRuleHover': this.props.filterMenuOpen && this.state.menuHover,
+      'hideRuleNoHover': this.props.filterMenuOpen,
     })
 
     return (
@@ -84,7 +79,7 @@ class MainHeader extends Component {
         <div className={'christelle'}>{'Christelle de Castro'}</div>
         <nav>
           {this.handleNav(filterItemClasses)}
-            <div id={'rule'} className={ruleClass} />
+          <div id={'rule'} className={ruleClass} />
           <div className={'linkShim'}>
             <button
               className={'aboutLinkSetWidth'}

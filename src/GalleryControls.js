@@ -16,30 +16,55 @@ export default class GalleryControls extends Component {
       'showControls': this.props.galleryOn,
       'hideControls': !this.props.galleryOn,
     })
-    const duration = 300
+    const duration = 220
     const rightActive = this.props.currentGalleryIndex < this.props.totalFrames - 1 ? true : false
     const leftActive = this.props.currentGalleryIndex !== 0 ? true : false
+    const leftArrowContainerClasses = classnames({
+      'hideArrow': !leftActive,
+      'arrowContainer': true,
+      'leftArrowContainer': true,
+    })
+    const rightArrowContainerClasses = classnames({
+      'hideArrow': !rightActive,
+      'arrowContainer': true,
+      'rightArrowContainer': true,
+    })
     return (
       <div id={'galleryControls'} className={galleryControlClasses}>
-        <div
-          className={'arrowContainer leftArrowContainer'}
-          onClick={(e) => this.props.handleRetreatGallery(e)}
-          onMouseEnter={() => this.setState({leftHover: true})}
-          onMouseLeave={() => this.setState({leftHover: false})} >
-        <svg width="150px" height="150px" viewBox="0 0 150 150" version="1.1">
-            <g id="Groups" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="square">
-                <g id="Artboard" stroke="#000000">
-                    <path d="M49.5,75.5 L149.5,75.5" id="arrowline"></path>
-                    <g id="arrowhead" transform="translate(56.000000, 75.500000) scale(-1, 1) translate(-56.000000, -75.500000) translate(48.000000, 60.000000)">
-                        <path d="M15.5,15.5 L0.991381871,0.991381871" id="upperline"></path>
-                        <path d="M15.5,15.5 L0.5,30.5" id="lowerline"></path>
-                    </g>
-                </g>
+      <div
+        className={leftArrowContainerClasses}
+        onClick={(e) => this.props.handleRetreatGallery(e)}
+        onMouseEnter={() => this.setState({leftHover: true})}
+        onMouseLeave={() => this.setState({leftHover: false})}>
+        <div className={'backwardContainer'}>{'Backward'}</div>
+        <Anime duration={duration} easing="easeInOutCubic" opacity={this.state.leftHover ? 1 : 0}>
+          <svg width="150px" height="150px" viewBox="0 0 150 150" version="1.1">
+            <g id="Groups" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+              <g id="Artboard" stroke="#000000">
+                <Anime
+                  easing="easeInOutCubic"
+                  duration={duration}
+                  d={this.state.leftHover ? "M9.5,75.5 L149.5,75.5" : "M49.5,75.5 L149.5,75.5"}
+                  id="arrowline" >
+                <path d="M49.5,75.5 L149.5,75.5" id="arrowline"></path>
+                </Anime>
+                <Anime
+                  easing="easeInOutCubic"
+                  duration={duration}
+                  transform={this.state.leftHover ? "translate(8.000000, 60.000000)" : "translate(48.000000, 60.000000)"}
+                  id="arrowline">
+                  <g id="arrowhead" transform="translate(86.000000, 60.000000)">
+                  <path d="M0.5,15.5 L15.0086181,0.991381871" id="upperLine"></path>
+                  <path d="M0.5,15.5 L15.5,30.5" id="lowerLine"></path>
+                  </g>
+                </Anime>
+              </g>
             </g>
-        </svg>
-        </div>
+          </svg>
+        </Anime>
+      </div>
         <div
-          className={'arrowContainer rightArrowContainer'}
+          className={rightArrowContainerClasses}
           onClick={(e) => this.props.handleAdvanceGallery(e)}
           onMouseEnter={() => this.setState({rightHover: true})}
           onMouseLeave={() => this.setState({rightHover: false})}>

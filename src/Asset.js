@@ -43,18 +43,17 @@ class VideoAsset extends Component{
       'showImage': this.props.visibility,
       'hideImage': !this.props.visibility,
     })
-      return (
-        <div id={'assetTray'} style={translations}>
-        <video
-          controls
-          id={'asset'}
-          className={visibility}
-          alt={`imageGallery_${this.props.index}`}
-          src={this.props.imageURL}/>
-        </div>
-      )
+    return (
+      <div id={'assetTray'} style={translations}>
+      <video
+        controls
+        id={'asset'}
+        className={visibility}
+        alt={`imageGallery_${this.props.index}`}
+        src={this.props.imageURL}/>
+      </div>
+    )
   }
-
 }
 
 const MainAsset = (props) => {
@@ -80,7 +79,6 @@ const MainAsset = (props) => {
 
 const BlankAsset = (props) => {
   const handleVisibilityChange = (change, index) => {
-    // change ? props.setCurrentGalleryScrollIndex(index) : null
     props.handleSetHoverState(index)
   }
   return (

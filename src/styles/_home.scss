@@ -15,46 +15,52 @@ content {
 .gallery_display-off {
   opacity: 0;
   pointer-events: none;
+  transition: opacity 300ms, transform 500ms;
 }
+
 .gallery_display-feed {
   opacity: 1;
   pointer-events: all;
-  transition: transform 500ms;
   // z-index: 150;
+  transition: opacity $longTransition, transform 500ms;
 }
+
 .gallery_display-gallery{
   opacity: 1;
   pointer-events: none;
   z-index: 150;
-  transition: transform 500ms;
+  transition: opacity $longTransition, transform 500ms;
 }
 
 // hover states
 .gallery_hover-forward{
   opacity: 1;
-  transition: opacity $longTransition, transform 500ms;
   z-index: 120;
   cursor: pointer;
+  transition: opacity $longTransition, transform 500ms;
 }
+
 .gallery_scroll_effect{
   z-index: 120;
+  transition: opacity $longTransition, transform 500ms;
 }
+
 .gallery_hover-fade{
   opacity: 0.65;
-  transition: opacity $longTransition;
+  transition: opacity $longTransition, transform 500ms;
 }
+
 .gallery_hover-normal{
   opacity: 1;
   pointer-events: all;
   z-index: auto;
   transition: opacity $longTransition, transform 500ms;
-;
-}
-.gallery_hover-noHover{
-  // transition: opacity 350ms;
 }
 
-#loadingScreen{
+.gallery_hover-noHover{
+}
+
+#loadingScreen {
   width: 100vw;
   height: 100vh;
   position: fixed;
@@ -64,19 +70,19 @@ content {
   pointer-events: auto;
 }
 
-.loadingOn{
+.loadingOn {
   opacity: 1;
   visibility: visible;
   transition: visibility 0.5s step-start, opacity 0.5s linear;
 }
 
-.loadingOff{
+.loadingOff {
   opacity: 0;
   visibility: hidden;
   transition: visibility 0.5s step-end, opacity 0.5s linear;
 }
 
-#overlay{
+#overlay {
   width: 100vw;
   height: 100vh;
   margin-top: -100px;
@@ -86,13 +92,23 @@ content {
 }
 
 .overlayOn{
-  // opacity: 1;
   visibility: visible;
   transition: visibility 300ms step-start;
 }
 
 .overlayOff{
-  // opacity: 0;
   visibility: hidden;
   transition: visibility 300ms step-end;
+}
+
+.showInfoBox{
+  opacity: 1;
+  visibility: visible;
+  transition: visibility 200ms step-start, opacity 200ms linear;
+}
+
+.hideInfoBox{
+  opacity: 0;
+  visibility: hidden;
+  transition: visibility 200ms step-end, opacity 200ms linear;
 }

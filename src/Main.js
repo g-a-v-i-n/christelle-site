@@ -36,6 +36,7 @@ class Home extends Component {
       windowHeight: window.innerHeight,
       windowWidth: window.innerWidth,
       totalLoadableAssets: [],
+      currentHoveredIndex: 0,
     }
   }
 
@@ -155,6 +156,7 @@ class Home extends Component {
     let galleries = this.state.loadedGalleries
     let updatedGalleries = []
     let currentFocusedIndex = this.state.galleryScrollIndex
+    let currentHoveredIndex = this.state.currentHoveredIndex
     // if a gallery is displayed, ignore hover
     if (this.state.galleryOn) {
       updatedGalleries = galleries.map((originalGallery) => {
@@ -166,6 +168,7 @@ class Home extends Component {
         updatedGalleries = galleries.map((originalGallery, index) => {
           if (index === galleryIndex) {
             currentFocusedIndex = index
+            currentHoveredIndex = index
             return update(originalGallery, {$merge: {hover: 'gallery_hover-forward'}})
           } else {
             return update(originalGallery, {$merge: {hover: 'gallery_hover-fade'}})
@@ -181,6 +184,7 @@ class Home extends Component {
       this.setState({
         loadedGalleries: updatedGalleries,
         currentFocusedIndex,
+        currentHoveredIndex,
         scrollLatch: true,
         isHovering,
       })
@@ -391,16 +395,16 @@ class Home extends Component {
       'overlayOff': !this.state.galleryOn,
     })
     let infoBoxState = classnames({
-      'overlayOn': this.state.isHovering,
-      'overlayOff': !this.state.isHovering,
+      'showInfoBox': this.state.isHovering,
+      'hideInfoBox': !this.state.isHovering,
     })
 
     let projectName = ''
     let projectClient = ''
     if (this.props.projects.length !== 0) {
       if (!this.state.galleryOn) {
-        projectName = this.props.projects[this.state.currentFocusedIndex].fields.projectName
-        projectClient = this.props.projects[this.state.currentFocusedIndex].fields.client
+        projectName = this.props.projects[this.state.currentHoveredIndex].fields.projectName
+        projectClient = this.props.projects[this.state.currentHoveredIndex].fields.client
       } else {
         projectName = this.props.projects[this.state.currentFocusedIndex].fields.assets[this.state.currentGalleryIndex].fields.title
         projectClient = this.props.projects[this.state.currentFocusedIndex].fields.client

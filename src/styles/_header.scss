@@ -151,7 +151,6 @@ nav {
   transform: translateX(6px);
 }
 
-
 #rule{
   height: 1px;
   background-color: black;
@@ -164,19 +163,31 @@ nav {
   }
 }
 
+.nudgeRuleLeft{
+  transform: translateX(8px);
+}
+
+.nudgeRuleRight{
+  transform: translateX(-8px);
+}
+
+.hideRuleHover{
+  transform: translate(#{$menu-translate-height} - 25px, -12px);
+}
+
 .showRule{
   opacity: 1;
   transition: 200ms;
 }
 
-.hideRule{
+.hideRuleNoHover{
   opacity: 0;
   transition: 200ms;
   transform: translateY(#{$menu-translate-height} - 25px);
 }
 
 .aboutLinkSetWidth {
-  width: 70px;
+  width: 57px;
   margin-left: 10px;
   @include for-phone-only {
     width: 45px;
