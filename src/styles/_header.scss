@@ -34,7 +34,24 @@
   }
 }
 
+#feedNav{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+
+}
+
+#backNav{
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+}
+
 nav {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -157,7 +174,7 @@ nav {
   max-width: 80px;
   flex: 1;
   margin: 0px 15px 0px 15px;
-  transition: opacity 250ms transition 200ms;
+  transition: opacity 250ms transform 200ms;
   @include for-phone-only {
     max-width:none;
   }
@@ -194,15 +211,32 @@ nav {
   }
 }
 
-.backArrow{
-  border: none;
-  outline: none;
-  background-color: transparent;
-  background-image: url('../assets/smallArrow.svg');
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 62px;
-  height: 16px;
+.backArrowContainer{
+  margin-right: 2em;
+}
+
+.showBackNav{
+  opacity: 1;
+  visibility: visible;
+  transition: visibility 200ms step-start, opacity 200ms linear;
+  transition-delay: 250ms;
+}
+
+.hideBackNav{
   opacity: 0;
-  transition: 300ms;
+  visibility: hidden;
+  transition: visibility 200ms step-end, opacity 200ms linear;
+}
+
+.showFeedNav{
+  opacity: 1;
+  visibility: visible;
+  transition: visibility 200ms step-start, opacity 200ms linear;
+  transition-delay: 250ms;
+}
+
+.hideFeedNav{
+  opacity: 0;
+  visibility: hidden;
+  transition: visibility 200ms step-end, opacity 200ms linear;
 }

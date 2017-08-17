@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="150px" height="32px" viewBox="0 0 150 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="150px" height="50px" viewBox="0 0 150 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 46 (44423) - http://www.bohemiancoding.com/sketch -->
     <title>backArrowshort</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Groups" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
         <g id="backArrowshort" stroke="#000000">
-            <path d="M50,16 L150,16" id="arrowline"></path>
-            <g id="arrowhead" transform="translate(48.000000, 0.000000)">
+            <g id="arrowhead" transform="translate(48.000000, 10.000000)">
                 <path d="M0.5,15.5 L15.0086181,0.991381871" id="upperLine"></path>
                 <path d="M0.5,15.5 L15.5,30.5" id="lowerLine"></path>
             </g>
+            <path d="M149.5,25.5 L48.5,25.5" id="Line-5"></path>
         </g>
     </g>
 </svg>
