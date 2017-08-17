@@ -30,6 +30,7 @@
   height: calc(100vh - 100px);
   z-index: 300;
   pointer-events: none;
+  will-change: opacity;
   @include for-phone-only {
     visibility: hidden;
   }

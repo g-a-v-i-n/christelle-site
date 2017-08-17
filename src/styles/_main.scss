@@ -76,12 +76,12 @@ a:visited{
 header a:hover, header button:hover{
   text-decoration: none;
   box-sizing:content-box;
-  transform: translateX(6px);
+  // transform: translateX(6px);
   cursor: pointer;
 }
 
 .reverseHoverTranslate:hover{
-  transform: translateX(-6px);
+  // transform: translateX(-6px);
 }
 
 main{
@@ -110,7 +110,7 @@ img {
   }
 }
 
-img:hover{
+.gallery_display-feed img:hover{
   transform: scale(1.003);
 }
 

@@ -58,7 +58,7 @@ export default class GalleryControls extends Component {
                   easing="easeInOutCubic"
                   duration={duration}
                   transform={this.state.rightHover ? "translate(126.000000, 60.000000)" : "translate(86.000000, 60.000000)"}
-                  id="arrowline" >
+                  id="arrowline">
                   <g id="arrowhead" transform="translate(86.000000, 60.000000)">
                     <path d="M15.5,15.5 L0.650757595,30.3492424" id="upperline"></path>
                     <path d="M15.5,15.5 L0.650757595,0.650757595" id="lowerline"></path>

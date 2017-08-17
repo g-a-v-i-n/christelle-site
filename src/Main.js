@@ -382,17 +382,14 @@ class Home extends Component {
       'showControls': this.state.galleryOn,
       'hideControls': !this.state.galleryOn,
     })
-
     let loadingState = classnames({
       'loadingOn': !this.state.releaseLoadingScreen,
       'loadingOff': this.state.releaseLoadingScreen,
     })
-
     let overlayState = classnames({
       'overlayOn': this.state.galleryOn,
       'overlayOff': !this.state.galleryOn,
     })
-
     let infoBoxState = classnames({
       'overlayOn': this.state.isHovering,
       'overlayOff': !this.state.isHovering,

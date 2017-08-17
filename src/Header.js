@@ -1,39 +1,46 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { BackArrow } from './svgs'
 import classnames from 'classnames'
+import Anime from 'react-anime'
 
-const MainHeader = (props) => {
-  const filterItemClasses = classnames({
-    'showMenuItem': props.filterMenuOpen,
-    'hideMenuItem': !props.filterMenuOpen,
-  })
-  const mapDropdown = () => {
-    return props.filters.map((key) => {
+class MainHeader extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      aboutHover: false,
+      menuHover: false,
+    }
+  }
+
+  mapDropdown = (filterItemClasses) => {
+    return this.props.filters.map((key) => {
       return (
         <button
           id={'filterButton'}
           className={filterItemClasses}
           key={key}
-          onClick={(e) => props.setFilterQuery(e, key)}>
+          onClick={(e) => this.props.setFilterQuery(e, key)}
+          onMouseEnter={() => this.setState({menuHover: true})}
+          onMouseLeave={() => this.setState({menuHover: false})}>
           <div className={'buttonText'}>{`${key}`}</div>
         </button>
       )
     })
   }
 
-  const handleNav = () => {
-    if(props.galleryOn){
+  handleNav = (filterItemClasses) => {
+    if(this.props.galleryOn){
       return (
         <div className={'backButtonContainer'}>
-          <button onClick={(e) => props.handleCloseGallery(e)} id={'headerButton'}>{'Back'}</button>
+          <button onClick={(e) => this.props.handleCloseGallery(e)} id={'headerButton'}>{'Back'}</button>
         </div>
       )
     } else {
       return (
         <div className={'dropdownContainer'}>
-          <button onClick={(e) => props.toggleFilterMenu(e)} id={'headerButton'}>{props.filterQuery}</button>
+          <button onClick={(e) => this.props.toggleFilterMenu(e)} id={'headerButton'}>{this.props.filterQuery}</button>
           <div className={'dropdownWrapper'}>
-            {mapDropdown()}
+            {this.mapDropdown(filterItemClasses)}
             <button
               id={'filterButton'}
               className={filterItemClasses}
@@ -46,28 +53,52 @@ const MainHeader = (props) => {
     }
   }
 
-  const closeGalleryButtonClasses = classnames({
-    'showClose': props.galleryOn,
-    'hideClose': !props.galleryOn,
-  })
+  handleRuleTranslation = () => {
+    if (this.state.aboutHover) {
+      return '1rem'
+    } else if (this.state.menuHover) {
+      return '-1rem'
+    } else {
+      return '0rem'
+    }
+  }
 
-  const ruleClass = classnames({
-    'showRule': !props.filterMenuOpen,
-    'hideRule': props.filterMenuOpen,
-  })
+  render() {
+    const filterItemClasses = classnames({
+      'showMenuItem': this.props.filterMenuOpen,
+      'hideMenuItem': !this.props.filterMenuOpen,
+    })
 
-  return (
-    <header id={'mainHeader'}>
-      <div className={'christelle'}>{'Christelle de Castro'}</div>
-      <nav>
-        {handleNav()}
-        <div id={'rule'} className={ruleClass} />
-        <div className={'linkShim'}>
-          <button className={'aboutLinkSetWidth reverseHoverTranslate'} id={'headerButton'} onClick={(e) => props.toggleAbout(e)}>{'About'}</button>
-        </div>
-      </nav>
-    </header>
-  )
+    const closeGalleryButtonClasses = classnames({
+      'showClose': this.props.galleryOn,
+      'hideClose': !this.props.galleryOn,
+    })
+
+    const ruleClass = classnames({
+      'showRule': !this.props.filterMenuOpen,
+      'hideRule': this.props.filterMenuOpen,
+    })
+
+    return (
+      <header id={'mainHeader'}>
+        <div className={'christelle'}>{'Christelle de Castro'}</div>
+        <nav>
+          {this.handleNav(filterItemClasses)}
+            <div id={'rule'} className={ruleClass} />
+          <div className={'linkShim'}>
+            <button
+              className={'aboutLinkSetWidth'}
+              id={'headerButton'}
+              onClick={(e) => this.props.toggleAbout(e)}
+              onMouseEnter={() => this.setState({aboutHover: true})}
+              onMouseLeave={() => this.setState({aboutHover: false})}>
+                {'About'}
+              </button>
+          </div>
+        </nav>
+      </header>
+    )
+  }
 }
 
 const AboutHeader = (props) => {

@@ -7,7 +7,7 @@
     <g id="Groups" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
         <g id="Artboard" stroke="#000000">
           <path d="M0.5,75.5 L100.5,75.5" id="arrowline"></path>
-            <g id="arrwohead" transform="translate(86.000000, 60.000000)"s>
+            <g id="arrwohead" transform="translate(86.000000, 60.000000)">
                 <path d="M15.5,15.5 L0.650757595,30.3492424" id="Line-4"></path>
                 <path d="M15.5,15.5 L0.650757595,0.650757595" id="Line-4"></path>
             </g>

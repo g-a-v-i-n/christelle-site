@@ -208,22 +208,12 @@
   height: 150px;
   z-index: 500;
   cursor: pointer;
-  path { transition: d $arrowTransition;}
-  #arrowhead{ transition: transform $arrowTransition; }
   @include for-phone-only {
     visibility: hidden;
     pointer-events: none;
   }
 }
 
-// don't forget to add 'px' and 'deg' to transform from svg
-#aboutArrowContainer:hover #arrowhead{
-  transform:translate(75.000000px, 16.500000px) scale(-1, 1) rotate(-90.000000deg) translate(-75.000000px, -16.500000px) translate(67.000000px, 1.000000px);
-}
-
-#aboutArrowContainer:hover #arrowline{
-  d: path("M75,150 L75,10");
-}
 
 .about-left, .about-right{
   width: 45vw;
