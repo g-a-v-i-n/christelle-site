@@ -26,6 +26,7 @@ export default class About extends Component {
       loaded: false,
       open: false,
       hover: false,
+      arrowHover: false,
       imgLoaded: false,
       metaSectionClassArray: ['about-meta', 'about-closed'],
       portraitStyle: {},
@@ -78,27 +79,15 @@ export default class About extends Component {
   }
 
   switchLine1 = () => {
-    if (!this.state.open) {
-      return !this.state.hover ? "M74,125 L74,25" : "M74,125 L74,5"
-    } else {
-      return !this.state.hover ? "M75,25 L75,125" : "M75,25 L75,145"
-    }
+      return !this.state.arrowHover ? "M75,125 L75,24.5" : "M75,125 L75,5.5"
   }
 
   switchLine2 = () => {
-    if (!this.state.open) {
-      return !this.state.hover ? "M74,24 L88,38" : "M74,4 L88,18"
-    } else {
-      return !this.state.hover ? "M75,126 L89,112" : "M75,146 L89,132"
-    }
+      return !this.state.arrowHover ? "M75,24 L88,38" : "M75,4 L88,18"
   }
 
   switchLine3 = () => {
-    if (!this.state.open) {
-      return !this.state.hover ? "M74,24 L60,38" : "M74,4 L60,18"
-    } else {
-      return !this.state.hover ? "M75,126 L61,112" : "M75,146 L61,132"
-    }
+      return !this.state.arrowHover ? "M75,24 L62,38" : "M75,4 L62,18"
   }
 
 
@@ -110,7 +99,6 @@ export default class About extends Component {
       'tray-open-hover': this.state.open && this.state.hover,
       'tray-closed': !this.state.open,
       'tray-closed-hover': !this.state.open && this.state.hover,
-
     })
 
     const trayTransitionClasses = classnames({
@@ -127,30 +115,34 @@ export default class About extends Component {
 
     const portraitStyle = { backgroundImage: `url(${this.props.portrait.url})` }
     const duration= 300
-
     return (
       <main id={'about'} className={aboutClasses} >
       <div id={'aboutScrollContainer'}>
       <AboutHeader {...this.props} />
       <div id={'contentWrapper'}>
-        <div id={'aboutArrowContainer'}>
+        <div id={'aboutArrowContainer'}
+          onClick={(e) => this.toggleMetaTray(e)}
+          onMouseEnter={() => this.setState({ hover: true, arrowHover: true })}
+          onMouseLeave={() => this.setState({ hover: false })}>
           <Anime duration={duration} easing="easeInOutCubic">
-          <svg width="150px" height="150px" viewBox="0 0 150 150" version="1.1">
-            <g id="Groups" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
-              <g id="Tray-arrow-up" stroke="#FFF">
+
+          <svg id={'trayArrowSVG'} width="150px" height="150px" style={this.state.open ? {transform: 'rotate(180deg)'} : {}} viewBox="0 0 150 150" version="1.1">
+            <g id="Groups" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="square">
+              <g id="Tray-arrow" stroke="#FFF">
                 <Anime duration={duration} easing="easeInOutCubic" d={this.switchLine1()}>
-                  <path d="M74,125 L74,25" id="Line-1"></path>
+                  <path d="M75,125 L75,25" id="Line-1"></path>
                 </Anime>
                 <Anime duration={duration} easing="easeInOutCubic" d={this.switchLine2()}>
-                  <path d="M74,24 L88,38" id="Line-2"></path>
+                  <path d="M75,24 L88,38" id="Line-2"></path>
                 </Anime>
                 <Anime duration={duration} easing="easeInOutCubic" d={this.switchLine3()}>
-                  <path d="M74,24 L60,38" id="Line-3"></path>
+                  <path d="M75,24 L62,38" id="Line-3"></path>
                 </Anime>
               </g>
             </g>
           </svg>
           </Anime>
+
         </div>
 
         <section className={'bio'}><Markdown source={this.props.biography} /></section>
@@ -160,9 +152,8 @@ export default class About extends Component {
           <section
             id={'tray'}
             className={trayStyle}
-            onClick={(e) => this.toggleMetaTray(e)}
-            onMouseEnter={() => this.setState({ hover: true })}
-            onMouseLeave={() => this.setState({ hover: false })}>
+            onMouseEnter={() => this.setState({ arrowHover: true })}
+            onMouseLeave={() => this.setState({ arrowHover: false, hover: false})}>
             <div className={'about-left'}>
             <ul>
               <ContactItem title={'Email'} content={this.returnEmail(contact.email)} />

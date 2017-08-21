@@ -38,7 +38,6 @@
 .hideArrow{
   opacity: 0;
   pointer-events: none;
-  // cursor: default;
   visibility: hidden;
   transition: visibility 300ms step-end, opacity 300ms linear;
 }

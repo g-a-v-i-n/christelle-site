@@ -181,7 +181,7 @@ class AboutHeader extends Component {
             onMouseLeave={() => this.setState({backHover: false})}
             id={'headerButton'}
             className={'white-text'}>
-            {'Back'}
+            {'Close Gallery'}
           </button>
         </div>
         </nav>
