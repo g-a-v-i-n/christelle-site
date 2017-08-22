@@ -107,7 +107,7 @@ class MainHeader extends Component {
             </div>
             <button
               id={'headerButton'}>
-              {'Close Gallery'}
+              {'Close'}
             </button>
           </div>
 
