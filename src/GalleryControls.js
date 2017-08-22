@@ -39,7 +39,7 @@ export default class GalleryControls extends Component {
         <div className={'backwardContainer'}>{'Backward'}</div>
         <Anime duration={duration} easing="easeInOutCubic" opacity={this.state.leftHover ? 1 : 0}>
           <svg width="150px" height="150px" viewBox="0 0 150 150" version="1.1">
-            <g id="Groups" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+            <g id="Groups" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="square">
               <g id="Artboard" stroke="#000000">
                 <Anime
                   easing="easeInOutCubic"
@@ -70,7 +70,7 @@ export default class GalleryControls extends Component {
           onMouseLeave={() => this.setState({rightHover: false})}>
           <Anime duration={duration} easing="easeInOutCubic" opacity={this.state.rightHover ? 1 : 0}>
             <svg width="150px" height="150px" viewBox="0 0 150 150" version="1.1">
-              <g id="Groups" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+              <g id="Groups" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="square">
                 <g id="Artboard" stroke="#000000">
                 <Anime
                   easing="easeInOutCubic"

@@ -49,6 +49,8 @@
   right: 0;
   display: flex;
   z-index: 200;
+  pointer-events: all;
+  cursor: pointer;
 }
 
 nav {

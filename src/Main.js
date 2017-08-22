@@ -237,9 +237,13 @@ class Home extends Component {
         loadedGalleries: updatedGalleries,
         allImagesLoaded: false,
         loadedImages: [],
-        totalFrames: 0,
-        currentGalleryIndex: 0,
       })
+      setTimeout(() => {
+        this.setState({
+          totalFrames: 0,
+          currentGalleryIndex: 0,
+        })
+      }, 300)
     }
 
   }

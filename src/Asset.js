@@ -78,9 +78,6 @@ const MainAsset = (props) => {
 }
 
 const BlankAsset = (props) => {
-  const handleVisibilityChange = (change, index) => {
-    props.handleSetHoverState(index)
-  }
   return (
     <div id={'assetTray'}>
       <div />

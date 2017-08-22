@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { MainAsset, Asset, VideoAsset, BlankAsset } from './Asset'
-import VisibilitySensor from 'react-visibility-sensor'
 import lodash from 'lodash'
-import classnames from 'classnames'
 
 class Gallery extends Component {
   generateAssets = () => {
@@ -30,7 +28,6 @@ class Gallery extends Component {
   }
 
   render() {
-    let conditionalClasses = {}
     let translations = {}
     const hover = this.props.galleryInfo.hover
     const display = this.props.galleryInfo.display

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { BackArrow } from './svgs'
 import classnames from 'classnames'
 import Anime from 'react-anime'
 
@@ -49,10 +48,6 @@ class MainHeader extends Component {
   }
 
   render() {
-    const closeGalleryButtonClasses = classnames({
-      'showClose': this.props.galleryOn,
-      'hideClose': !this.props.galleryOn,
-    })
     const filterItemClasses = classnames({
       'showMenuItem': this.props.filterMenuOpen,
       'hideMenuItem': !this.props.filterMenuOpen,
@@ -78,11 +73,15 @@ class MainHeader extends Component {
         <div className={'christelle'}>{'Christelle de Castro'}</div>
 
         <nav>
-          <div id={'backNav'} className={backNavClasses}>
+          <div id={'backNav'}
+            className={backNavClasses}
+            onClick={(e) => this.props.handleCloseGallery(e)}
+            onMouseEnter={() => this.setState({backHover: true})}
+            onMouseLeave={() => this.setState({backHover: false})}>
             <div className={'backArrowContainer'}>
               <Anime duration={250} easing="easeInOutCubic" >
                 <svg width="150px" height="50px" viewBox="0 0 150 50" version="1.1">
-                  <g id="Groups" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+                  <g id="Groups" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="square">
                     <g id="Artboard" stroke="#000000">
                       <Anime
                         easing="easeInOutCubic"
@@ -107,11 +106,8 @@ class MainHeader extends Component {
               </Anime>
             </div>
             <button
-              onClick={(e) => this.props.handleCloseGallery(e)}
-              onMouseEnter={() => this.setState({backHover: true})}
-              onMouseLeave={() => this.setState({backHover: false})}
               id={'headerButton'}>
-              {'Back'}
+              {'Close Gallery'}
             </button>
           </div>
 
@@ -147,11 +143,15 @@ class AboutHeader extends Component {
       <header id={'aboutHeader'} className={'white-text'}>
         <div>{'About'}</div>
         <nav>
-        <div id={'backNav'}>
+        <div
+          id={'backNav'}
+          onClick={(e) => this.props.toggleAbout(e)}
+          onMouseEnter={() => this.setState({backHover: true})}
+          onMouseLeave={() => this.setState({backHover: false})}>
           <div className={'backArrowContainer'}>
             <Anime duration={250} easing="easeInOutCubic" >
               <svg width="150px" height="50px" viewBox="0 0 150 50" version="1.1">
-                <g id="Groups" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+                <g id="Groups" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="square">
                   <g id="Artboard" stroke="#FFF">
                     <Anime
                       easing="easeInOutCubic"
@@ -176,12 +176,9 @@ class AboutHeader extends Component {
             </Anime>
           </div>
           <button
-            onClick={(e) => this.props.toggleAbout(e)}
-            onMouseEnter={() => this.setState({backHover: true})}
-            onMouseLeave={() => this.setState({backHover: false})}
             id={'headerButton'}
             className={'white-text'}>
-            {'Close Gallery'}
+            {'Back'}
           </button>
         </div>
         </nav>

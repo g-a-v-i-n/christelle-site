@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Markdown from 'react-markdown'
 import { AboutHeader } from './Header'
-import { AboutArrow, LeftGalleryArrow } from './svgs'
 import classnames from 'classnames'
 import Anime from 'react-anime'
 
