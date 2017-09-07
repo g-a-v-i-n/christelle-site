@@ -11,7 +11,7 @@ html, body{
 
 html, body, h1, h2, h3, h4, h5, h6 {
   outline: none;
-  font-size: 20px;
+  font-size: 17px;
   letter-spacing: 0.03em;
   font-family: 'Nurom', sans-serif;
   font-weight: 400;
@@ -59,7 +59,7 @@ a, button {
   transition: 100ms;
   transform-origin: bottom;
   text-decoration: none;
-  font-style: italic;
+  // font-style: italic;
   border: none;
   font-family: 'Nurom', sans-serif;
   letter-spacing: 0.03em;
@@ -103,15 +103,21 @@ img {
   width: auto;
   transform-origin: center center;
   pointer-events: auto;
-  transition: transform 230ms;
+  transition: 500ms;
+  will-change: opacity, transform;
   @include for-phone-only{
     max-width: $imgWidth-mobile;
     max-height: $imgHeight-mobile;
   }
 }
 
+.gallery_display-gallery img {
+  transform: scale(1.6);
+}
+
 .gallery_display-feed img:hover{
   transform: scale(1.003);
+  transition: transform 300ms;
 }
 
 video {

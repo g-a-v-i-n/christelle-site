@@ -15,6 +15,7 @@ export default class App extends Component {
       exhibitionList: '',
       portrait: '',
       projects: [],
+      diaryURL: '',
     }
     this.client = createClient({
       space: process.env.REACT_APP_SPACE_ID,
@@ -30,7 +31,7 @@ export default class App extends Component {
   // GET for getting all bio page content
   getAboutContent = () => {
     if (this.state.biography === '') {
-      this.client.getEntry('2bqR4gkUxKqMSwC6q8GQKu')
+      this.client.getEntry('OfeSMd5RGmcYUq0Cy8y4Y')
       .then((entry) => {
         let portrait = entry.fields.portrait.sys.id
         this.client.getAsset(portrait).then((response) => {
@@ -39,15 +40,16 @@ export default class App extends Component {
           })
         })
         this.setState({
-          biography: entry.fields.biography,
+          biography: entry.fields.biographyText,
           contact: {
             email: entry.fields.email,
             phoneNumber: entry.fields.phoneNumber,
             instagram: entry.fields.instagram,
           },
-          clientList: entry.fields.clients,
-          pressList: entry.fields.press,
-          exhibitionList: entry.fields.exhibitions,
+          clientList: entry.fields.clientList,
+          pressList: entry.fields.pressList,
+          exhibitionList: entry.fields.exhibitionsList,
+          diaryURL: entry.fields.diaryUrl,
         })
       })
       .catch((reason) => console.error(reason, 'Error getting bio content from contentful'))
@@ -57,7 +59,7 @@ export default class App extends Component {
   // GET for getting all gallery content
   getGalleryContent = () => {
     if (this.state.projects.length === 0) {
-      this.client.getEntries({ content_type: 'galleryTest' })
+      this.client.getEntries({ content_type: 'project' })
       .then((response) => {
         this.setState({
           projects: response.items,
@@ -74,6 +76,7 @@ export default class App extends Component {
       projects: this.state.projects,
       filterQuery: this.state.filterQuery,
       handleOpenGallery: this.handleOpenGallery,
+      diaryURL: this.state.diaryURL,
     }
 
     const aboutProps = {

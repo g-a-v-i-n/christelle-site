@@ -64,7 +64,14 @@ nav {
 
 .christelle{
   flex-shrink: 0;
+  background-image: url("../assets/logo.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 50px;
+  width: 220px;
 }
+
 
 .backLink{
   display: flex;

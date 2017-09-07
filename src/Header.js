@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import Anime from 'react-anime'
-
+import logo from './assets/logo.png'
 class MainHeader extends Component {
   constructor(props){
     super(props)
@@ -39,8 +39,8 @@ class MainHeader extends Component {
           <button
             id={'filterButton'}
             className={filterItemClasses}
-            onClick={() => window.location.href='http://google.com'}>
-            <div className={'buttonText'}>{'Blog'}</div>
+            onClick={() => window.location.href=this.props.diaryURL}>
+            <div className={'buttonText'}>{'Diary'}</div>
           </button>
         </div>
       </div>
@@ -70,7 +70,7 @@ class MainHeader extends Component {
     })
     return (
       <header id={'mainHeader'}>
-        <div className={'christelle'}>{'Christelle de Castro'}</div>
+        <div className={'christelle'} />
 
         <nav>
           <div id={'backNav'}

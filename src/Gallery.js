@@ -36,7 +36,7 @@ class Gallery extends Component {
       const left =this.props.galleryInfo.left
       const calcTransformX = -this.props.currentGalleryIndex * window.innerWidth
       // calculate element x/y transform
-        translations = { transform: `translate3d(${left}px,${top}px,0px)` }
+        translations = { transform: `translate3d(${left}px,${top}px,0px)`}
         if (display === 'gallery_display-gallery') {
           translations = { transform: `translate3d(${calcTransformX}px,${window.scrollY}px,0px)` }
         }

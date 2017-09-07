@@ -22,7 +22,7 @@ class Home extends Component {
       absoluteScreenOrigin: 0,
       galleryOn: false,
       filterQuery: 'Index',
-      filters: ['Photo', 'Video'],
+      filters: ['Photography', 'Commercials & Films'],
       filterMenuOpen: false,
       aboutOpen: false,
       currentGalleryIndex: 0,
@@ -272,7 +272,7 @@ class Home extends Component {
     if (this.state.loaded) {
       const viewWidth = window.innerWidth
       const viewHeight = window.innerHeight
-      const unitRatio = viewWidth / 10000
+      const unitRatio = viewWidth / 15000
       // define struts with max offset based on screen width
       const strutLeft = viewWidth > 1650 ? -(1650 * (1650 / 10000)) : -(viewWidth * (unitRatio))
       const strutRight = viewWidth > 1650 ? (1650 * (1650 / 10000)) : (viewWidth * (unitRatio))
@@ -407,7 +407,7 @@ class Home extends Component {
     let projectClient = ''
     if (this.props.projects.length !== 0) {
       if (!this.state.galleryOn) {
-        projectName = this.props.projects[this.state.currentHoveredIndex].fields.projectName
+        projectName = this.props.projects[this.state.currentHoveredIndex].fields.projectTitle
         projectClient = this.props.projects[this.state.currentHoveredIndex].fields.client
       } else {
         projectName = this.props.projects[this.state.currentFocusedIndex].fields.assets[this.state.currentGalleryIndex].fields.title
