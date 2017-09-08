@@ -38,9 +38,8 @@ class MainHeader extends Component {
           {this.mapDropdown(filterItemClasses)}
           <button
             id={'filterButton'}
-            className={filterItemClasses}
-            onClick={() => window.location.href=this.props.diaryURL}>
-            <div className={'buttonText'}>{'Diary'}</div>
+            className={filterItemClasses}>
+            <a className={'buttonText'} target={'_blank'} href={this.props.diaryURL}>{'Diary'}</a>
           </button>
         </div>
       </div>

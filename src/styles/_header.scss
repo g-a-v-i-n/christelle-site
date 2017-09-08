@@ -174,6 +174,12 @@ nav {
   will-change: transform;
 }
 
+a.buttonText {
+  color: black;
+  text-decoration: none;
+  display: block;
+}
+
 .showMenuItem:hover .buttonText{
   transform: translateX(6px);
 }

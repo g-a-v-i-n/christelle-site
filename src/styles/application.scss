@@ -1,14 +1,14 @@
 @font-face {
-  font-family: 'Nurom';
-  src: url('../assets/NuromReg.otf') format('opentype');
+  font-family: 'Univers Next';
+  src: url('../assets/UniversNextPro-Regular.otf') format('opentype');
   font-style: normal;
 }
 
-@font-face {
-  font-family: 'Nurom';
-  src: url('../assets/NuromItal.otf') format('opentype');
-  font-style: italic;
-}
+// @font-face {
+//   font-family: 'Nurom';
+//   src: url('../assets/NuromItal.otf') format('opentype');
+//   font-style: italic;
+// }
 
 @import '_variables';
 @import '_mixins';

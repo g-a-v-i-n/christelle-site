@@ -67,43 +67,56 @@
 .arrowContainer{
   transform: translateY(calc(-50% - 50px));
   top: 50%;
+  height: 50vh;
+  width: 100px;
   position: absolute;
   z-index: 500;
   pointer-events: all;
   @include flex-center-all;
 }
 
-.arrow{
-  width: 150px;
-  height: 150px;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
+// .arrow{
+//   width: 150px;
+//   height: 150px;
+//   background-size: contain;
+//   background-repeat: no-repeat;
+// }
 
 .rightArrowContainer {
-  right: 0px;
+  right: 40px;
   cursor: pointer;
 }
 
-.forwardContainer{
-  transform: rotateZ(90deg);
+.forwardContainer {
+  transform: translateX(40%) rotateZ(90deg);
   width: 109px;
   height: 18px;
+  transform-origin: center center;
   text-align: center;
+  transition: transform 300ms;
 }
 
 .backwardContainer{
-  transform: rotateZ(-90deg);
+  transform: translateX(-40%)rotateZ(-90deg);
   width: 109px;
   height: 18px;
+  transform-origin: center center;
   text-align: center;
+  transition: transform 300ms;
 }
 
 .leftArrowContainer {
-  left: 0px;
+  left: 40px;
   cursor: pointer;
 }
 
+.rightArrowContainer:hover .forwardContainer{
+  transform: translateX(calc(40% + 8px)) rotateZ(90deg);
+}
+
+.leftArrowContainer:hover .backwardContainer{
+  transform: translateX(calc(-40% - 8px)) rotateZ(-90deg);
+}
 
 #galleryInfo {
   width: auto;

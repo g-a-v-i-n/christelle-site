@@ -13,16 +13,17 @@ html, body, h1, h2, h3, h4, h5, h6 {
   outline: none;
   font-size: 17px;
   letter-spacing: 0.03em;
-  font-family: 'Nurom', sans-serif;
+  font-family: 'Univers Next', sans-serif;
   font-weight: 400;
+  -webkit-font-smoothing: antialiased;
   @include for-phone-only {
     font-size: 16px;
   }
 }
 
 ::-webkit-scrollbar {
-    width: 0px;
-    background: transparent; /* make scrollbar transparent */
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
 }
 
 p {
@@ -117,7 +118,7 @@ img {
 
 .gallery_display-feed img:hover{
   transform: scale(1.003);
-  transition: transform 300ms;
+  // transition: transform 300ms;
 }
 
 video {
