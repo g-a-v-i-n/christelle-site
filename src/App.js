@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { createClient }  from 'contentful'
 import Main from './Main'
+import lodash from 'lodash'
 import './styles/application.css'
 
 export default class App extends Component {
@@ -14,8 +15,11 @@ export default class App extends Component {
       pressList: '',
       exhibitionList: '',
       portrait: '',
+      portraitCredit: '',
       projects: [],
       diaryURL: '',
+      imageFilterDescription: '',
+      motionFilterDescription: '',
     }
     this.client = createClient({
       space: process.env.REACT_APP_SPACE_ID,
@@ -41,15 +45,19 @@ export default class App extends Component {
         })
         this.setState({
           biography: entry.fields.biographyText,
+          portraitCredit: entry.fields.portraitCredit,
           contact: {
             email: entry.fields.email,
             phoneNumber: entry.fields.phoneNumber,
             instagram: entry.fields.instagram,
+            representation: entry.fields.representation,
           },
           clientList: entry.fields.clientList,
           pressList: entry.fields.pressList,
           exhibitionList: entry.fields.exhibitionsList,
           diaryURL: entry.fields.diaryUrl,
+          imageFilterDescription: entry.fields.imageFilterDescription,
+          motionFilterDescription: entry.fields.motionFilterDescription,
         })
       })
       .catch((reason) => console.error(reason, 'Error getting bio content from contentful'))
@@ -61,8 +69,9 @@ export default class App extends Component {
     if (this.state.projects.length === 0) {
       this.client.getEntries({ content_type: 'project' })
       .then((response) => {
+        let sortedGalleries = lodash.sortBy(response.items, ['fields.indexOnMainPage'], ['asc'])
         this.setState({
-          projects: response.items,
+          projects: sortedGalleries,
         })
       })
       .catch((reason) => console.error(reason, 'Error getting gallery content from contentful'))
@@ -77,6 +86,9 @@ export default class App extends Component {
       filterQuery: this.state.filterQuery,
       handleOpenGallery: this.handleOpenGallery,
       diaryURL: this.state.diaryURL,
+      imageFilterDescription: this.state.imageFilterDescription,
+      motionFilterDescription: this.state.motionFilterDescription,
+
     }
 
     const aboutProps = {
@@ -87,6 +99,7 @@ export default class App extends Component {
       pressList: this.state.pressList,
       exhibitionList: this.state.exhibitionList,
       portrait: this.state.portrait,
+      portraitCredit: this.state.portraitCredit,
     }
 
     return (

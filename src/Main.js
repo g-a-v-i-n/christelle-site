@@ -22,7 +22,7 @@ class Home extends Component {
       absoluteScreenOrigin: 0,
       galleryOn: false,
       filterQuery: 'Index',
-      filters: ['Photography', 'Commercials & Films'],
+      filters: ['Image', 'Motion'],
       filterMenuOpen: false,
       aboutOpen: false,
       currentGalleryIndex: 0,
@@ -274,8 +274,8 @@ class Home extends Component {
       const viewHeight = window.innerHeight
       const unitRatio = viewWidth / 15000
       // define struts with max offset based on screen width
-      const strutLeft = viewWidth > 1650 ? -(1650 * (1650 / 10000)) : -(viewWidth * (unitRatio))
-      const strutRight = viewWidth > 1650 ? (1650 * (1650 / 10000)) : (viewWidth * (unitRatio))
+      const strutLeft = viewWidth > 1440 ? -(1440 * (1440 / 10000)) : -(viewWidth * (unitRatio))
+      const strutRight = viewWidth > 1440 ? (1440 * (1440 / 10000)) : (viewWidth * (unitRatio))
       const frameHeight = viewHeight - 200
       let minHeight = 0
       let deltaY = 0
@@ -292,19 +292,19 @@ class Home extends Component {
         marginHeight = (frameHeight - thisHeight)/2
         marginWidth = (viewWidth - thisWidth)/2
         //handle Y
-        if (filterQuery !== 'Index' && originalGallery.fields.projectType !== filterQuery) {
+        if (filterQuery !== 'Index' && originalGallery.fields.type !== filterQuery) {
           deltaY = index === 0 ? 0 - marginHeight : imageBottom - marginHeight - (thisHeight * 0.04)
         } else {
           deltaY = filterIndex === 0 ? 0 - marginHeight : imageBottom - marginHeight - (thisHeight * 0.04)
         }
         position = imageBottom = thisHeight + marginHeight + deltaY
         //handle X
-        if (filterQuery !== 'Index' && originalGallery.fields.projectType !== filterQuery) {
+        if (filterQuery !== 'Index' && originalGallery.fields.type !== filterQuery) {
           deltaX = index % 2 === 0 ? -viewWidth + marginWidth - 100 : viewWidth - marginWidth + 100
         } else {
           deltaX = filterIndex % 2 === 0 ? strutLeft : strutRight
         }
-        filterQuery !== 'Index' && originalGallery.fields.projectType !== filterQuery ? null : filterIndex++
+        filterQuery !== 'Index' && originalGallery.fields.type !== filterQuery ? null : filterIndex++
         return update(originalGallery, {$merge: {
           width:    bounding.width,
           height:   bounding.height,
@@ -370,6 +370,14 @@ class Home extends Component {
     }
   }
 
+  handleFilterInfoText = (filterQuery) => {
+    if (filterQuery === "Motion") {
+      return this.props.motionFilterDescription
+    } else if (filterQuery === "Image") {
+      return this.props.imageFilterDescription
+    }
+  }
+
   render() {
     const headerProps = {
       setFilterQuery:this.setFilterQuery,
@@ -401,6 +409,10 @@ class Home extends Component {
     let infoBoxState = classnames({
       'showInfoBox': this.state.isHovering,
       'hideInfoBox': !this.state.isHovering,
+    })
+    let filterInfoState = classnames({
+      'showInfoBox': this.state.filterQuery !== "Index" && !this.state.galleryOn,
+      'hideInfoBox': this.state.filterQuery === "Index" || this.state.galleryOn,
     })
 
     let projectName = ''
@@ -437,9 +449,14 @@ class Home extends Component {
           <div className={'imageClient'}>{projectClient}</div>
         </div>
       </div>
+      <div id={'filterInfo'} className={filterInfoState}>
+        <div>
+          {this.handleFilterInfoText(this.state.filterQuery)}
+        </div>
+      </div>
         <Swipe onSwipeRight={(e) => this.handleRetreatGallery(e)} onSwipeLeft={(e) => this.handleAdvanceGallery(e)}>
           <content style={minHeight}>
-          <div id={'overlay'} className={overlayState} onClick={() => this.handleCloseGallery()}/>
+            <div id={'overlay'} className={overlayState} onClick={() => this.handleCloseGallery()}/>
             {this.generatePiles()}
           </content>
         </Swipe>

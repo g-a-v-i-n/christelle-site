@@ -46,6 +46,7 @@
   opacity: 1;
   visibility: visible;
   transition: visibility 300ms step-start, opacity 300ms linear;
+  transition-delay: 200ms;
 }
 
 .hideControls{
@@ -65,6 +66,7 @@
 }
 
 .arrowContainer{
+  font-weight: 600;
   transform: translateY(calc(-50% - 50px));
   top: 50%;
   height: 50vh;
@@ -111,17 +113,28 @@
 }
 
 .rightArrowContainer:hover .forwardContainer{
-  transform: translateX(calc(40% + 8px)) rotateZ(90deg);
+  transform: translateX(calc(40% - 8px)) rotateZ(90deg);
 }
 
 .leftArrowContainer:hover .backwardContainer{
-  transform: translateX(calc(-40% - 8px)) rotateZ(-90deg);
+  transform: translateX(calc(-40% + 8px)) rotateZ(-90deg);
 }
 
 #galleryInfo {
   width: auto;
   bottom: 35px;
   left: 40px;
+  position: fixed;
+  height: auto;
+  z-index: 300;
+  pointer-events:none;
+  @include flex-center-column;
+}
+
+#filterInfo{
+  width: auto;
+  bottom: 35px;
+  right: 40px;
   position: fixed;
   height: auto;
   z-index: 300;

@@ -100,6 +100,7 @@
   background-size: cover;
   background-color: $christelle_blue;
   transition: opacity 300ms;
+  position: relative;
   @include for-phone-only {
     width: 100%;
   }
@@ -221,6 +222,18 @@
 .about-right{
   @include for-phone-only{
     padding-bottom: 80px;
+  }
+}
 
+#bio-portrait-credit{
+  position: absolute;
+  left: 50px;
+  top: calc(100vh - 225px);
+  font-size: 10px;
+  color: white;
+  @include for-phone-only{
+    left: 20px;
+    bottom: 20px;
+    top: auto;
   }
 }

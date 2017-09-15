@@ -1,23 +1,8 @@
-@font-face {
-  font-family: 'Univers Next';
-  src: url('../assets/UniversNextPro-Regular.otf') format('opentype');
-  font-style: normal;
-}
-
-// @font-face {
-//   font-family: 'Nurom';
-//   src: url('../assets/NuromItal.otf') format('opentype');
-//   font-style: italic;
-// }
-
 @import '_variables';
 @import '_mixins';
 @import '_main';
 @import '_header';
 
-//Views
 @import '_about';
 @import '_home';
 @import '_gallery';
-
-//Components

@@ -108,6 +108,8 @@ nav {
   text-align: left;
   height: $menu-translate-height;
   pointer-events:all;
+  font-weight: 600;
+  font-family: 'Univers Next';
 }
 
 #filterButton{
@@ -207,7 +209,7 @@ a.buttonText {
 .hideRuleHover{
   opacity: 0;
   transition: 200ms;
-  transform: translate(-8px, #{$menu-translate-height} - 25px);
+  transform: translate(-8px, calc(#{$menu-translate-height} - 25px));
 }
 
 .showRule{
@@ -218,7 +220,7 @@ a.buttonText {
 .hideRuleNoHover{
   opacity: 0;
   transition: 200ms;
-  transform: translateY(#{$menu-translate-height} - 25px);
+  transform: translateY(calc(#{$menu-translate-height} - 25px)rotate());
 }
 
 .aboutLinkSetWidth {

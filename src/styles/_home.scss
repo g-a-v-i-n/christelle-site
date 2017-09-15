@@ -94,6 +94,7 @@ content {
 .overlayOn{
   visibility: visible;
   transition: visibility 300ms step-start;
+
 }
 
 .overlayOff{
@@ -105,6 +106,7 @@ content {
   opacity: 1;
   visibility: visible;
   transition: visibility 200ms step-start, opacity 200ms linear;
+  transition-delay: 200ms;
 }
 
 .hideInfoBox{

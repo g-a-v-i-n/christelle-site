@@ -145,7 +145,9 @@ export default class About extends Component {
         </div>
 
         <section className={'bio'}><Markdown source={this.props.biography} /></section>
-        <section id={'bio-portrait'} style={portraitStyle}/>
+        <section id={'bio-portrait'} style={portraitStyle}>
+          <div id={'bio-portrait-credit'}>{this.props.portraitCredit}</div>
+        </section>
 
         <div id={'trayWrapper'} className={trayTransitionClasses}>
           <section
@@ -157,6 +159,9 @@ export default class About extends Component {
             <ul>
               <ContactItem title={'Email'} content={this.returnEmail(contact.email)} />
               <ContactItem title={'Instagram'} content={this.parseInstagram(contact.instagram)} />
+              {
+                contact.representation !== "" ? <ContactItem title={'Representation'} content={contact.representation} /> : null
+              }
             </ul>
             <div className={'clientList'}>
               <ContactItem title={'Clients'} content={this.makeList(this.props.clientList)} />

@@ -2,6 +2,11 @@
   box-sizing: border-box;
 }
 
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
+}
+
 html, body{
   margin:0;
   padding:0;
@@ -14,6 +19,7 @@ html, body, h1, h2, h3, h4, h5, h6 {
   font-size: 17px;
   letter-spacing: 0.03em;
   font-family: 'Univers Next', sans-serif;
+  color: $christelle_black;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   @include for-phone-only {
@@ -21,9 +27,9 @@ html, body, h1, h2, h3, h4, h5, h6 {
   }
 }
 
-::-webkit-scrollbar {
-  width: 0px;
-  background: transparent; /* make scrollbar transparent */
+strong{
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 p {
@@ -43,14 +49,6 @@ p {
   margin-top: 32px;
 }
 
-.bio a {
-  color: $christelle_white;
-}
-
-header a {
-  color: $christelle_black;
-}
-
 .about-meta p{
   margin-bottom: 12px;
 }
@@ -60,7 +58,7 @@ a, button {
   transition: 100ms;
   transform-origin: bottom;
   text-decoration: none;
-  // font-style: italic;
+  color: inherit;
   border: none;
   font-family: 'Nurom', sans-serif;
   letter-spacing: 0.03em;
@@ -74,15 +72,18 @@ a:visited{
   color: white;
 }
 
+.bio a {
+  color: $christelle_white;
+}
+
+header a {
+  color: inherit;
+}
+
 header a:hover, header button:hover{
   text-decoration: none;
   box-sizing:content-box;
-  // transform: translateX(6px);
   cursor: pointer;
-}
-
-.reverseHoverTranslate:hover{
-  // transform: translateX(-6px);
 }
 
 main{
@@ -114,16 +115,21 @@ img {
 
 .gallery_display-gallery img {
   transform: scale(1.6);
+  @include for-phone-only {
+    transform: scale(1);
+  }
 }
 
-.gallery_display-feed img:hover{
-  transform: scale(1.003);
-  // transition: transform 300ms;
-}
+// .gallery_display-feed img:hover{
+//   transform: scale(1.003);
+//   @include for-phone-only {
+//     transform: scale(1);
+//   }
+// }
 
 video {
-  max-width: $imgWidth-desktop;
-  max-height: $imgHeight-desktop;
+  max-width: calc(#{$imgWidth-desktop} * 1.8);
+  max-height: calc(#{$imgHeight-desktop} * 1.8);
   height: auto;
   width: auto;
   transform-origin: center center;
@@ -139,7 +145,7 @@ video {
 }
 
 .black-text{
-  color: $christelle_black;
+  color: inherit;
 }
 
 .stopScroll{
