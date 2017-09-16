@@ -12,20 +12,6 @@ class MainHeader extends Component {
     }
   }
 
-  mapDropdown = (filterItemClasses) => {
-    return this.props.filters.map((key) => {
-      return (
-        <button
-          id={'filterButton'}
-          className={filterItemClasses}
-          key={key}
-          onClick={(e) => this.props.setFilterQuery(e, key)}>
-          <div className={'buttonText'}>{`${key}`}</div>
-        </button>
-      )
-    })
-  }
-
   handleFilterMenu = (filterItemClasses) => {
     return (
       <div className={'dropdownContainer'}>
@@ -35,7 +21,23 @@ class MainHeader extends Component {
           onClick={(e) => this.props.toggleFilterMenu(e)}
           id={'headerButton'}>{this.props.filterQuery}</button>
         <div className={'dropdownWrapper'}>
-          {this.mapDropdown(filterItemClasses)}
+          {
+            this.props.filters.map((key) => {
+              let keyToSet = key
+              if (key === 'Index' && this.props.filterQuery !== 'Index') {
+                keyToSet = 'All'
+              }
+              return (
+                <button
+                  id={'filterButton'}
+                  className={filterItemClasses}
+                  key={key}
+                  onClick={(e) => this.props.setFilterQuery(e, key)}>
+                  <div className={'buttonText'}>{`${keyToSet}`}</div>
+                </button>
+              )
+            })
+          }
           <button
             id={'filterButton'}
             className={filterItemClasses}>
@@ -56,7 +58,7 @@ class MainHeader extends Component {
       'nudgeRuleLeft': this.state.menuHover && !this.props.filterMenuOpen,
       'nudgeRuleRight': this.state.aboutHover && !this.props.filterMenuOpen,
       'hideRuleHover': this.props.filterMenuOpen && this.state.menuHover,
-      'hideRuleNoHover': this.props.filterMenuOpen && !this.state.menuHover,
+      'hideRuleNoHover': this.props.filterMenuOpen && !this.state.menuHover || this.props.filterQuery !== 'Index',
     })
 
     const backNavClasses = classnames({
@@ -70,7 +72,6 @@ class MainHeader extends Component {
     return (
       <header id={'mainHeader'}>
         <div className={'christelle'} />
-
         <nav>
           <div id={'backNav'}
             className={backNavClasses}

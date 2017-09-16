@@ -22,7 +22,7 @@ class Home extends Component {
       absoluteScreenOrigin: 0,
       galleryOn: false,
       filterQuery: 'Index',
-      filters: ['Image', 'Motion'],
+      filters: ['Photography', 'Motion'],
       filterMenuOpen: false,
       aboutOpen: false,
       currentGalleryIndex: 0,
@@ -373,7 +373,7 @@ class Home extends Component {
   handleFilterInfoText = (filterQuery) => {
     if (filterQuery === "Motion") {
       return this.props.motionFilterDescription
-    } else if (filterQuery === "Image") {
+    } else if (filterQuery === "Photography") {
       return this.props.imageFilterDescription
     }
   }
