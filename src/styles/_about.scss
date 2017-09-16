@@ -137,6 +137,15 @@
   }
 }
 
+#tray p::selection, #tray .aboutItemTitle::selection {
+  background: white;
+  color: black;
+}
+
+#tray p {
+  margin-bottom: 10px;
+}
+
 .tray-closed{
   transition: transform 400ms;
   transform: translate3D(55vw, calc(100vh - 200px), 0);
@@ -173,6 +182,7 @@
 
 .aboutItemTitle{
   margin-bottom: 16px;
+  font-weight: 600;
 }
 
 .aboutItemBody {
@@ -228,7 +238,7 @@
 #bio-portrait-credit{
   position: absolute;
   left: 50px;
-  top: calc(100vh - 225px);
+  top: calc(100vh - 240px);
   font-size: 10px;
   color: white;
   @include for-phone-only{

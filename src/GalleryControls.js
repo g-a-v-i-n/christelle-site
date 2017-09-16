@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Anime from 'react-anime'
 import classnames from 'classnames'
 
 export default class GalleryControls extends Component {
@@ -11,7 +10,7 @@ export default class GalleryControls extends Component {
     }
   }
 
-  render() {
+  render () {
     const duration = 220
     const rightActive = this.props.currentGalleryIndex < this.props.totalFrames - 1 ? true : false
     const leftActive = this.props.currentGalleryIndex !== 0 ? true : false
@@ -31,15 +30,16 @@ export default class GalleryControls extends Component {
     })
     return (
       <div id={'galleryControls'} className={galleryControlClasses}>
-      <div
-        className={leftArrowContainerClasses}
-        onClick={(e) => this.props.handleRetreatGallery(e)}>
-        <div className={'backwardContainer'}>{'Backward'}</div>
-      </div>
+        <div
+          className={leftArrowContainerClasses}
+          onClick={(e) => this.props.handleRetreatGallery(e)}>
+          <div className={'backwardContainer'}>{'Backward'}</div>
+        </div>
         <div
           className={rightArrowContainerClasses}
+          style={rightActive ? {} : {pointerEvents: 'none'}}
           onClick={(e) => this.props.handleAdvanceGallery(e)}>
-          <div className={'forwardContainer'}>{rightActive ? 'Forward' : 'End'}</div>
+          <div className={'forwardContainer'} >{rightActive ? 'Forward' : 'End'}</div>
         </div>
       </div>
     )

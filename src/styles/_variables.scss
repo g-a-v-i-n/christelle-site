@@ -1,18 +1,18 @@
 @font-face {
   font-family: 'Univers Next';
-  src: url('../assets/UniversNextPro-Regular.otf') format('opentype');
+  src: url('../fonts/UniversNextPro-Regular.otf') format('opentype');
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Univers Next';
-  src: url('../assets/UniversNextPro-MediumExt.otf') format('opentype');
+  src: url('../fonts/UniversNextPro-Ext.otf') format('opentype');
   font-weight: 600;
 }
 
 @font-face {
   font-family: 'Univers Next';
-  src: url('../assets/UniversNextPro-HeavyExt.otf') format('opentype');
+  src: url('../fonts/UniversNextPro-HeavyExt.otf') format('opentype');
   font-weight: 700;
 }
 
@@ -20,8 +20,8 @@ $header_height: 100px;
 // $christelle_blue: #325B35;
 // $christelle_blue: #004014;
 // $christelle_blue: #0b9216;
-// $christelle_blue: #001f02;
-$christelle_blue: #001601;
+$christelle_blue: #001f02;
+// $christelle_blue: #001601;
 
 
 

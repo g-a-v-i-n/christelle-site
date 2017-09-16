@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import Anime from 'react-anime'
-import logo from './assets/logo.png'
 class MainHeader extends Component {
   constructor(props){
     super(props)
@@ -23,10 +22,7 @@ class MainHeader extends Component {
         <div className={'dropdownWrapper'}>
           {
             this.props.filters.map((key) => {
-              let keyToSet = key
-              if (key === 'Index' && this.props.filterQuery !== 'Index') {
-                keyToSet = 'All'
-              }
+              let keyToSet = key === 'Index' && this.props.filterQuery !== 'Index' ? 'All' : key
               return (
                 <button
                   id={'filterButton'}
@@ -110,7 +106,6 @@ class MainHeader extends Component {
               {'Close'}
             </button>
           </div>
-
           <div id={'feedNav'} className={feedNavClasses}>
             {this.handleFilterMenu(filterItemClasses)}
             <div id={'rule'} className={ruleClass} />
@@ -141,7 +136,7 @@ class AboutHeader extends Component {
   render() {
     return (
       <header id={'aboutHeader'} className={'white-text'}>
-        <div>{'About'}</div>
+        <div className={'blackExtended'}>{'About'}</div>
         <nav>
         <div
           id={'backNav'}

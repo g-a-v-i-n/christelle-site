@@ -30,6 +30,10 @@ html, body, h1, h2, h3, h4, h5, h6 {
 strong{
   font-weight: 600;
   text-transform: uppercase;
+  font-size: 16px;
+  @include for-phone-only {
+    font-size: 14px;
+  }
 }
 
 p {
@@ -66,6 +70,7 @@ a, button {
 
 a {
   text-decoration: underline;
+  text-decoration-skip: ink;
 }
 
 a:visited{
@@ -107,6 +112,7 @@ img {
   pointer-events: auto;
   transition: 500ms;
   will-change: opacity, transform;
+  user-drag: none;
   @include for-phone-only{
     max-width: $imgWidth-mobile;
     max-height: $imgHeight-mobile;
@@ -148,6 +154,10 @@ video {
   color: inherit;
 }
 
+.blackExtended{
+  font-weight: 700;
+}
+
 .stopScroll{
   overflow: hidden;
 }
@@ -166,7 +176,7 @@ video {
   max-width: 40px;
   height: 1px;
   background-color: $christelle_white;
-  margin-top: 10px;
+  margin-top: 12px;
   flex: 0;
   margin-right: 10px;
 }

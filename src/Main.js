@@ -4,6 +4,7 @@ import { MainHeader } from './Header'
 import GalleryControls from './GalleryControls'
 import About from './About'
 
+import Helmet from 'react-helmet'
 import lodash from 'lodash'
 import classnames from 'classnames'
 import update from 'immutability-helper'
@@ -38,6 +39,11 @@ class Home extends Component {
       totalLoadableAssets: [],
       currentHoveredIndex: 0,
     }
+  }
+
+  componentWillMount = () => {
+    // get url slug
+    // openGallery
   }
 
   componentDidMount = () => {
@@ -191,7 +197,31 @@ class Home extends Component {
     }
   }
 
-  handleOpenGallery = (displayState, galleryIndex) => {
+  setGetParameter = (paramName, paramValue) => {
+    var url = window.location.href
+    var hash = window.location.hash
+    url = url.replace(hash, '')
+    if (url.indexOf(paramName + "=") >= 0)
+    {
+        var prefix = url.substring(0, url.indexOf(paramName))
+        var suffix = url.substring(url.indexOf(paramName))
+        suffix = suffix.substring(suffix.indexOf("=") + 1)
+        suffix = (suffix.indexOf("&") >= 0) ? suffix.substring(suffix.indexOf("&")) : ""
+        url = prefix + paramName + "=" + paramValue + suffix
+    }
+    else
+    {
+    if (url.indexOf("?") < 0)
+        url += "?" + paramName + "=" + paramValue
+    else
+        url += "&" + paramName + "=" + paramValue
+    }
+    window.history.pushState('obj', 'newtitle', url)
+}
+
+  handleOpenGallery = (galleryIndex) => {
+    //set URL value
+    //update state
     document.body.classList.add('stopScroll')
     let galleries = this.state.loadedGalleries
     let updatedGalleries = galleries.map((originalGallery, index) => {
@@ -206,12 +236,15 @@ class Home extends Component {
       galleryOn: true,
       filterMenuOpen: false,
       totalFrames: this.props.projects[galleryIndex].fields.assets.length,
-    })
+    }, this.setGetParameter('project', this.props.projects[galleryIndex].fields.urlSlug)
+  )
   }
 
 
   handleCloseGallery = () => {
-    document.body.classList.remove('stopScroll')
+    // remove URL query
+    window.history.pushState('obj', 'newtitle', window.location.href.split('?')[0])
+    //update application state
     let updatedGalleries = this.state.loadedGalleries.map((originalGallery, index) => {
       return update(originalGallery, {$merge: {display: 'gallery_display-feed', hover: 'gallery_hover-normal'}})
     })
@@ -345,8 +378,10 @@ class Home extends Component {
     e.stopPropagation()
     if (this.state.aboutOpen) {
       document.body.classList.remove('stopScroll')
+      window.history.pushState('obj', 'newtitle', window.location.href.split('?')[0])
     } else {
       document.body.classList.add('stopScroll')
+      this.setGetParameter('page', 'about')
     }
     this.setState({
       aboutOpen: !this.state.aboutOpen,
@@ -376,6 +411,16 @@ class Home extends Component {
     } else if (filterQuery === "Photography") {
       return this.props.imageFilterDescription
     }
+  }
+
+  handleDocTitle = () => {
+    if (this.state.galleryOn) {
+      const currentProject = this.props.projects[this.state.currentGalleryIndex].fields
+      return `Christelle de Castro – ${currentProject.slug}`
+    } else if (this.state.aboutOpen) {
+      return 'Christelle de Castro – About'
+    }
+    return 'Christelle de Castro'
   }
 
   render() {
@@ -429,6 +474,9 @@ class Home extends Component {
 
     return (
       <main className={'home'}>
+      <Helmet>
+        <title>{this.handleDocTitle()}</title>
+      </Helmet>
       <About {...this.props} aboutOpen={this.state.aboutOpen} {...headerProps}/>
       <MainHeader {...this.props} {...headerProps} />
       <div id={'loadingScreen'} className={loadingState} />

@@ -30,6 +30,7 @@
   z-index: 300;
   pointer-events: none;
   will-change: opacity;
+  user-select: none;
   @include for-phone-only {
     visibility: hidden;
   }

@@ -70,7 +70,7 @@ const MainAsset = (props) => {
         onLoad={(e) => props.addToGalleryList(e, props.galleryIndex)}
         onMouseEnter={() => props.handleSetHoverState(props.galleryIndex, true)}
         onMouseLeave={() => props.handleSetHoverState(props.galleryIndex, false)}
-        onClick={() => props.handleOpenGallery('on', props.galleryIndex)}/>
+        onClick={() => props.handleOpenGallery(props.galleryIndex)}/>
     </div>
   )
 }
