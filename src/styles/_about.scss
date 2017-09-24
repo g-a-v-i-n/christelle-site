@@ -29,6 +29,7 @@
   pointer-events: all;
   // overflow-x: hidden;
   top: 0;
+  left:0;
   @include for-phone-only {
     position: relative;
     height: auto;

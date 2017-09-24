@@ -12,13 +12,19 @@ class MainHeader extends Component {
   }
 
   handleFilterMenu = (filterItemClasses) => {
+    const filterButtonClasses = classnames({
+      filterOn:  this.props.filterQuery !== 'Index',
+    })
     return (
       <div className={'dropdownContainer'}>
         <button
           onMouseEnter={() => this.setState({menuHover: true})}
           onMouseLeave={() => this.setState({menuHover: false})}
           onClick={(e) => this.props.toggleFilterMenu(e)}
-          id={'headerButton'}>{this.props.filterQuery}</button>
+          id={'headerButton'}
+          className={filterButtonClasses}>
+            {this.props.filterQuery}
+        </button>
         <div className={'dropdownWrapper'}>
           {
             this.props.filters.map((key) => {

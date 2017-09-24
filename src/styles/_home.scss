@@ -33,19 +33,19 @@ content {
 }
 
 // hover states
-.gallery_hover-forward{
+.gallery_hover-forward {
   opacity: 1;
   z-index: 120;
   cursor: pointer;
   transition: opacity $longTransition, transform 500ms;
 }
 
-.gallery_scroll_effect{
+.gallery_scroll_effect {
   z-index: 120;
   transition: opacity $longTransition, transform 500ms;
 }
 
-.gallery_hover-fade{
+.gallery_hover-fade {
   opacity: 0.65;
   transition: opacity $longTransition, transform 500ms;
 }

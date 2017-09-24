@@ -244,6 +244,7 @@ class Home extends Component {
       loadedGalleries: updatedGalleries,
       galleryOn: true,
       filterMenuOpen: false,
+      currentGalleryIndex: this.props.projects[galleryIndex].fields.type === 'Motion' ? 1 : 0,
       totalFrames: this.props.projects[galleryIndex].fields.assets.length,
     }, this.setGetParameter('project', this.props.projects[galleryIndex].fields.urlSlug)
   )
@@ -316,8 +317,8 @@ class Home extends Component {
     if (this.state.loaded) {
       const viewWidth = window.innerWidth
       const viewHeight = window.innerHeight
-      const overlapFactorMin = -0.15
-      const overlapFactorMax = 0.15
+      const overlapFactorMin = -0.25
+      const overlapFactorMax = 0.25
       const unitFactor = 17000
       const unitRatio = viewWidth / unitFactor
       const strutLimit = 1440
@@ -341,6 +342,12 @@ class Home extends Component {
         const bounding = originalGallery.node.getBoundingClientRect()
         const thisHeight = bounding.height
         const thisWidth = bounding.width
+        let wildcardVariance = 0
+        if (Math.random().toFixed(4) < 0.5) {
+          wildcardVariance = viewWidth / 10
+        }
+        console.log(wildcardVariance)
+
         let variance = (Math.random() * (overlapFactorMax - overlapFactorMin) + overlapFactorMin).toFixed(4)
 
         marginWidth = (viewWidth - thisWidth)/2
@@ -359,12 +366,16 @@ class Home extends Component {
           deltaY = filterIndex === 0 ? 0 - marginHeight : imageBottom - marginHeight - (thisHeight * variance)
           position = imageBottom = thisHeight + marginHeight + deltaY
         }
-
         //handle X
         if (filterQuery !== 'Index' && originalGallery.fields.type !== filterQuery) {
           deltaX = index % 2 === 0 ? -viewWidth + marginWidth - 100 : viewWidth - marginWidth + 100
         } else {
-          deltaX = filterIndex % 2 === 0 ? strutLeft + (strutRight * variance) : strutRight - (strutRight * variance)
+          if (filterQuery !== 'Index' && originalGallery.fields.type === filterQuery) {
+            deltaX = filterIndex % 2 === 0 ? strutLeft + (strutRight) : strutRight - (strutRight)
+
+          } else {
+            deltaX = filterIndex % 2 === 0 ? strutLeft + (strutRight * variance) - wildcardVariance : strutRight - (strutRight * variance) + wildcardVariance
+          }
         }
         filterQuery !== 'Index' && originalGallery.fields.type !== filterQuery ? null : filterIndex++
         return update(originalGallery,
@@ -372,8 +383,8 @@ class Home extends Component {
             {
               width:    bounding.width,
               height:   bounding.height,
-              top:      deltaY,
-              left:     deltaX,
+              top:      deltaY.toFixed(4),
+              left:     deltaX.toFixed(4),
             },
         })
       })
@@ -542,7 +553,11 @@ class Home extends Component {
       </div>
         <Swipe onSwipeRight={(e) => this.handleRetreatGallery(e)} onSwipeLeft={(e) => this.handleAdvanceGallery(e)}>
           <content style={minHeight}>
-            <div id={'overlay'} className={overlayState} onClick={() => this.handleCloseGallery()}/>
+            <div
+              id={'overlay'}
+              className={overlayState}
+              //{onClick={() => this.handleCloseGallery()}}
+            />
             {this.generatePiles()}
           </content>
         </Swipe>

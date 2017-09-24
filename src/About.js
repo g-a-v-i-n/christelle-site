@@ -121,10 +121,9 @@ export default class About extends Component {
       <div id={'contentWrapper'}>
         <div id={'aboutArrowContainer'}
           onClick={(e) => this.toggleMetaTray(e)}
-          onMouseEnter={() => this.setState({ hover: true, arrowHover: true })}
-          onMouseLeave={() => this.setState({ hover: false })}>
+          onMouseEnter={() => this.setState({arrowHover: true, hover: true })}
+          onMouseLeave={() => this.setState({arrowHover:false})}>
           <Anime duration={duration} easing="easeInOutCubic">
-
           <svg id={'trayArrowSVG'} width="150px" height="150px" style={this.state.open ? {transform: 'rotate(180deg)'} : {}} viewBox="0 0 150 150" version="1.1">
             <g id="Groups" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="square">
               <g id="Tray-arrow" stroke="#FFF">
@@ -141,7 +140,6 @@ export default class About extends Component {
             </g>
           </svg>
           </Anime>
-
         </div>
 
         <section className={'bio'}><Markdown source={this.props.biography} /></section>
@@ -153,8 +151,8 @@ export default class About extends Component {
           <section
             id={'tray'}
             className={trayStyle}
-            onMouseEnter={() => this.setState({ arrowHover: true })}
-            onMouseLeave={() => this.setState({ arrowHover: false, hover: false})}>
+            onMouseEnter={() => this.setState({ hover: true })}
+            onMouseLeave={() => this.setState({ hover: false})}>
             <div className={'about-left'}>
             <ul>
               <ContactItem title={'Email'} content={this.returnEmail(contact.email)} />

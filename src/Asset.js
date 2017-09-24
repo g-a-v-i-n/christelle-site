@@ -67,6 +67,7 @@ const MainAsset = (props) => {
         alt={`imageGallery_${props.galleryIndex}`}
         src={props.thumbURL}
         id={'asset'}
+        className={'imageScale'}
         onLoad={(e) => props.addToGalleryList(e, props.galleryIndex)}
         onMouseEnter={() => props.handleSetHoverState(props.galleryIndex,  window.innerWidth > 1000 ? true : false)}
         onMouseLeave={() => props.handleSetHoverState(props.galleryIndex, window.innerWidth > 1000 ? false : false)}

@@ -113,9 +113,8 @@ img {
   width: auto;
   transform-origin: center center;
   pointer-events: auto;
-  transition: 500ms;
+  transition: transform 500ms;
   will-change: opacity, transform;
-  user-drag: none;
   @include for-phone-only{
     max-width: $imgWidth-mobile;
     max-height: $imgHeight-mobile;
@@ -129,8 +128,14 @@ img {
   }
 }
 
-// .gallery_display-feed img:hover{
-//   transform: scale(1.003);
+// .gallery_display-feed #asset {
+//   transform: scale3d(1.00, 1.00, 1.00);
+//   transform-origin: center center;
+// }
+
+// .gallery_display-feed #asset:hover {
+//   transform: scale3d(1.005, 1.005, 1.005);
+//   transform-origin: center center;
 //   @include for-phone-only {
 //     transform: scale(1);
 //   }
