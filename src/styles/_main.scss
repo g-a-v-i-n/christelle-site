@@ -5,6 +5,8 @@
 ::-webkit-scrollbar {
   width: 0px;
   background: transparent; /* make scrollbar transparent */
+  position: absolute;
+  z-index: -99;
 }
 
 html, body{
@@ -106,6 +108,7 @@ ul, ol, li {
 img {
   max-width: $imgWidth-desktop;
   max-height: $imgHeight-desktop;
+  background-color: #e1e1e1;
   height: auto;
   width: auto;
   transform-origin: center center;
@@ -134,8 +137,8 @@ img {
 // }
 
 video {
-  max-width: calc(#{$imgWidth-desktop} * 1.8);
-  max-height: calc(#{$imgHeight-desktop} * 1.8);
+  max-width: calc(#{$imgWidth-desktop} * 1.6);
+  max-height: calc(#{$imgHeight-desktop} * 1.6);
   height: auto;
   width: auto;
   transform-origin: center center;

@@ -92,14 +92,22 @@ content {
 }
 
 .overlayOn{
+  opacity:1;
   visibility: visible;
-  transition: visibility 300ms step-start;
-
+  transition: visibility 300ms step-start, opacity 300ms linear;
 }
 
 .overlayOff{
+  opacity:0;
   visibility: hidden;
-  transition: visibility 300ms step-end;
+  transition: visibility 300ms step-end, opacity 300ms linear, background-color 300ms;
+}
+
+.overlayHalf{
+  background-color: white;
+  visibility: visible;
+  opacity: .9;
+  transition: opacity 300ms, background-color 300ms;
 }
 
 .showInfoBox{

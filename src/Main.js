@@ -27,6 +27,7 @@ class Home extends Component {
       filterMenuOpen: false,
       aboutOpen: false,
       currentGalleryIndex: 0,
+      currentOpenedGalleryIndex: -1,
       totalFrames: 0,
       loadedImages: [],
       allImagesLoaded: false,
@@ -38,12 +39,8 @@ class Home extends Component {
       windowWidth: window.innerWidth,
       totalLoadableAssets: [],
       currentHoveredIndex: 0,
+      queryLatch: true,
     }
-  }
-
-  componentWillMount = () => {
-    // get url slug
-    // openGallery
   }
 
   componentDidMount = () => {
@@ -54,16 +51,31 @@ class Home extends Component {
     window.removeEventListener("resize", this.handleOnResize)
   }
 
+  pushToQueryVariable = () => {
+    var query = window.location.search.substring(1)
+    var vars = query.split("&")
+    for (var i=0;i<vars.length;i++) {
+      var pair = vars[i].split("=")
+      if (pair[0] == 'project') {
+        this.state.loadedGalleries.map((item, index) => {
+          if (item.fields.urlSlug === pair[1]) {
+            this.handleOpenGallery(index)
+          }
+        })
+      }
+    }
+  }
+
   addToPhotoList = (e, index, galleryIndex) => {
     const totalAssets = this.props.projects[galleryIndex].fields.assets.length
     const originalLoadedImages = this.state.loadedImages
     const imageObject = {
-      width: 0,
+      width:  0,
       height: 0,
-      top: 0,
+      top:  0,
       left: 0,
       node: e.target,
-      imageIndex: index,
+      imageIndex:   index,
     }
     this.setState((prevState) => {
       return {
@@ -86,9 +98,7 @@ class Home extends Component {
 
   addToGalleryList = (e, index) => {
     const galleryObject = {
-      //hover: normal, fade, ignore
       hover:'gallery_hover-normal',
-      // display: feed, off, gallery
       display: 'gallery_display-feed',
       width: 0,
       height: 0,
@@ -220,8 +230,6 @@ class Home extends Component {
 }
 
   handleOpenGallery = (galleryIndex) => {
-    //set URL value
-    //update state
     document.body.classList.add('stopScroll')
     let galleries = this.state.loadedGalleries
     let updatedGalleries = galleries.map((originalGallery, index) => {
@@ -232,6 +240,7 @@ class Home extends Component {
       }
     })
     this.setState({
+      currentOpenedGalleryIndex: galleryIndex,
       loadedGalleries: updatedGalleries,
       galleryOn: true,
       filterMenuOpen: false,
@@ -242,9 +251,8 @@ class Home extends Component {
 
 
   handleCloseGallery = () => {
-    // remove URL query
+    document.body.classList.remove('stopScroll')
     window.history.pushState('obj', 'newtitle', window.location.href.split('?')[0])
-    //update application state
     let updatedGalleries = this.state.loadedGalleries.map((originalGallery, index) => {
       return update(originalGallery, {$merge: {display: 'gallery_display-feed', hover: 'gallery_hover-normal'}})
     })
@@ -287,7 +295,9 @@ class Home extends Component {
       this.setState({
         loadedGalleries: galleries,
       }, () => this.updateDimensions('Index'))
-      setTimeout(() => { this.setState({ releaseLoadingScreen: true }) }, 650)
+      setTimeout(() => {
+        this.pushToQueryVariable()
+        this.setState({ releaseLoadingScreen: true }) }, 650)
     }
   }
 
@@ -301,17 +311,26 @@ class Home extends Component {
     }, 400)
   }
 
+
   updateDimensions = (filterQuery) => {
     if (this.state.loaded) {
       const viewWidth = window.innerWidth
       const viewHeight = window.innerHeight
-      const unitRatio = viewWidth / 15000
-      // define struts with max offset based on screen width
-      const strutLeft = viewWidth > 1440 ? -(1440 * (1440 / 10000)) : -(viewWidth * (unitRatio))
-      const strutRight = viewWidth > 1440 ? (1440 * (1440 / 10000)) : (viewWidth * (unitRatio))
+      const overlapFactorMin = -0.15
+      const overlapFactorMax = 0.15
+      const unitFactor = 17000
+      const unitRatio = viewWidth / unitFactor
+      const strutLimit = 1440
+      let strutLeft = viewWidth > strutLimit ? -(strutLimit * (strutLimit / unitFactor)) : -(viewWidth * (unitRatio))
+      let strutRight = viewWidth > strutLimit ? (strutLimit * (strutLimit / unitFactor)) : (viewWidth * (unitRatio))
+      if (filterQuery !== 'Index') {
+        strutLeft = 0
+        strutRight = 0
+      }
       const frameHeight = viewHeight - 200
       let minHeight = 0
       let deltaY = 0
+      let marginHeight_filter = 0
       let deltaX = 0
       let position = 0
       let imageBottom = 0
@@ -322,33 +341,51 @@ class Home extends Component {
         const bounding = originalGallery.node.getBoundingClientRect()
         const thisHeight = bounding.height
         const thisWidth = bounding.width
-        marginHeight = (frameHeight - thisHeight)/2
+        let variance = (Math.random() * (overlapFactorMax - overlapFactorMin) + overlapFactorMin).toFixed(4)
+
         marginWidth = (viewWidth - thisWidth)/2
         //handle Y
         if (filterQuery !== 'Index' && originalGallery.fields.type !== filterQuery) {
-          deltaY = index === 0 ? 0 - marginHeight : imageBottom - marginHeight - (thisHeight * 0.04)
+          //if Filter on and no match
+        } else if (filterQuery !== 'Index' && originalGallery.fields.type === filterQuery) {
+          //if Filter on and has match
+          variance = -0.04
+          marginHeight_filter = (frameHeight - thisHeight)/2
+          deltaY = filterIndex === 0 ? 0 - marginHeight_filter : imageBottom - marginHeight_filter - (thisHeight * variance)
+          position = imageBottom = thisHeight + marginHeight_filter + deltaY
         } else {
-          deltaY = filterIndex === 0 ? 0 - marginHeight : imageBottom - marginHeight - (thisHeight * 0.04)
+          //if index
+          marginHeight = (frameHeight - thisHeight)/2
+          deltaY = filterIndex === 0 ? 0 - marginHeight : imageBottom - marginHeight - (thisHeight * variance)
+          position = imageBottom = thisHeight + marginHeight + deltaY
         }
-        position = imageBottom = thisHeight + marginHeight + deltaY
+
         //handle X
         if (filterQuery !== 'Index' && originalGallery.fields.type !== filterQuery) {
           deltaX = index % 2 === 0 ? -viewWidth + marginWidth - 100 : viewWidth - marginWidth + 100
         } else {
-          deltaX = filterIndex % 2 === 0 ? strutLeft : strutRight
+          deltaX = filterIndex % 2 === 0 ? strutLeft + (strutRight * variance) : strutRight - (strutRight * variance)
         }
         filterQuery !== 'Index' && originalGallery.fields.type !== filterQuery ? null : filterIndex++
-        return update(originalGallery, {$merge: {
-          width:    bounding.width,
-          height:   bounding.height,
-          top:      deltaY,
-          left:     deltaX,
-        }})
+        return update(originalGallery,
+          {$merge:
+            {
+              width:    bounding.width,
+              height:   bounding.height,
+              top:      deltaY,
+              left:     deltaX,
+            },
+        })
       })
       minHeight = position > viewHeight ? position + 200 : viewHeight
       this.setState({
         loadedGalleries: updatedGalleries,
         minHeight: minHeight,
+      }, () => {
+        if (this.state.queryLatch) {
+          this.pushToQueryVariable()
+          this.setState({queryLatch: false})
+        }
       })
     }
   }
@@ -415,7 +452,7 @@ class Home extends Component {
 
   handleDocTitle = () => {
     if (this.state.galleryOn) {
-      const currentProject = this.props.projects[this.state.currentGalleryIndex].fields
+      const currentProject = this.props.projects[this.state.currentOpenedGalleryIndex].fields
       return `Christelle de Castro – ${currentProject.slug}`
     } else if (this.state.aboutOpen) {
       return 'Christelle de Castro – About'
@@ -450,10 +487,11 @@ class Home extends Component {
     let overlayState = classnames({
       'overlayOn': this.state.galleryOn,
       'overlayOff': !this.state.galleryOn,
+      'overlayHalf': window.innerWidth < 1000 ? this.state.filterMenuOpen : false,
     })
     let infoBoxState = classnames({
-      'showInfoBox': this.state.isHovering,
-      'hideInfoBox': !this.state.isHovering,
+      'showInfoBox':  this.state.isHovering || this.state.galleryOn,
+      'hideInfoBox':  !this.state.isHovering && !this.state.galleryOn,
     })
     let filterInfoState = classnames({
       'showInfoBox': this.state.filterQuery !== "Index" && !this.state.galleryOn,

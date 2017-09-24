@@ -68,8 +68,8 @@ const MainAsset = (props) => {
         src={props.thumbURL}
         id={'asset'}
         onLoad={(e) => props.addToGalleryList(e, props.galleryIndex)}
-        onMouseEnter={() => props.handleSetHoverState(props.galleryIndex, true)}
-        onMouseLeave={() => props.handleSetHoverState(props.galleryIndex, false)}
+        onMouseEnter={() => props.handleSetHoverState(props.galleryIndex,  window.innerWidth > 1000 ? true : false)}
+        onMouseLeave={() => props.handleSetHoverState(props.galleryIndex, window.innerWidth > 1000 ? false : false)}
         onClick={() => props.handleOpenGallery(props.galleryIndex)}/>
     </div>
   )

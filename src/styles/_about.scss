@@ -57,7 +57,8 @@
   flex-direction: column;
   @include for-phone-only {
     overflow-y: scroll;
-    // height: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
   }
 }
 

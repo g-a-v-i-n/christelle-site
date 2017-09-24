@@ -90,9 +90,10 @@ nav {
 
 .dropdownContainer{
   position: relative;
-  width: 59px;
+  // width: 52px;
+  margin-right: 10px;
   @include for-phone-only {
-    width: 38px;
+    width: 52px;
   }
 }
 
@@ -112,6 +113,14 @@ nav {
   font-family: 'Univers Next';
 }
 
+.aboutLinkSetWidth {
+  // width: 66px;
+  margin-left: 10px;
+  @include for-phone-only {
+    width: 59px;
+  }
+}
+
 #filterButton{
   width: 147px;
   background: transparent;
@@ -127,7 +136,7 @@ nav {
   pointer-events:all;
   @include for-phone-only {
     // horrible but accurate calc
-    width: calc(100vw - 40px - 45px - 15px);
+    width: calc(100vw - 48px - 59px - 15px);
   }
 }
 
@@ -200,10 +209,16 @@ a.buttonText {
 
 .nudgeRuleLeft{
   transform: translateX(-8px);
+  @include for-phone-only {
+    transform: translateX(0px);
+  }
 }
 
 .nudgeRuleRight{
   transform: translateX(8px);
+  @include for-phone-only {
+    transform: translateX(0px);
+  }
 }
 
 .hideRuleHover{
@@ -223,13 +238,7 @@ a.buttonText {
   transform: translateY(calc(#{$menu-translate-height} - 25px)rotate());
 }
 
-.aboutLinkSetWidth {
-  width: 57px;
-  margin-left: 10px;
-  @include for-phone-only {
-    width: 45px;
-  }
-}
+
 
 .backArrowContainer{
   margin-right: 2em;
