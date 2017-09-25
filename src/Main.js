@@ -429,7 +429,6 @@ class Home extends Component {
       window.history.pushState('obj', 'newtitle', window.location.href.split('?')[0])
     } else {
       document.body.classList.add('stopScroll')
-      this.setGetParameter('page', 'about')
     }
     this.setState({
       aboutOpen: !this.state.aboutOpen,

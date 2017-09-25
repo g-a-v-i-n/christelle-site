@@ -26,7 +26,6 @@
   width: 100vw;
   min-height: 110vh;
   position: absolute;
-  pointer-events: none;
   top: 0;
   left:0;
   @include for-phone-only {
@@ -35,6 +34,16 @@
     background-color: $christelle_black;
 
   }
+}
+
+.noPointerEvents{
+  pointer-events: none;
+
+}
+
+.autoPointerEvents{
+  pointer-events: auto;
+
 }
 
 .trayWrapper_tray-open {

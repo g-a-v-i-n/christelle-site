@@ -105,6 +105,8 @@ export default class About extends Component {
       'tray-out': this.props.aboutOpen,
       'trayWrapper_tray-open': this.state.open,
       'trayWrapper_tray-closed': !this.state.open,
+      'autoPointerEvents': this.state.open,
+      'noPointerEvents': !this.state.open,
     })
 
     const aboutClasses = classnames({
