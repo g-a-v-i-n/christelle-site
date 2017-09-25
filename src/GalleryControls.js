@@ -11,7 +11,6 @@ export default class GalleryControls extends Component {
   }
 
   render () {
-    const duration = 220
     const rightActive = this.props.currentGalleryIndex < this.props.totalFrames - 1 ? true : false
     const leftActive = this.props.currentGalleryIndex !== 0 ? true : false
     const galleryControlClasses = classnames({

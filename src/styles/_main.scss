@@ -9,11 +9,16 @@
   z-index: -99;
 }
 
+#root{
+  // -webkit-overflow-scrolling: touch;
+}
+
 html, body{
   margin:0;
   padding:0;
   width: 100vw;
   height: 100vh;
+
 }
 
 html, body, h1, h2, h3, h4, h5, h6 {
@@ -168,6 +173,10 @@ video {
 
 .stopScroll{
   overflow: hidden;
+}
+
+#keepEvents{
+  pointer-events: all !important;
 }
 
 .midDash{

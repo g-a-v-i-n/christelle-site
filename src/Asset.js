@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
-import VisibilitySensor from 'react-visibility-sensor'
 
 const Asset = (props) => {
     let translations = {}
@@ -57,10 +56,6 @@ class VideoAsset extends Component{
 }
 
 const MainAsset = (props) => {
-  const handleVisibilityChange = (change, index) => {
-    change ? props.setCurrentGalleryScrollIndex(index) : null
-    props.handleSetHoverState(index)
-  }
   return (
     <div id={'assetTray'}>
       <img

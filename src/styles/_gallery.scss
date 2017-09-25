@@ -150,12 +150,19 @@
   position: fixed;
   height: auto;
   z-index: 300;
-  pointer-events:none;
+  pointer-events: none;
+  @include for-phone-only {
+    top: 48px;
+    left: 10px;
+  }
 }
 
 #galleryIndex div {
   display: inline-block;
   margin-left: 50px;
+  @include for-phone-only {
+    margin-left: 20px;
+  }
 }
 
 .gallery-clientContainer{

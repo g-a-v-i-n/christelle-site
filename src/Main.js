@@ -3,6 +3,7 @@ import { Gallery } from './Gallery'
 import { MainHeader } from './Header'
 import GalleryControls from './GalleryControls'
 import About from './About'
+import disableScroll from 'disable-scroll'
 
 import Helmet from 'react-helmet'
 import lodash from 'lodash'
@@ -44,27 +45,27 @@ class Home extends Component {
   }
 
   componentDidMount = () => {
-    window.addEventListener("resize", lodash.throttle(this.handleOnResize, 250))
+    window.addEventListener('resize', lodash.throttle(this.handleOnResize, 250))
   }
 
   componentWillUnmount = () => {
-    window.removeEventListener("resize", this.handleOnResize)
+    window.removeEventListener('resize', this.handleOnResize)
   }
 
   pushToQueryVariable = () => {
-    var query = window.location.search.substring(1)
-    var vars = query.split("&")
-    for (var i=0;i<vars.length;i++) {
-      var pair = vars[i].split("=")
-      if (pair[0] == 'project') {
-        this.state.loadedGalleries.map((item, index) => {
-          if (item.fields.urlSlug === pair[1]) {
-            this.handleOpenGallery(index)
-          }
-        })
-      }
-    }
-  }
+     var query = window.location.search.substring(1)
+     var vars = query.split('&')
+     for (var i=0;i<vars.length;i++) {
+       var pair = vars[i].split('=')
+       if (pair[0] === 'project') {
+         this.state.loadedGalleries.map((item, index) => {
+           if (item.fields.urlSlug === pair[1]) {
+             this.handleOpenGallery(index)
+           }
+         })
+       }
+     }
+   }
 
   addToPhotoList = (e, index, galleryIndex) => {
     const totalAssets = this.props.projects[galleryIndex].fields.assets.length
@@ -230,7 +231,7 @@ class Home extends Component {
 }
 
   handleOpenGallery = (galleryIndex) => {
-    document.body.classList.add('stopScroll')
+    disableScroll.on()
     let galleries = this.state.loadedGalleries
     let updatedGalleries = galleries.map((originalGallery, index) => {
       if (index === galleryIndex) {
@@ -252,7 +253,7 @@ class Home extends Component {
 
 
   handleCloseGallery = () => {
-    document.body.classList.remove('stopScroll')
+    disableScroll.off()
     window.history.pushState('obj', 'newtitle', window.location.href.split('?')[0])
     let updatedGalleries = this.state.loadedGalleries.map((originalGallery, index) => {
       return update(originalGallery, {$merge: {display: 'gallery_display-feed', hover: 'gallery_hover-normal'}})
@@ -346,7 +347,6 @@ class Home extends Component {
         if (Math.random().toFixed(4) < 0.5) {
           wildcardVariance = viewWidth / 10
         }
-        console.log(wildcardVariance)
 
         let variance = (Math.random() * (overlapFactorMax - overlapFactorMin) + overlapFactorMin).toFixed(4)
 
@@ -377,7 +377,7 @@ class Home extends Component {
             deltaX = filterIndex % 2 === 0 ? strutLeft + (strutRight * variance) - wildcardVariance : strutRight - (strutRight * variance) + wildcardVariance
           }
         }
-        filterQuery !== 'Index' && originalGallery.fields.type !== filterQuery ? null : filterIndex++
+        filterIndex = filterQuery !== 'Index' && originalGallery.fields.type !== filterQuery ? filterIndex : filterIndex + 1
         return update(originalGallery,
           {$merge:
             {
@@ -509,6 +509,10 @@ class Home extends Component {
       'hideInfoBox': this.state.filterQuery === "Index" || this.state.galleryOn,
     })
 
+    let stopScrollClass = classnames({
+      'stopScroll': this.state.galleryOn,
+    })
+
     let projectName = ''
     let projectClient = ''
     if (this.props.projects.length !== 0) {
@@ -516,8 +520,8 @@ class Home extends Component {
         projectName = this.props.projects[this.state.currentHoveredIndex].fields.projectTitle
         projectClient = this.props.projects[this.state.currentHoveredIndex].fields.client
       } else {
-        projectName = this.props.projects[this.state.currentFocusedIndex].fields.assets[this.state.currentGalleryIndex].fields.title
-        projectClient = this.props.projects[this.state.currentFocusedIndex].fields.client
+        projectName = this.props.projects[this.state.currentOpenedGalleryIndex].fields.assets[this.state.currentGalleryIndex].fields.title
+        projectClient = this.props.projects[this.state.currentOpenedGalleryIndex].fields.client
       }
     }
 
@@ -551,13 +555,9 @@ class Home extends Component {
           {this.handleFilterInfoText(this.state.filterQuery)}
         </div>
       </div>
-        <Swipe onSwipeRight={(e) => this.handleRetreatGallery(e)} onSwipeLeft={(e) => this.handleAdvanceGallery(e)}>
-          <content style={minHeight}>
-            <div
-              id={'overlay'}
-              className={overlayState}
-              //{onClick={() => this.handleCloseGallery()}}
-            />
+        <Swipe id={'keepEvents'} onSwipeRight={(e) => this.handleRetreatGallery(e)} onSwipeLeft={(e) => this.handleAdvanceGallery(e)}>
+          <content className={stopScrollClass} style={minHeight}>
+            <div id={'overlay'} className={overlayState} />
             {this.generatePiles()}
           </content>
         </Swipe>

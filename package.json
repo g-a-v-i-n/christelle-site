@@ -15,6 +15,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "contentful": "^4.5.0",
+    "disable-scroll": "^0.3.0",
     "eslint-plugin-flowtype": "^2.35.0",
     "immutability-helper": "^2.3.0",
     "lodash": "^4.17.4",
@@ -24,12 +25,7 @@
     "react-dom": "^15.6.1",
     "react-easy-swipe": "0.0.13",
     "react-helmet": "^5.2.0",
-    "react-markdown": "^2.5.0",
-    "react-player": "^0.20.0",
-    "react-router-dom": "^4.1.1",
-    "react-router-transition": "^0.1.1",
-    "react-swipe-events": "^1.0.2",
-    "react-visibility-sensor": "^3.10.1"
+    "react-markdown": "^2.5.0"
   },
   "scripts": {
     "build-css": "node-sass src/ -o src/",

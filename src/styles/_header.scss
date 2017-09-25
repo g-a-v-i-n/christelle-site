@@ -70,8 +70,42 @@ nav {
   background-position: center;
   height: 50px;
   width: 220px;
+  position: relative;
+  transition: 200ms;
+}
+//
+// .hideChristelleMobile{
+//   @include for-phone-only {
+//     height: 0px;
+//   }
+// }
+
+// .showBackNav{
+//   opacity: 1;
+//   visibility: visible;
+//   transition: visibility 200ms step-start, opacity 200ms linear;
+//   transition-delay: 250ms;
+// }
+
+.showChristelleMobile{
+  @include for-phone-only {
+    // transition-delay: 500ms;
+    margin-bottom: 10px;
+    opacity: 1;
+    height: 50px;
+    transition: height 200ms step-end, opacity 400ms linear;
+  }
 }
 
+.hideChristelleMobile{
+  @include for-phone-only {
+    margin-bottom: 10px;
+    transition-delay: 500ms;
+    opacity: 0;
+    height: 0;
+    transition: height 200ms step-end, opacity 200ms linear;
+  }
+}
 
 .backLink{
   display: flex;

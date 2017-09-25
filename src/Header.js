@@ -60,7 +60,7 @@ class MainHeader extends Component {
       'nudgeRuleLeft': this.state.menuHover && !this.props.filterMenuOpen,
       'nudgeRuleRight': this.state.aboutHover && !this.props.filterMenuOpen,
       'hideRuleHover': this.props.filterMenuOpen && this.state.menuHover,
-      'hideRuleNoHover': this.props.filterMenuOpen && !this.state.menuHover || this.props.filterQuery !== 'Index',
+      'hideRuleNoHover': (this.props.filterMenuOpen && !this.state.menuHover) || this.props.filterQuery !== 'Index',
     })
 
     const backNavClasses = classnames({
@@ -71,9 +71,15 @@ class MainHeader extends Component {
       'showFeedNav': !this.props.galleryOn,
       'hideFeedNav': this.props.galleryOn,
     })
+    const christelle = classnames({
+      'christelle': true,
+      'hideChristelleMobile': this.props.galleryOn,
+      'showChristelleMobile': !this.props.galleryOn,
+
+    })
     return (
       <header id={'mainHeader'}>
-        <div className={'christelle'} />
+        <div className={christelle} />
         <nav>
           <div id={'backNav'}
             className={backNavClasses}
