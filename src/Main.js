@@ -531,7 +531,7 @@ class Home extends Component {
       </Helmet>
       <About {...this.props} aboutOpen={this.state.aboutOpen} {...headerProps}/>
       <MainHeader {...this.props} {...headerProps} />
-      <div id={'loadingScreen'} className={loadingState} />
+      <div id={'loadingScreen'} className={loadingState}><div>{'Loading'}</div></div>
       <GalleryControls
         currentGalleryIndex={this.state.currentGalleryIndex}
         totalFrames={this.state.totalFrames}

@@ -314,3 +314,17 @@ a.buttonText {
   visibility: hidden;
   transition: visibility 200ms step-end, opacity 200ms linear;
 }
+
+.externalLink:after{
+  z-index: 999;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-block;
+  content:' ';
+  width: 20px;
+  height: 20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('/dropdown-arrow.png');
+}

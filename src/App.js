@@ -51,6 +51,7 @@ export default class App extends Component {
             phoneNumber: entry.fields.phoneNumber,
             instagram: entry.fields.instagram,
             representation: entry.fields.representation,
+            representationCompany: entry.fields.representationCompany,
           },
           clientList: entry.fields.clientList,
           pressList: entry.fields.pressList,
@@ -88,7 +89,6 @@ export default class App extends Component {
       diaryURL: this.state.diaryURL,
       imageFilterDescription: this.state.imageFilterDescription,
       motionFilterDescription: this.state.motionFilterDescription,
-
     }
 
     const aboutProps = {

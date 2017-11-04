@@ -114,8 +114,10 @@ export default class About extends Component {
       'about-closed': !this.props.aboutOpen,
     })
 
+    const representationHeading = contact.representationCompany ? `Representation – ${contact.representationCompany}` : 'Representation'
     const portraitStyle = { backgroundImage: `url(${this.props.portrait.url})` }
     const duration= 300
+
     return (
       <main id={'about'} className={aboutClasses} >
       <div id={'aboutScrollContainer'}>
@@ -126,7 +128,12 @@ export default class About extends Component {
           onMouseEnter={() => this.setState({arrowHover: true, hover: true })}
           onMouseLeave={() => this.setState({arrowHover:false})}>
           <Anime duration={duration} easing="easeInOutCubic">
-          <svg id={'trayArrowSVG'} width="150px" height="150px" style={this.state.open ? {transform: 'rotate(180deg)'} : {}} viewBox="0 0 150 150" version="1.1">
+          <svg id={'trayArrowSVG'}
+            width="150px"
+            height="150px"
+            style={this.state.open ? {transform: 'rotate(180deg)', transition:'transform, 300ms'} : {transition:'transform, 300ms'}} // ouchey
+            viewBox="0 0 150 150"
+            version="1.1">
             <g id="Groups" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="square">
               <g id="Tray-arrow" stroke="#FFF">
                 <Anime duration={duration} easing="easeInOutCubic" d={this.switchLine1()}>
@@ -160,7 +167,7 @@ export default class About extends Component {
               <ContactItem title={'Email'} content={this.returnEmail(contact.email)} />
               <ContactItem title={'Instagram'} content={this.parseInstagram(contact.instagram)} />
               {
-                contact.representation !== "" ? <ContactItem title={'Representation'} content={contact.representation} /> : null
+                contact.representation !== "" ? <ContactItem title={representationHeading} content={contact.representation} /> : null
               }
             </ul>
             <div className={'clientList'}>

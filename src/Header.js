@@ -43,7 +43,7 @@ class MainHeader extends Component {
           <button
             id={'filterButton'}
             className={filterItemClasses}>
-            <a className={'buttonText'} target={'_blank'} href={this.props.diaryURL}>{'Diary'}</a>
+            <a className={'buttonText externalLink'} target={'_blank'} href={this.props.diaryURL}>{'Diary'}</a>
           </button>
         </div>
       </div>
