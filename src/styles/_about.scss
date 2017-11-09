@@ -92,6 +92,7 @@
   padding-left: 60px;
   padding-bottom: 60px;
   color: $christelle_white;
+  position: relative;
   @include for-phone-only {
     width: 100%;
     padding-right: 30px;
@@ -99,6 +100,22 @@
     padding-top: 0px;
     min-height: auto;
     overflow-y: visible;
+  }
+}
+
+.colophon {
+  position: absolute;
+  bottom: 32px;
+  left: 60px;
+  opacity: 0.2;
+  p, a {
+    display: inline-block;
+    margin-right: 0.25rem;
+    font-size: 10px;
+  }
+  @include for-phone-only {
+    left: 32px;
+    bottom: 16px;
   }
 }
 

@@ -168,6 +168,7 @@ nav {
   position: absolute;
   top: -25px;
   pointer-events:all;
+  border-radius: 0;
   @include for-phone-only {
     // horrible but accurate calc
     width: calc(100vw - 48px - 59px - 15px);
@@ -327,4 +328,8 @@ a.buttonText {
   background-size: contain;
   background-repeat: no-repeat;
   background-image: url('/dropdown-arrow.png');
+  @include for-phone-only {
+    width: 18px;
+    height: 18px;
+  }
 }

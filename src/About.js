@@ -151,7 +151,15 @@ export default class About extends Component {
           </Anime>
         </div>
 
-        <section className={'bio'}><Markdown source={this.props.biography} /></section>
+        <section className={'bio'}>
+          <Markdown source={this.props.biography} />
+          <div className={'colophon'}>
+            <p>{'Site by'}</p>
+            <a href={'http://www.phil-cao.com/'}>{'Phil Cao'}</a>
+            <p>{' and'}</p>
+            <a href={'http://www.gav.space'}>{'Gavin Atkinson'}</a>
+          </div>
+        </section>
         <section id={'bio-portrait'} style={portraitStyle}>
           <div id={'bio-portrait-credit'}>{this.props.portraitCredit}</div>
         </section>
