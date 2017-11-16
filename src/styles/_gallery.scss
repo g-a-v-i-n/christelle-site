@@ -78,13 +78,6 @@
   @include flex-center-all;
 }
 
-// .arrow{
-//   width: 150px;
-//   height: 150px;
-//   background-size: contain;
-//   background-repeat: no-repeat;
-// }
-
 .rightArrowContainer {
   right: 40px;
   cursor: pointer;
@@ -129,6 +122,7 @@
   height: auto;
   z-index: 300;
   pointer-events:none;
+  font-weight: 600;
   @include flex-center-column;
 }
 
@@ -165,20 +159,19 @@
   }
 }
 
-.gallery-clientContainer{
+.gallery-clientContainer {
+  font-weight: 400;
   @include flex-center-row;
   margin-top: 11px;
 }
 
 .showImage{
   opacity: 1;
-  // visibility: visible;
   transition: visibility step-start 300ms, opacity 300ms;
 }
 
 .hideImage{
   opacity: 0;
-  // visibility: hidden;
   transition: visibility step-end 300ms, opacity 300ms;
 }
 

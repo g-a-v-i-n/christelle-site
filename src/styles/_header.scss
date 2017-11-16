@@ -73,19 +73,6 @@ nav {
   position: relative;
   transition: 200ms;
 }
-//
-// .hideChristelleMobile{
-//   @include for-phone-only {
-//     height: 0px;
-//   }
-// }
-
-// .showBackNav{
-//   opacity: 1;
-//   visibility: visible;
-//   transition: visibility 200ms step-start, opacity 200ms linear;
-//   transition-delay: 250ms;
-// }
 
 .showChristelleMobile{
   @include for-phone-only {
