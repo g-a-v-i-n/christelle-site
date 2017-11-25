@@ -556,7 +556,7 @@ class Home extends Component {
       </div>
         <Swipe id={'keepEvents'} onSwipeRight={(e) => this.handleRetreatGallery(e)} onSwipeLeft={(e) => this.handleAdvanceGallery(e)}>
           <content className={stopScrollClass} style={minHeight}>
-            <div id={'overlay'} className={overlayState} />
+            <div id={'overlay'} className={overlayState} onClick={() => this.handleCloseGallery()} />
             {this.generatePiles()}
           </content>
         </Swipe>
