@@ -17,9 +17,9 @@ class Gallery extends Component {
         handleOnLoad: this.props.addToPhotoList,
         visibility: this.props.galleryVisibility,
       }
-      if (/\b(images.contentful.com)\b/.test(asset.fields.file.url)) {
+      if (/\b(images.ctfassets.net)\b/.test(asset.fields.file.url)) {
         return <Asset {...assetProps}/>
-      } else if (/\b(videos.contentful.com)\b/.test(asset.fields.file.url)) {
+      } else if (/\b(videos.ctfassets.net)\b/.test(asset.fields.file.url)) {
         return <VideoAsset {...assetProps}/>
       } else {
         return <BlankAsset {...assetProps}/>

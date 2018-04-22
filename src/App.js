@@ -70,6 +70,7 @@ export default class App extends Component {
     if (this.state.projects.length === 0) {
       this.client.getEntries({ content_type: 'project' })
       .then((response) => {
+        console.log(response)
         let sortedGalleries = lodash.sortBy(response.items, ['fields.indexOnMainPage'], ['asc'])
         this.setState({
           projects: sortedGalleries,

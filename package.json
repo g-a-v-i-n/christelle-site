@@ -15,7 +15,7 @@
   "dependencies": {
     "all": "^0.0.0",
     "classnames": "^2.2.5",
-    "contentful": "^4.5.0",
+    "contentful": "^6.0.0",
     "disable-scroll": "^0.3.0",
     "eslint-plugin-flowtype": "^2.35.0",
     "immutability-helper": "^2.3.0",
